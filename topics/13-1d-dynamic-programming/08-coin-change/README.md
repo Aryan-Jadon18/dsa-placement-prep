@@ -1,6 +1,6 @@
 # 322. Coin Change
 
-**Difficulty:** Medium | **Pattern:** Unbounded Knapsack DP — 1D DP | **Tags:** DP
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Unbounded%20Knapsack-blue) ![Tags](https://img.shields.io/badge/Tags-DP-lightgrey)
 **LeetCode:** https://leetcode.com/problems/coin-change/
 
 ## Problem
@@ -15,6 +15,9 @@ Given coin denominations `coins` (unlimited supply of each) and a target `amount
 3. `coins = [1]`, `amount = 0` → `0`. Zero coins needed for zero target.
 
 **Constraints:** `1 <= coins.length <= 12`, `1 <= coins[i] <= 2^31 - 1`, `0 <= amount <= 10^4`.
+
+> 🔑 **Pattern Recognition**
+> The minimum coins to reach amount `i` is `1 + min` over the minimum coins to reach `i - c` for every coin `c` — an optimal choice at each amount built from smaller amounts, with coins reusable any number of times → unbounded knapsack, 1D DP indexed by amount.
 
 ## Intuition (explained simply)
 To make a target amount, you must have used some coin last. Whatever that last coin's value `c` was, the rest of the coins had to sum to `amount - c`. So the best way to make `amount` is: try every coin as the "last coin used," and take `1 + (best way to make amount - c)`.
@@ -37,6 +40,15 @@ To make a target amount, you must have used some coin last. Whatever that last c
 - Fill `dp` bottom-up from `0` to `amount`; each `dp[i]` only needs previously-computed smaller indices, so ordinary array iteration (no full table beyond 1D) suffices. Since each `coins[i]` can be reused any number of times, this is "unbounded knapsack" — we don't restrict how many times a coin index can be picked, unlike 0/1 knapsack.
 - Time complexity: O(amount * len(coins))  Space complexity: O(amount)
 - Edge cases: `amount = 0` → answer 0 immediately; no combination of coins reaches `amount` → `dp[amount]` stays infinity, return `-1`; a coin value larger than `amount` is simply skipped (never applicable).
+
+#### 🎯 Visual Walkthrough
+Worked example: `coins = [1, 2, 5]`, `amount = 11` → `3`.
+
+| i | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| dp[i] | 0 | 1 | 1 | 2 | 2 | 1 | 2 | 2 | 3 | 3 | 2 | 3 |
+
+`dp[i] = min(dp[i-c] + 1)` over each coin `c ∈ {1,2,5}` with `c <= i`. E.g. `dp[11] = min(dp[10]+1, dp[9]+1, dp[6]+1) = min(3, 4, 3) = 3` — matching `5 + 5 + 1 = 11`.
 
 ## Complexity Summary
 | Approach | Time | Space |

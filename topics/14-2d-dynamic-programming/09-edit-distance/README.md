@@ -1,6 +1,6 @@
 # 72. Edit Distance
 
-**Difficulty:** Hard | **Pattern:** 2D DP — String Matching | **Tags:** DP, String
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-2D%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20String-lightgrey)
 **LeetCode:** https://leetcode.com/problems/edit-distance/
 
 ## Problem
@@ -16,6 +16,9 @@ Output: an integer, the minimum edit count.
 **Example 3:** `word1 = "", word2 = "abc"` → `3`. Insert all 3 characters — there's no cheaper way to build a string from nothing.
 
 Constraints: `0 <= word1.length, word2.length <= 500`. Both strings consist of lowercase English letters.
+
+> 🔑 **Pattern Recognition**
+> Two strings compared prefix by prefix, where each cell's minimum-edit-cost depends on the diagonal (replace/match), the cell above (delete), and the cell to the left (insert) — the canonical 2D DP grid for edit-distance-style string transformation problems.
 
 ## Intuition (explained simply)
 Compare the two strings from the end (or start) inward. Look at the last character of each: if they match, they don't need an edit — just solve the smaller problem of the strings without their last character. If they don't match, we must spend exactly one edit, and we have 3 choices for what that edit is, each of which reduces the problem to a smaller sub-problem: replace the last character (shrink both strings by 1), delete the last character of `word1` (shrink `word1` by 1, keep `word2`), or insert a character into `word1` to match `word2`'s last character (shrink `word2` by 1, keep `word1`). Take whichever of the 3 choices leads to the fewest total edits.
@@ -38,6 +41,20 @@ Compare the two strings from the end (or start) inward. Look at the last charact
 - The answer is `dp[m][n]`. Since row `i` only depends on row `i-1` and the current row so far, space compresses to two rolling 1D rows (or one row updated carefully with a saved "top-left" scalar).
 - Time complexity: O(m*n). Space complexity: O(min(m, n)) with the rolling-row trick (O(m*n) for the plain 2D table).
 - Edge cases: one string empty → answer is the length of the other (all inserts or all deletes); identical strings → 0; completely disjoint characters → answer equals `max(m, n)` (replace up to the shorter length, then insert/delete the rest).
+
+#### 🎯 Visual Walkthrough
+Worked example: `word1 = "horse"`, `word2 = "ros"` → `3`.
+
+| | "" | r | o | s |
+|---|---|---|---|---|
+| **""** | 0 | 1 | 2 | 3 |
+| **h** | 1 | 1 | 2 | 3 |
+| **o** | 2 | 2 | 1 | 2 |
+| **r** | 3 | 2 | 2 | 2 |
+| **s** | 4 | 3 | 3 | 2 |
+| **e** | 5 | 4 | 4 | 3 |
+
+`dp[i][j] = dp[i-1][j-1]` when characters match, else `1 + min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1])`. E.g. row `o`/col `o` matches, so `dp[2][2] = dp[1][1] = 1`. The bottom-right `dp[5][3] = 3` matches the 3-edit sequence given in the problem (replace `h→r`, delete `r`, delete `e`).
 
 ## Complexity Summary
 | Approach | Time | Space |

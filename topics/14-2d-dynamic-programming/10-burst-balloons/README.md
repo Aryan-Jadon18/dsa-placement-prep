@@ -1,6 +1,6 @@
 # 312. Burst Balloons
 
-**Difficulty:** Hard | **Pattern:** Interval DP | **Tags:** DP
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-Interval%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP-lightgrey)
 **LeetCode:** https://leetcode.com/problems/burst-balloons/
 
 ## Problem
@@ -16,6 +16,9 @@ Output: an integer, the maximum coins obtainable by bursting all balloons.
 **Example 3:** `nums = [7]` → `7`. One balloon, bounded by two implicit `1`s: `1*7*1 = 7`.
 
 Constraints: `1 <= nums.length <= 300`, `0 <= nums[i] <= 100`.
+
+> 🔑 **Pattern Recognition**
+> Reframing "which balloon bursts first" (choices tangled together) as "which balloon bursts last within a range" (choices cleanly split a range into two independent sub-ranges) is exactly the trick behind interval DP — `dp[left][right]` built from smaller sub-intervals, filled in order of increasing interval length.
 
 ## Intuition (explained simply)
 The trap here is thinking "which balloon do I burst *first*?" — that couples every choice to every other, since bursting one balloon changes who's adjacent to whom. The trick is to instead think about which balloon you burst **last** within any given range. If balloon `k` is the *last* one burst in the range `(left, right)` (exclusive boundary balloons `left` and `right`, already fixed/never removed within this sub-problem), then when we finally burst it, its neighbors are still exactly `nums[left]` and `nums[right]` (everything strictly between them and it has already been cleared out on both sides). This decouples the range into two independent sub-ranges — `(left, k)` and `(k, right)` — that can be solved separately, which is the hallmark of interval DP.
@@ -38,6 +41,17 @@ The trap here is thinking "which balloon do I burst *first*?" — that couples e
 - The answer is `dp[0][n+1]` (the full padded range). This is the same recurrence as "Better," just iterated in explicit length order instead of via recursion — standard for interval DP problems (also seen in matrix chain multiplication, palindrome partitioning min-cuts, etc.).
 - Time complexity: O(n^3) — O(n^2) intervals, O(n) split points each. Space complexity: O(n^2) for the `dp` table.
 - Edge cases: `n == 1` → answer is just `nums[0]` (bounded by two implicit 1's); all-zero balloons → answer 0; note `nums[i]` can be 0, which is exactly why boundaries must be *values* of 1, not sentinel "no balloon" markers.
+
+#### 🎯 Visual Walkthrough
+Worked example: `nums = [1, 5]` → `10`. Padded: `vals = [1, 1, 5, 1]` (indices 0-3). `dp[left][right]` = max coins from bursting everything strictly between indices `left` and `right`.
+
+| dp[l][r] | r=1 | r=2 | r=3 |
+|---|---|---|---|
+| **l=0** | 0 | 5 | 10 |
+| **l=1** | — | 0 | 5 |
+| **l=2** | — | — | 0 |
+
+Filled by increasing interval length. `dp[0][2] = dp[0][1]+dp[1][2]+vals[0]*vals[1]*vals[2] = 0+0+1*1*5 = 5` (burst the only balloon, value 1, between boundaries 1 and 5). `dp[0][3]` tries `k=1` (`6`) and `k=2` (`10`): bursting balloon `5` (index 2) *last* gives `dp[0][2]+dp[2][3]+vals[0]*vals[2]*vals[3] = 5+0+1*5*1 = 10`, the winning choice — matching "burst balloon `1` first, then balloon `5`."
 
 ## Complexity Summary
 | Approach | Time | Space |

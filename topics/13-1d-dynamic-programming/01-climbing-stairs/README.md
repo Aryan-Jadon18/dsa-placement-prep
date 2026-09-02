@@ -1,6 +1,6 @@
 # 70. Climbing Stairs
 
-**Difficulty:** Easy | **Pattern:** 1D DP — Fibonacci-style DP | **Tags:** DP, Math
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-1D%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20Math-lightgrey)
 **LeetCode:** https://leetcode.com/problems/climbing-stairs/
 
 ## Problem
@@ -15,6 +15,9 @@ You're climbing a staircase with `n` steps. Each move you can go up either 1 ste
 3. `n = 5` → `8`. Follows the pattern `ways(n) = ways(n-1) + ways(n-2)`.
 
 **Constraints:** `1 <= n <= 45`.
+
+> 🔑 **Pattern Recognition**
+> The answer at step `n` is built entirely from the answers at `n-1` and `n-2` — a choice today depends only on results already computed for smaller subproblems, with those subproblems overlapping heavily as `n` grows. That "current state = combination of a fixed number of prior states" shape is the classic Fibonacci-style 1D DP cue.
 
 ## Intuition (explained simply)
 To reach step `n`, your very last move was either a single step from step `n-1`, or a double step from step `n-2`. So the total ways to reach `n` is the sum of ways to reach those two earlier steps. That recursive idea is the whole problem.
@@ -37,6 +40,15 @@ To reach step `n`, your very last move was either a single step from step `n-1`,
 - Build it bottom-up from `dp[0]=1, dp[1]=1` up to `dp[n]`. Since each `dp[i]` only needs the previous two values, keep just two rolling variables instead of a full array.
 - Time complexity: O(n)  Space complexity: O(1)
 - Edge cases: `n = 1` → answer `1`; `n = 0` isn't in the constraint range but the two-variable base case handles it gracefully as `1`.
+
+#### 🎯 Visual Walkthrough
+Worked example: `n = 5` → `8` ways.
+
+| i | 0 | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|---|
+| dp[i] | 1 | 1 | 2 | 3 | 5 | 8 |
+
+Recurrence: `dp[i] = dp[i-1] + dp[i-2]` — e.g. `dp[5] = dp[4] + dp[3] = 5 + 3 = 8`.
 
 ## Complexity Summary
 | Approach | Time | Space |

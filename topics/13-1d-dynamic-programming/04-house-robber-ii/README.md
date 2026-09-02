@@ -1,6 +1,6 @@
 # 213. House Robber II
 
-**Difficulty:** Medium | **Pattern:** 1D DP (circular array) — Choice-based DP | **Tags:** DP, Array
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-1D%20DP%20(circular)-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20Array-lightgrey)
 **LeetCode:** https://leetcode.com/problems/house-robber-ii/
 
 ## Problem
@@ -15,6 +15,9 @@ Same as House Robber, but the houses are arranged in a circle — house `0` and 
 3. `nums = [1, 2, 3]` → `3`. Best is just house 2 (or house 1), since any two houses in a 3-circle are adjacent.
 
 **Constraints:** `1 <= nums.length <= 100`, `0 <= nums[i] <= 1000`.
+
+> 🔑 **Pattern Recognition**
+> A circular adjacency constraint that only ever couples the first and last elements can be broken by running the linear DP twice, once with each end excluded — recognizing "the hard wraparound case reduces to two easy linear DP cases" is the key interview cue here.
 
 ## Intuition (explained simply)
 The circle only creates one extra constraint: house `0` and house `n-1` can't both be robbed. So either house `0` is excluded, or house `n-1` is excluded (or both) — we never need to consider a plan that robs both. That means: solve plain (linear) House Robber twice — once on the array excluding the last house, once excluding the first house — and take the max of the two results. Both of those sub-runs are safe because within each, the "circular" pair is broken.
@@ -37,6 +40,25 @@ The circle only creates one extra constraint: house `0` and house `n-1` can't bo
 - Take `max(linearRob(nums[0:n-1]), linearRob(nums[1:n]))`. Each linear pass uses the O(1)-space rolling-variable trick from House Robber I.
 - Time complexity: O(n)  Space complexity: O(1)
 - Edge cases: `n == 1` → must special-case and return `nums[0]` directly (slicing either side would give an empty array, incorrectly yielding 0); `n == 2` → the two linear runs each contain one house so the answer is `max(nums[0], nums[1])`, which the general formula produces correctly.
+
+#### 🎯 Visual Walkthrough
+Worked example: `nums = [1, 2, 3, 1]` → `4`.
+
+Run 1 — exclude last house, linear rob on `[1, 2, 3]`:
+
+| i | 0 | 1 | 2 |
+|---|---|---|---|
+| nums[i] | 1 | 2 | 3 |
+| dp[i] | 1 | 2 | 4 |
+
+Run 2 — exclude first house, linear rob on `[2, 3, 1]`:
+
+| i | 0 | 1 | 2 |
+|---|---|---|---|
+| nums[i] | 2 | 3 | 1 |
+| dp[i] | 2 | 3 | 3 |
+
+Answer = `max(run1, run2) = max(4, 3) = 4` (robbing houses 0 and 2).
 
 ## Complexity Summary
 | Approach | Time | Space |

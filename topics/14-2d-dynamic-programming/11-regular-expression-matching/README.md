@@ -1,6 +1,6 @@
 # 10. Regular Expression Matching
 
-**Difficulty:** Hard | **Pattern:** 2D DP | **Tags:** DP, String, Recursion
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-2D%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20String%2C%20Recursion-lightgrey)
 **LeetCode:** https://leetcode.com/problems/regular-expression-matching/
 
 ## Problem
@@ -16,6 +16,9 @@ Output: a boolean.
 **Example 3:** `s = "mississippi", p = "mis*is*p*."` → `false`. No way to stretch the `*`-repeated groups to align the rest of the pattern with the full string.
 
 Constraints: `1 <= s.length <= 20`, `1 <= p.length <= 30`. `s` contains only lowercase letters; `p` contains lowercase letters, `.`, and `*`; every `*` is preceded by a valid letter or `.` (no leading/dangling `*`).
+
+> 🔑 **Pattern Recognition**
+> Two sequences (string and pattern) walked together with pointers `(i, j)`, where whether `s[:i]` matches `p[:j]` depends on smaller `(i,j)` states — the same 2D grid shape as LCS/Edit Distance, complicated only by `*` letting a state reach back to `dp[i][j-2]` (skip) or `dp[i-1][j]` (repeat) instead of just the diagonal.
 
 ## Intuition (explained simply)
 Walk `s` and `p` together with two pointers `i`, `j`. At each step there are only two shapes to consider: either the *next* pattern token is a plain character or `.` (no `*` following it), in which case it must match the current `s` character one-to-one and both pointers advance by one; or the next pattern token is followed by a `*`, which means that "character-then-star" unit can be used **zero times** (skip both pattern tokens, don't advance `s`) or **one-or-more times** (if it matches the current `s` character, consume one character of `s` and try the same pattern position again, since `*` allows repetition).
@@ -38,6 +41,17 @@ Walk `s` and `p` together with two pointers `i`, `j`. At each step there are onl
 - This is exactly the brute-force recurrence, filled iteratively for increasing `i, j` so every dependency is ready. The answer is `dp[m][n]`. Space can be compressed to two rolling rows since row `i` only needs row `i-1` and the current row.
 - Time complexity: O(m*n). Space complexity: O(n) with the rolling-row trick (O(m*n) for the plain 2D table).
 - Edge cases: empty pattern with non-empty `s` → false; pattern that's entirely `x*y*z*`-style (can match empty `s`) → check row 0 carefully; `.*` at the end matches any suffix; a `*` can only ever apply to the single token right before it, never chain.
+
+#### 🎯 Visual Walkthrough
+Worked example: `s = "aa"`, `p = "a*"` → `true`.
+
+| s \ p | "" | a | a* |
+|---|---|---|---|
+| **""** | T | F | T |
+| **a** | F | T | T |
+| **aa** | F | F | T |
+
+Row 0: `dp[0][2] = True` because `p[1]='*'` lets `"a*"` vanish (zero occurrences) and `dp[0][0]=True`. For `dp[2][2]` (`pc='*'` applying to `'a'`): `dp[2][2] = dp[2][0] (False, zero occurrences)` OR `dp[1][2] (True) and p[0]='a'==s[1]='a'` → `True` — one more `'a'` consumed by the starred group, matching both characters of `s`.
 
 ## Complexity Summary
 | Approach | Time | Space |

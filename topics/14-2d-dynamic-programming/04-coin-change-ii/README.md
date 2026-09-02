@@ -1,6 +1,6 @@
 # 518. Coin Change II
 
-**Difficulty:** Medium | **Pattern:** Unbounded Knapsack DP | **Tags:** DP
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Unbounded%20Knapsack-blue) ![Tags](https://img.shields.io/badge/Tags-DP-lightgrey)
 **LeetCode:** https://leetcode.com/problems/coin-change-ii/
 
 ## Problem
@@ -16,6 +16,9 @@ Output: an integer, the number of combinations that sum to `amount`.
 **Example 3:** `amount = 0, coins = [1,2,3]` → `1`. The empty combination (use no coins) is the one way to make 0.
 
 Constraints: `1 <= coins.length <= 300`, `1 <= coins[i] <= 5000`, coins are all unique, `0 <= amount <= 5000`.
+
+> 🔑 **Pattern Recognition**
+> Counting combinations (not permutations) built from unlimited-supply items and a target sum, where a "coin considered so far x amount" grid collapses to a 1D array processed coin-by-coin in the outer loop — the classic unbounded-knapsack counting DP, distinguished from 0/1 knapsack by looping amounts ascending instead of descending.
 
 ## Intuition (explained simply)
 This is a *counting* knapsack problem, not an optimization one: instead of minimizing coins used, we count how many distinct ways to build the target. Because each coin type is unlimited, this is an "unbounded knapsack" — each coin can be reused any number of times. The tricky part that trips people up: we must count *combinations* (unordered), not *permutations* (ordered) — `[1,2]` and `[2,1]` should count once, not twice — and that constrains how we structure the loop.
@@ -38,6 +41,18 @@ This is a *counting* knapsack problem, not an optimization one: instead of minim
 - This is the standard unbounded-knapsack counting DP, computed iteratively bottom-up with a single 1D array, reused for every coin.
 - Time complexity: O(len(coins) * amount). Space complexity: O(amount) — a single 1D array.
 - Edge cases: `amount == 0` → answer is 1 (the empty combination); `coins` empty → answer is 1 if `amount == 0` else 0; no coin combination reaches `amount` → answer is 0.
+
+#### 🎯 Visual Walkthrough
+Worked example: `amount = 5`, `coins = [1, 2, 5]` → `4`. Each row shows `dp[x]` (number of combinations summing to `x`) after that coin has been fully processed.
+
+| after coin | 0 | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|---|
+| start | 1 | 0 | 0 | 0 | 0 | 0 |
+| +1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| +2 | 1 | 1 | 2 | 2 | 3 | 3 |
+| +5 | 1 | 1 | 2 | 2 | 3 | 4 |
+
+`dp[x] += dp[x - coin]`, looped with `x` ascending for each coin in turn. E.g. after coin `2`: `dp[4] += dp[2] = 1+2 = 3`; after coin `5`: `dp[5] += dp[0] = 3+1 = 4`, matching the four combinations `5`, `2+2+1`, `2+1+1+1`, `1+1+1+1+1`.
 
 ## Complexity Summary
 | Approach | Time | Space |

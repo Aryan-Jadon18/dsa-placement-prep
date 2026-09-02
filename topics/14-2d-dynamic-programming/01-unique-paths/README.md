@@ -1,6 +1,6 @@
 # 62. Unique Paths
 
-**Difficulty:** Medium | **Pattern:** 2D DP — Grid Path Counting | **Tags:** DP, Combinatorics
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-2D%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20Combinatorics-lightgrey)
 **LeetCode:** https://leetcode.com/problems/unique-paths/
 
 ## Problem
@@ -16,6 +16,9 @@ Output: an integer, the number of distinct paths.
 **Example 3:** `m = 1, n = 1` → `1`. The robot is already at the destination — one (empty) path.
 
 Constraints: `1 <= m, n <= 100`. The answer fits comfortably inside a 32-bit integer for this range.
+
+> 🔑 **Pattern Recognition**
+> The number of ways to reach any grid cell is the sum of the ways to reach its two neighbors (above and left) — a value at position `(row, col)` built from two other positions in a 2D grid is the defining shape of grid-path 2D DP.
 
 ## Intuition (explained simply)
 To reach any cell, the robot must have come either from the cell directly above it or the cell directly to its left (those are the only two legal moves). So the number of ways to reach a cell is just the sum of the ways to reach its two neighbors. This "sum of ways from neighbors" is the classic signature of a grid DP problem.
@@ -38,6 +41,17 @@ To reach any cell, the robot must have come either from the cell directly above 
 - Walk-through: initialize `dp = [1, 1, ..., 1]` (first row — only one way to reach any cell in row 0, by moving right the whole time). Then for each subsequent row, `dp[j] += dp[j-1]` turns the "value from above" (still stored in `dp[j]`) into "above + left".
 - Time complexity: O(m*n) — one pass over every cell. Space complexity: O(n) — a single row of extra memory, no recursion stack.
 - Edge cases: `m == 1` or `n == 1` should return `1` (a single straight line, no choices) — the 1D array handles this automatically since the loop body simply never fires additional updates.
+
+#### 🎯 Visual Walkthrough
+Worked example: `m = 3, n = 2` → `3`.
+
+| row \ col | 0 | 1 |
+|---|---|---|
+| **0** | 1 | 1 |
+| **1** | 1 | 2 |
+| **2** | 1 | 3 |
+
+`dp[r][c] = dp[r-1][c] + dp[r][c-1]`. Row 0 and column 0 are all `1` (only one straight-line path). `dp[2][1] = dp[1][1] + dp[2][0] = 2 + 1 = 3`, matching the three orderings of 2 downs and 1 right (DDR, DRD, RDD).
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,6 @@
 # 97. Interleaving String
 
-**Difficulty:** Medium | **Pattern:** 2D DP — String Matching | **Tags:** DP, String
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-2D%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20String-lightgrey)
 **LeetCode:** https://leetcode.com/problems/interleaving-string/
 
 ## Problem
@@ -16,6 +16,9 @@ Output: a boolean.
 **Example 3:** `s1 = "", s2 = "abc", s3 = "abc"` → `true`. `s3` is just `s2` alone.
 
 Constraints: `0 <= s1.length, s2.length <= 100`, `s3.length == s1.length + s2.length`, all strings consist of lowercase English letters. (If `s3.length != s1.length + s2.length`, the answer is trivially `false`.)
+
+> 🔑 **Pattern Recognition**
+> Two sequences being merged/matched against a third, where position is fully described by how many characters have been consumed from each source (`i`, `j`) → a 2D DP grid indexed by both consumption pointers, since `i+j` always fixes the position in `s3`.
 
 ## Intuition (explained simply)
 Think of building `s3` one character at a time. At each step, `s3`'s next character must come from either the next unused character of `s1` or the next unused character of `s2`. So the whole problem reduces to a "two-pointer" state: how many characters have we consumed from `s1` (`i`) and from `s2` (`j`)? Since `i + j` always equals how many characters of `s3` we've built so far, that pair `(i, j)` fully determines our position — this is a 2D DP over the grid of `(i, j)` pairs.
@@ -38,6 +41,18 @@ Think of building `s3` one character at a time. At each step, `s3`'s next charac
 - This is exactly the brute-force recurrence evaluated iteratively in increasing `(i, j)` order so all dependencies are ready. The answer is `dp[m][n]`. Since row `i` only depends on row `i-1` and the current row, space can be compressed to a single rolling 1D boolean array.
 - Time complexity: O(m*n). Space complexity: O(min(m, n)) with the rolling-row trick (O(m*n) for the plain 2D table).
 - Edge cases: `len(s3) != len(s1) + len(s2)` → immediately `False` (a length mismatch can never interleave); either `s1` or `s2` empty → answer is just whether the other equals `s3`; repeated characters (e.g. all `'a'`s) are exactly where naive greedy "always prefer `s1`" fails and DP's exhaustive-but-cached check is required.
+
+#### 🎯 Visual Walkthrough
+Worked example: `s1 = "aab"`, `s2 = "axy"`, `s3 = "aaaxby"` → `true`.
+
+| i \ j | "" | a | ax | axy |
+|---|---|---|---|---|
+| **""** | T | T | F | F |
+| **a** | T | T | F | F |
+| **aa** | T | T | T | F |
+| **aab** | F | F | T | T |
+
+`dp[i][j] = (dp[i-1][j] and s1[i-1]==s3[i+j-1]) or (dp[i][j-1] and s2[j-1]==s3[i+j-1])`. The bottom-right cell `dp[3][3] = True` traces back through `dp[2][2]` (both `"aa"` from `s1` and `"a"` from `s2` consumed, matching `s3[:4]="aaax"`) — confirming `s3` can be woven from `s1` and `s2`.
 
 ## Complexity Summary
 | Approach | Time | Space |

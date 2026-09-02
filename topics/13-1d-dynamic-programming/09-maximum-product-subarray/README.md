@@ -1,6 +1,6 @@
 # 152. Maximum Product Subarray
 
-**Difficulty:** Medium | **Pattern:** 1D DP — Running Max/Min DP | **Tags:** DP, Array
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Running%20Max%2FMin%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20Array-lightgrey)
 **LeetCode:** https://leetcode.com/problems/maximum-product-subarray/
 
 ## Problem
@@ -15,6 +15,9 @@ Given an integer array `nums`, find the contiguous subarray (containing at least
 3. `nums = [-2, 3, -4]` → `24`. The whole array: `-2 * 3 * -4 = 24` — two negatives cancel out to a positive.
 
 **Constraints:** `1 <= nums.length <= 2*10^4`, `-10 <= nums[i] <= 10`.
+
+> 🔑 **Pattern Recognition**
+> A sign flip from a negative number can turn the *worst* running product into the *best* one, so the state at each index can't just be "best product ending here" — it must also track "worst product ending here." Needing to carry two interacting running extremes instead of one is the tell for this variant of 1D DP.
 
 ## Intuition (explained simply)
 This looks like Kadane's algorithm (max subarray *sum*), but multiplication has a twist: a negative number flips the sign of everything multiplied with it. So a subarray that currently has the *most negative* product could become the *best* product if you multiply it by one more negative number. That means at each position we must track both the best (max) and worst (min) running products, because the worst one might become the best on the next step.
@@ -37,6 +40,17 @@ This looks like Kadane's algorithm (max subarray *sum*), but multiplication has 
 - Track a global `result = max(result, curMax)` after updating at each step.
 - Time complexity: O(n)  Space complexity: O(1)
 - Edge cases: array contains a `0` → both `curMax` and `curMin` should reset to consider starting fresh after the zero (handled naturally since `max(n, n*curMax, n*curMin)` with `n=0` allows resetting); single-element array → answer is that element; all negative numbers with even count → whole array product is best; odd count of negatives → must exclude exactly one (leftmost or rightmost run), which the running max/min approach handles automatically.
+
+#### 🎯 Visual Walkthrough
+Worked example: `nums = [2, 3, -2, 4]` → `6`.
+
+| i | 0 | 1 | 2 | 3 |
+|---|---|---|---|---|
+| nums[i] | 2 | 3 | -2 | 4 |
+| curMax | 2 | 6 | -2 | 4 |
+| curMin | 2 | 3 | -12 | -48 |
+
+At `i=2`, `nums[i]=-2` is negative: the three candidates are `{-2, -2*6, -2*3} = {-2, -12, -6}`, so `curMax = max(...) = -2` and `curMin = min(...) = -12` (the old `curMax=6` becomes the new worst case once multiplied by a negative). The running answer is `max(curMax over all i) = max(2, 6, -2, 4) = 6`, matching subarray `[2, 3]`.
 
 ## Complexity Summary
 | Approach | Time | Space |

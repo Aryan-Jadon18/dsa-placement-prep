@@ -1,6 +1,6 @@
 # 115. Distinct Subsequences
 
-**Difficulty:** Hard | **Pattern:** 2D DP — String Matching | **Tags:** DP, String
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-2D%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20String-lightgrey)
 **LeetCode:** https://leetcode.com/problems/distinct-subsequences/
 
 ## Problem
@@ -16,6 +16,9 @@ Output: an integer, the number of distinct subsequences of `s` equal to `t`.
 **Example 3:** `s = "abc", t = "abcd"` → `0`. `t` is longer than `s`, so it can never be a subsequence.
 
 Constraints: `1 <= s.length, t.length <= 1000`. Both strings consist of English letters (case-sensitive).
+
+> 🔑 **Pattern Recognition**
+> Two strings walked together with pointers `(i, j)`, but *counting* ways instead of testing a yes/no match — the same 2D grid shape as LCS/Edit Distance, except transitions add contributions together rather than taking a max or a boolean OR.
 
 ## Intuition (explained simply)
 Walk `s` and `t` together with two pointers `i` (into `s`) and `j` (into `t`). At each character of `s`, we have a *choice* if it matches the current target character: use it to match `t[j]` and advance both pointers, **or** skip it in `s` and hope a later occurrence of the same character does the matching instead. Because we're counting, both choices (when both are legal) contribute additively — this is why it's a *counting* DP rather than a yes/no DP like Interleaving String.
@@ -38,6 +41,22 @@ Walk `s` and `t` together with two pointers `i` (into `s`) and `j` (into `t`). A
 - The answer is `dp[len(s)][len(t)]`. Since row `i` only depends on row `i-1`, the space can be compressed to a single rolling 1D array of size `len(t)+1`, updated **right to left** within each row so that `dp[j-1]` still refers to the previous row's value when it's read.
 - Time complexity: O(len(s) * len(t)). Space complexity: O(len(t)) with the rolling-row trick (O(len(s)*len(t)) for the plain 2D table).
 - Edge cases: `t` longer than `s` → 0 (handled naturally, `dp` stays 0 in the unreachable region); `t` empty → 1 (the "delete everything" way); `s == t` → 1; repeated characters in `s` are exactly what produce counts greater than 1.
+
+#### 🎯 Visual Walkthrough
+Worked example: `s = "babgbag"`, `t = "bag"` → `5`.
+
+| s \ t | "" | b | a | g |
+|---|---|---|---|---|
+| **""** | 1 | 0 | 0 | 0 |
+| **b** | 1 | 1 | 0 | 0 |
+| **a** | 1 | 1 | 1 | 0 |
+| **b** | 1 | 2 | 1 | 0 |
+| **g** | 1 | 2 | 1 | 1 |
+| **b** | 1 | 3 | 1 | 1 |
+| **a** | 1 | 3 | 4 | 1 |
+| **g** | 1 | 3 | 4 | 5 |
+
+`dp[i][j] = dp[i-1][j] + (dp[i-1][j-1] if s[i-1]==t[j-1] else 0)`. Each row is `s`'s prefix growing by one character; the count only grows when that character matches the current target character. The bottom-right cell `dp[7][3] = 5` matches the answer.
 
 ## Complexity Summary
 | Approach | Time | Space |

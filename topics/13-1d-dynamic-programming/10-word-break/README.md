@@ -1,6 +1,6 @@
 # 139. Word Break
 
-**Difficulty:** Medium | **Pattern:** 1D DP — String Segmentation DP | **Tags:** DP, String, Trie
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-1D%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20String%2C%20Trie-lightgrey)
 **LeetCode:** https://leetcode.com/problems/word-break/
 
 ## Problem
@@ -15,6 +15,9 @@ Given a string `s` and a dictionary of words `wordDict`, determine whether `s` c
 3. `s = "catsandog"`, `wordDict = ["cats", "dog", "sand", "and", "cat"]` → `false`. No combination covers the whole string (`"catsandog"` always leaves a leftover chunk like `"og"` that isn't a word).
 
 **Constraints:** `1 <= s.length <= 300`, `1 <= wordDict.length <= 1000`, all strings consist of lowercase letters, `wordDict` has no duplicates.
+
+> 🔑 **Pattern Recognition**
+> Whether a prefix of `s` is segmentable depends on whether some shorter prefix is segmentable AND the remaining chunk is a dictionary word — a boolean reachability recurrence over string prefixes, indexed by a single position → 1D DP.
 
 ## Intuition (explained simply)
 Think of walking through `s` from the left. At each position you ask: "can I reach here using dictionary words, and if so, is there a dictionary word starting right here that reaches further?" If the prefix up to some point is breakable, and the next chunk is a real word, then the longer prefix is breakable too.
@@ -37,6 +40,16 @@ Think of walking through `s` from the left. At each position you ask: "can I rea
 - Using a hash set for `wordDict` makes each substring lookup O(1) (after O(len) to build/compare the substring). Build `dp` left to right; the final answer is `dp[n]`.
 - Time complexity: O(n^2) (n positions × up to n split points, substring slicing costs add a bounded factor)  Space complexity: O(n) for the `dp` array
 - Edge cases: empty dictionary → only `s = ""` would work, but constraints guarantee `s` is non-empty so answer is `false`; single-character words covering everything; a word longer than `s` in the dictionary (simply never matches, ignored naturally).
+
+#### 🎯 Visual Walkthrough
+Worked example: `s = "leetcode"`, `wordDict = ["leet", "code"]` → `true`.
+
+| i | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---|---|---|---|---|---|---|---|---|---|
+| prefix | "" | l | le | lee | leet | leetc | leetco | leetcod | leetcode |
+| dp[i] | T | F | F | F | T | F | F | F | T |
+
+`dp[4] = True` because `dp[0]=True` and `s[0:4]="leet"` is in the dictionary. `dp[8] = True` because `dp[4]=True` and `s[4:8]="code"` is in the dictionary — so the whole string breaks as `"leet" + "code"`.
 
 ## Complexity Summary
 | Approach | Time | Space |

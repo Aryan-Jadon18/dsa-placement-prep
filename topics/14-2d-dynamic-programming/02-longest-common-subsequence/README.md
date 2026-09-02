@@ -1,6 +1,6 @@
 # 1143. Longest Common Subsequence
 
-**Difficulty:** Medium | **Pattern:** 2D DP — String Matching | **Tags:** DP, String
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-2D%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20String-lightgrey)
 **LeetCode:** https://leetcode.com/problems/longest-common-subsequence/
 
 ## Problem
@@ -16,6 +16,9 @@ Output: an integer, the length of the LCS.
 **Example 3:** `text1 = "abc"`, `text2 = "def"` → `0`. No characters overlap in order.
 
 Constraints: `1 <= text1.length, text2.length <= 1000`. Strings contain only lowercase English letters.
+
+> 🔑 **Pattern Recognition**
+> Two sequences being compared/matched, one character-position pair at a time → 2D DP grid indexed by both string lengths, where each cell depends on the cell diagonally, above, or to the left of it.
 
 ## Intuition (explained simply)
 A "subsequence" means you can delete characters (keeping order) but can't reorder. To compare two strings character by character, walk both from the end (or start): if the last characters match, that character is definitely part of some LCS — extend the answer for the rest of both strings by 1. If they don't match, the LCS must skip the last character of *one* of the two strings, so try both and take the max.
@@ -38,6 +41,20 @@ A "subsequence" means you can delete characters (keeping order) but can't reorde
 - This is exactly the brute-force recurrence, just filled iteratively in order of increasing `i, j` so every value it depends on already exists. The answer is `dp[m][n]`. Space can be trimmed to two rolling rows since row `i` only needs row `i-1`.
 - Time complexity: O(m*n). Space complexity: O(min(m, n)) with the rolling-row trick (O(m*n) if using the full table).
 - Edge cases: one string empty → LCS is 0; no overlap → 0; identical strings → length of the string.
+
+#### 🎯 Visual Walkthrough
+Worked example: `text1 = "abcde"`, `text2 = "ace"` → `3`.
+
+| | "" | a | c | e |
+|---|---|---|---|---|
+| **""** | 0 | 0 | 0 | 0 |
+| **a** | 0 | 1 | 1 | 1 |
+| **b** | 0 | 1 | 1 | 1 |
+| **c** | 0 | 1 | 2 | 2 |
+| **d** | 0 | 1 | 2 | 2 |
+| **e** | 0 | 1 | 2 | 3 |
+
+`dp[i][j] = dp[i-1][j-1] + 1` on a match, else `max(dp[i-1][j], dp[i][j-1])`. The row `e` / col `e` cell matches (`text1[4]=='e'==text2[2]`), so `dp[5][3] = dp[4][2] + 1 = 2 + 1 = 3`, tracing back through the `'a'` and `'c'` matches — the LCS `"ace"`.
 
 ## Complexity Summary
 | Approach | Time | Space |

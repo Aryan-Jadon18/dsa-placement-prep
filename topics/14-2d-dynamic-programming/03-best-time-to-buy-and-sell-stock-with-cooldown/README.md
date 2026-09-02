@@ -1,6 +1,6 @@
 # 309. Best Time to Buy and Sell Stock with Cooldown
 
-**Difficulty:** Medium | **Pattern:** State Machine DP | **Tags:** DP
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-State%20Machine%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP-lightgrey)
 **LeetCode:** https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
 
 ## Problem
@@ -16,6 +16,9 @@ Output: an integer, the maximum achievable profit.
 **Example 3:** `prices = [1,4,2]` → `3`. Buy at 1, sell at 4.
 
 Constraints: `1 <= prices.length <= 5000`, `0 <= prices[i] <= 1000`.
+
+> 🔑 **Pattern Recognition**
+> Each day you're in exactly one of a small fixed set of states (holding / just-sold / resting), and each state's best profit today is built from yesterday's states via legal transitions — a "state x day" grid where the state dimension takes the place of the second array in ordinary 2D DP → state machine DP.
 
 ## Intuition (explained simply)
 At any moment you are in exactly one of a few "states": holding a share, or not holding one (and if you just sold, you're forced into cooldown before you can buy again). Each day you choose an action that's legal for your current state, and that choice moves you to a new state. This "state + transition" shape is exactly what a state-machine DP models — at each day, track the best profit achievable while ending the day in each possible state.
@@ -41,6 +44,18 @@ At any moment you are in exactly one of a few "states": holding a share, or not 
 - This works because `rest` already encodes "either never bought, or finished cooldown," so `rest - price` is always a legal buy, and `sold` feeding into tomorrow's `rest` is exactly what enforces the one-day cooldown rule.
 - Time complexity: O(n) — single pass. Space complexity: O(1) — three scalars.
 - Edge cases: `n == 1` → no transaction possible, answer 0 (all values stay 0/-price and the max lands on 0); strictly decreasing prices → never buy, answer 0; all identical prices → 0 profit either way.
+
+#### 🎯 Visual Walkthrough
+Worked example: `prices = [1, 2, 3, 0, 2]` → `3`. (Initial state before day 0: `hold = -∞`, `sold = -∞`, `rest = 0`.)
+
+| day | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| price | 1 | 2 | 3 | 0 | 2 |
+| hold | -1 | -1 | -1 | 1 | 1 |
+| sold | -∞ | 1 | 2 | -1 | 3 |
+| rest | 0 | 0 | 1 | 2 | 2 |
+
+Transitions use **yesterday's** values: `hold = max(hold, rest - price)`, `sold = hold + price`, `rest = max(rest, sold)`. E.g. day 4: `hold = max(1, 2-2) = 1`, `sold = 1+2 = 3`, `rest = max(2, -1) = 2`. Final answer = `max(sold, rest)` on the last day = `max(3, 2) = 3`.
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,6 @@
 # 5. Longest Palindromic Substring
 
-**Difficulty:** Medium | **Pattern:** Expand Around Center / DP — String DP | **Tags:** DP, Two Pointers, String
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-String%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20Two%20Pointers%2C%20String-lightgrey)
 **LeetCode:** https://leetcode.com/problems/longest-palindromic-substring/
 
 ## Problem
@@ -15,6 +15,9 @@ Given a string `s`, find the longest contiguous substring of `s` that reads the 
 3. `s = "a"` → `"a"` (a single character is trivially a palindrome).
 
 **Constraints:** `1 <= s.length <= 1000`, `s` consists of digits and English letters.
+
+> 🔑 **Pattern Recognition**
+> Whether `s[i..j]` is a palindrome depends only on whether `s[i]==s[j]` and whether the smaller inner substring `s[i+1..j-1]` is itself a palindrome — a range-shrinking recurrence over pairs of indices in a single string, the hallmark of string interval DP.
 
 ## Intuition (explained simply)
 A palindrome mirrors around its center. A center can either be a single character (odd-length palindrome, like `"aba"`) or the gap between two characters (even-length palindrome, like `"abba"`). If we know whether a smaller substring inside `s` is a palindrome, we can often decide a bigger one is a palindrome too just by checking its two new outer characters match.
@@ -38,6 +41,18 @@ A palindrome mirrors around its center. A center can either be a single characte
 - Try both odd centers (`center = i`) and even centers (`center = i, i+1`) for every index `i`, expanding as far as possible each time, and keep the longest span seen.
 - Time complexity: O(n^2) (n centers, each expansion up to O(n))  Space complexity: O(1) extra (excluding output)
 - Edge cases: single character string (answer is that character), all identical characters (whole string is the answer), no palindrome longer than 1 (any single character is still a valid length-1 answer).
+
+#### 🎯 Visual Walkthrough
+The `dp[i][j]` table (from approach 2) makes the underlying recurrence easiest to see. Worked example: `s = "cbbd"` → `"bb"`.
+
+| i \ j | 0: c | 1: b | 2: b | 3: d |
+|---|---|---|---|---|
+| **0: c** | T | F | F | F |
+| **1: b** |  | T | T | F |
+| **2: b** |  |  | T | F |
+| **3: d** |  |  |  | T |
+
+`dp[i][j] = (s[i]==s[j]) and dp[i+1][j-1]`. The only `True` cell spanning more than one character is `dp[1][2]` (`s[1..2] = "bb"`), since `s[1]==s[2]=='b'`. The optimal (expand-around-center) approach finds this same span without materializing the full table — by expanding outward from center `(1,2)` until the characters stop matching.
 
 ## Complexity Summary
 | Approach | Time | Space |

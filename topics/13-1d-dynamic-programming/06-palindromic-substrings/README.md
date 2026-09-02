@@ -1,6 +1,6 @@
 # 647. Palindromic Substrings
 
-**Difficulty:** Medium | **Pattern:** Expand Around Center / DP — String DP | **Tags:** DP, String
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-String%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20String-lightgrey)
 **LeetCode:** https://leetcode.com/problems/palindromic-substrings/
 
 ## Problem
@@ -15,6 +15,9 @@ Given a string `s`, count how many contiguous substrings of `s` are palindromes.
 3. `s = "aba"` → `4`. Palindromes: `"a"`, `"b"`, `"a"`, `"aba"`.
 
 **Constraints:** `1 <= s.length <= 1000`, `s` consists of lowercase English letters.
+
+> 🔑 **Pattern Recognition**
+> Same `dp[i][j] = (s[i]==s[j]) and dp[i+1][j-1]` recurrence as Longest Palindromic Substring, but now every `True` cell contributes to a running count instead of a max-length — recognizing "counting DP" vs "optimization DP" as variations on one recurrence is the key skill here.
 
 ## Intuition (explained simply)
 This is the counting cousin of Longest Palindromic Substring — same underlying structure (check if `s[i..j]` is a palindrome), except instead of tracking the longest one we tally up every single one that qualifies.
@@ -38,6 +41,17 @@ This is the counting cousin of Longest Palindromic Substring — same underlying
 - For each center, expand outward while characters match, incrementing the count by 1 on every successful match (both odd-length centers at each `i`, and even-length centers between `i` and `i+1`).
 - Time complexity: O(n^2)  Space complexity: O(1) extra
 - Edge cases: single character (count 1), all identical characters (count grows quadratically, e.g. `n=5` all same → 15), no repeated characters (count == n, only single-char palindromes).
+
+#### 🎯 Visual Walkthrough
+Worked example: `s = "aba"` → `4`.
+
+| i \ j | 0: a | 1: b | 2: a |
+|---|---|---|---|
+| **0: a** | T | F | T |
+| **1: b** |  | T | F |
+| **2: a** |  |  | T |
+
+`dp[i][j] = (s[i]==s[j]) and dp[i+1][j-1]`. `dp[0][2]` is `True` because `s[0]==s[2]=='a'` and the inner single character `s[1..1]` is trivially a palindrome. Counting every `True` cell: `dp[0][0], dp[1][1], dp[2][2]` (the three single characters) plus `dp[0][2]` (`"aba"`) = **4** total.
 
 ## Complexity Summary
 | Approach | Time | Space |

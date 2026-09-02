@@ -1,6 +1,6 @@
 # 416. Partition Equal Subset Sum
 
-**Difficulty:** Medium | **Pattern:** 0/1 Knapsack DP | **Tags:** DP
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-0%2F1%20Knapsack-blue) ![Tags](https://img.shields.io/badge/Tags-DP-lightgrey)
 **LeetCode:** https://leetcode.com/problems/partition-equal-subset-sum/
 
 ## Problem
@@ -15,6 +15,9 @@ Given an array of positive integers `nums`, determine whether it can be split in
 3. `nums = [1, 2, 5]` → `false`. Total sum is 8, target half is 4, but no subset sums to exactly 4.
 
 **Constraints:** `1 <= nums.length <= 200`, `1 <= nums[i] <= 100`.
+
+> 🔑 **Pattern Recognition**
+> "Can some subset hit an exact target sum?" with each element usable at most once is the textbook 0/1 knapsack shape — reachability over a 1D array of possible sums, updated in descending order per item so nothing gets reused.
 
 ## Intuition (explained simply)
 If the total sum is odd, an equal split is mathematically impossible — stop immediately. Otherwise the question becomes: "can some subset of `nums` sum to exactly `total / 2`?" (the other subset automatically sums to the other half). This is the classic 0/1 knapsack question — each number is either included in our target-sum subset or not, and each number can be used at most once.
@@ -37,6 +40,19 @@ If the total sum is odd, an equal split is mathematically impossible — stop im
 - After processing all numbers, the answer is `dp[target]` where `target = total // 2` (only computed if `total` is even).
 - Time complexity: O(n * target)  Space complexity: O(target)
 - Edge cases: odd total sum → return `false` immediately without running the DP; single-element array → can never split into two nonempty... actually the problem doesn't require both subsets nonempty in general but with one element you can't reach `target = element/2` unless the element is 0, so effectively always `false` for a single positive element; all elements equal and count is even → always `true`.
+
+#### 🎯 Visual Walkthrough
+Worked example: `nums = [1, 5, 11, 5]` → `true`. Total = 22, `target = 11`. Each row shows `dp[s]` after processing one more number (T = some subset so far sums to `s`).
+
+| after num | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| start | T | F | F | F | F | F | F | F | F | F | F | F |
+| +1 | T | T | F | F | F | F | F | F | F | F | F | F |
+| +5 | T | T | F | F | F | T | T | F | F | F | F | F |
+| +11 | T | T | F | F | F | T | T | F | F | F | F | T |
+| +5 | T | T | F | F | F | T | T | F | F | F | T | T |
+
+`dp[s] = dp[s] or dp[s-num]`, updated `s` from `target` down to `num` for each number in turn. `dp[11]` first becomes `True` after processing `11` alone; the final row shows `dp[target] = True`, matching subsets `[1,5,5]` and `[11]`.
 
 ## Complexity Summary
 | Approach | Time | Space |

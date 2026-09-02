@@ -1,6 +1,6 @@
 # 746. Min Cost Climbing Stairs
 
-**Difficulty:** Easy | **Pattern:** 1D DP — Fibonacci-style DP | **Tags:** DP, Array
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-1D%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-DP%2C%20Array-lightgrey)
 **LeetCode:** https://leetcode.com/problems/min-cost-climbing-stairs/
 
 ## Problem
@@ -15,6 +15,9 @@ Each step `i` of a staircase has a cost `cost[i]` you pay when you step on it. F
 3. `cost = [0, 0, 0, 1]` → `0`. Start at index 1, take free 0-cost steps, then a 2-step jump from index 2 to the top skips index 3 entirely.
 
 **Constraints:** `2 <= cost.length <= 1000`, `0 <= cost[i] <= 999`.
+
+> 🔑 **Pattern Recognition**
+> The cheapest way to arrive at any position is defined purely in terms of the cheapest way to arrive at the two positions behind it — an optimal-substructure minimization where each state only needs its two immediate predecessors. That's the signature of a rolling 1D DP.
 
 ## Intuition (explained simply)
 The "top" is one step past the last index. To land there, your last move came from either the last step or the second-to-last step. So the cheapest way to reach any position is the cheapest way to reach one of the two positions behind it, plus the cost of standing on the position you jumped from.
@@ -38,6 +41,15 @@ The "top" is one step past the last index. To land there, your last move came fr
 - Build up from `dp[0], dp[1]` to `dp[n]`; since each state only needs the previous two, keep two rolling variables.
 - Time complexity: O(n)  Space complexity: O(1)
 - Edge cases: `n = 2` (only two steps, answer is `min(cost[0], cost[1])`), all zero costs (answer 0).
+
+#### 🎯 Visual Walkthrough
+Worked example: `cost = [10, 15, 20]` → `15`.
+
+| i | 0 | 1 | 2 | 3 |
+|---|---|---|---|---|
+| dp[i] | 0 | 0 | 10 | 15 |
+
+`dp[i] = min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2])` — e.g. `dp[2] = min(dp[1]+cost[1], dp[0]+cost[0]) = min(15, 10) = 10`, then `dp[3] = min(dp[2]+cost[2], dp[1]+cost[1]) = min(30, 15) = 15`, matching the "start at index 1, jump straight to the top" path.
 
 ## Complexity Summary
 | Approach | Time | Space |
