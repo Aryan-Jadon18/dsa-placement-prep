@@ -1,8 +1,32 @@
-# DSA Placement Prep — Noob to Advanced
+<div align="center">
 
-A structured, pattern-based DSA repo for cracking **35–50 LPA product-based / FAANG+ interviews**. 150 hand-picked LeetCode problems across 20 core patterns, each with three Python solutions (Brute Force → Better → Optimal) and a plain-language README explaining *why* each approach works.
+# 🚀 DSA Placement Prep — Noob to Advanced
 
-## How to use this repo
+### *Your roadmap from zero to 35–50 LPA FAANG+ offers*
+
+![Problems](https://img.shields.io/badge/Problems-150-blueviolet?style=for-the-badge)
+![Patterns](https://img.shields.io/badge/Patterns-20-orange?style=for-the-badge)
+![Solutions](https://img.shields.io/badge/Solutions%20per%20problem-3-brightgreen?style=for-the-badge)
+![Language](https://img.shields.io/badge/Language-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+
+![Easy](https://img.shields.io/badge/Easy-•-brightgreen)
+![Medium](https://img.shields.io/badge/Medium-•-yellow)
+![Hard](https://img.shields.io/badge/Hard-•-red)
+![Hot](https://img.shields.io/badge/🔥-Frequently%20Asked-critical)
+
+</div>
+
+A structured, pattern-based DSA repo for cracking **35–50 LPA product-based / FAANG+ interviews**. 150 hand-picked LeetCode problems across 20 core patterns, each with three Python solutions (Brute Force → Better → Optimal) and a plain-language README with a **visual, diagrammed walkthrough** explaining *why* each approach works.
+
+```mermaid
+flowchart LR
+    A["🐢 Brute Force<br/>gets it correct"] --> B["🚶 Better<br/>gets it faster"] --> C["🚀 Optimal<br/>gets it interview-ready"]
+    style A fill:#ffadad,stroke:#333,color:#000
+    style B fill:#ffd6a5,stroke:#333,color:#000
+    style C fill:#caffbf,stroke:#333,color:#000
+```
+
+## 📖 How to use this repo
 
 1. Open the linked LeetCode problem and **actually solve it on the platform first** (don't peek at the solution).
 2. Compare your solution against `brute_force.py` / `better.py` / `optimal.py` in that problem's folder, and read its `README.md` for the intuition and complexity breakdown.
@@ -14,7 +38,7 @@ A structured, pattern-based DSA repo for cracking **35–50 LPA product-based / 
 
 Progress: **0 / 150 problems, 0 / 450 attempts**
 
-## Topics
+## 🗂️ Topics
 
 | # | Topic | Problems |
 |---|---|---|
@@ -44,7 +68,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
 
 ---
 
-## 1. Arrays & Hashing
+## 📊 1. Arrays & Hashing
 `topics/01-arrays-hashing`
 
 - **[1. Two Sum 🔥](topics/01-arrays-hashing/01-two-sum/)** — `Easy` — Hashing — `Array` `Hash Table`
@@ -80,7 +104,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 2. Two Pointers
+## 👉 2. Two Pointers
 `topics/02-two-pointers`
 
 - **[125. Valid Palindrome](topics/02-two-pointers/01-valid-palindrome/)** — `Easy` — Two Pointers — `String` `Two Pointers`
@@ -104,7 +128,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 3. Sliding Window
+## 🪟 3. Sliding Window
 `topics/03-sliding-window`
 
 - **[121. Best Time to Buy and Sell Stock 🔥](topics/03-sliding-window/01-best-time-to-buy-and-sell-stock/)** — `Easy` — Sliding Window — `Array` `DP`
@@ -132,7 +156,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 4. Stack
+## 📚 4. Stack
 `topics/04-stack`
 
 - **[20. Valid Parentheses 🔥](topics/04-stack/01-valid-parentheses/)** — `Easy` — Stack — `String` `Stack`
@@ -160,7 +184,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 5. Binary Search
+## 🔍 5. Binary Search
 `topics/05-binary-search`
 
 - **[704. Binary Search](topics/05-binary-search/01-binary-search/)** — `Easy` — Binary Search — `Array` `Binary Search`
@@ -188,7 +212,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 6. Linked List
+## 🔗 6. Linked List
 `topics/06-linked-list`
 
 - **[206. Reverse Linked List 🔥](topics/06-linked-list/01-reverse-linked-list/)** — `Easy` — Linked List Basics — `Linked List` `Recursion`
@@ -228,7 +252,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 7. Trees
+## 🌳 7. Trees
 `topics/07-trees`
 
 - **[226. Invert Binary Tree](topics/07-trees/01-invert-binary-tree/)** — `Easy` — Tree Traversal — `Tree` `DFS` `BFS`
@@ -276,7 +300,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 8. Tries
+## 🔤 8. Tries
 `topics/08-tries`
 
 - **[208. Implement Trie (Prefix Tree) 🔥](topics/08-tries/01-implement-trie-prefix-tree/)** — `Medium` — Trie Design — `Trie` `Design`
@@ -292,7 +316,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 9. Heap / Priority Queue
+## 🏔️ 9. Heap / Priority Queue
 `topics/09-heap-priority-queue`
 
 - **[703. Kth Largest Element in a Stream](topics/09-heap-priority-queue/01-kth-largest-element-in-a-stream/)** — `Easy` — Heap Design — `Heap` `Design`
@@ -324,7 +348,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 10. Backtracking
+## 🔙 10. Backtracking
 `topics/10-backtracking`
 
 - **[78. Subsets 🔥](topics/10-backtracking/01-subsets/)** — `Medium` — Backtracking — `Array` `Backtracking`
@@ -360,7 +384,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 11. Graphs
+## 🕸️ 11. Graphs
 `topics/11-graphs`
 
 - **[200. Number of Islands 🔥](topics/11-graphs/01-number-of-islands/)** — `Medium` — BFS/DFS on Grid — `Graph` `BFS` `DFS` `Matrix`
@@ -412,7 +436,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 12. Advanced Graphs
+## 🌐 12. Advanced Graphs
 `topics/12-advanced-graphs`
 
 - **[1584. Min Cost to Connect All Points 🔥](topics/12-advanced-graphs/01-min-cost-to-connect-all-points/)** — `Medium` — MST (Prim's) — `Graph` `MST` `Heap`
@@ -440,7 +464,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 13. 1-D Dynamic Programming
+## 📈 13. 1-D Dynamic Programming
 `topics/13-1d-dynamic-programming`
 
 - **[70. Climbing Stairs 🔥](topics/13-1d-dynamic-programming/01-climbing-stairs/)** — `Easy` — 1D DP — `DP`
@@ -492,7 +516,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 14. 2-D Dynamic Programming
+## 🧮 14. 2-D Dynamic Programming
 `topics/14-2d-dynamic-programming`
 
 - **[62. Unique Paths](topics/14-2d-dynamic-programming/01-unique-paths/)** — `Medium` — 2D DP — `DP` `Combinatorics`
@@ -540,7 +564,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 15. Greedy
+## 🎯 15. Greedy
 `topics/15-greedy`
 
 - **[53. Maximum Subarray 🔥](topics/15-greedy/01-maximum-subarray/)** — `Medium` — Kadane's Algorithm — `Array` `DP` `Greedy`
@@ -576,7 +600,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 16. Intervals
+## 📅 16. Intervals
 `topics/16-intervals`
 
 - **[252. Meeting Rooms](topics/16-intervals/01-meeting-rooms/)** — `Easy` — Intervals — `Array` `Sorting` `Intervals`
@@ -604,7 +628,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 17. Math & Geometry
+## ➗ 17. Math & Geometry
 `topics/17-math-geometry`
 
 - **[202. Happy Number](topics/17-math-geometry/01-happy-number/)** — `Easy` — Math / Cycle Detection — `Math` `Two Pointers` `Hash Table`
@@ -640,7 +664,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 18. Bit Manipulation
+## 🔢 18. Bit Manipulation
 `topics/18-bit-manipulation`
 
 - **[136. Single Number 🔥](topics/18-bit-manipulation/01-single-number/)** — `Easy` — Bit Manipulation — `Bit Manipulation`
@@ -672,7 +696,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 19. Strings & Pattern Matching
+## 📝 19. Strings & Pattern Matching
 `topics/19-strings-pattern-matching`
 
 - **[28. Find the Index of the First Occurrence in a String 🔥](topics/19-strings-pattern-matching/01-find-the-index-of-the-first-occurrence-in-a-string/)** — `Easy` — String Matching (Brute vs KMP) — `String` `Two Pointers` `String Matching`
@@ -696,7 +720,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 2
   - [ ] Attempt 3
 
-## 20. Design & Advanced Data Structures
+## 🏗️ 20. Design & Advanced Data Structures
 `topics/20-design-advanced-ds`
 
 - **[380. Insert Delete GetRandom O(1) 🔥](topics/20-design-advanced-ds/01-insert-delete-getrandom-o1/)** — `Medium` — Design — `Array` `Hash Table` `Design`
@@ -726,7 +750,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
 
 ---
 
-## Suggested order (noob → advanced)
+## 🗺️ Suggested order (noob → advanced)
 
 If you're starting from scratch, don't go top-to-bottom on difficulty blindly — follow this rough sequence:
 
@@ -738,7 +762,7 @@ If you're starting from scratch, don't go top-to-bottom on difficulty blindly �
 6. Greedy → Intervals → Math & Geometry → Bit Manipulation (rounding out breadth)
 7. Strings & Pattern Matching → Design & Advanced DS (staff/senior-leaning, less common but shows up at top-paying companies)
 
-## Notes on the three solutions per problem
+## 🧠 Notes on the three solutions per problem
 
 - **`brute_force.py`** — the most obvious/naive approach. Usually what you'd write under panic in the first 2 minutes. Establishes correctness and a complexity baseline.
 - **`better.py`** — a meaningfully improved approach (extra space for speed, sorting, a smarter data structure) that isn't yet the best known solution.
