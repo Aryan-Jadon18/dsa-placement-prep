@@ -1,6 +1,8 @@
 # 215. Kth Largest Element in an Array
 
-**Difficulty:** Medium | **Pattern:** Heap/Quickselect | **Tags:** Heap, Sorting, Divide and Conquer
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Heap%2FQuickselect-blue)
+![Tags](https://img.shields.io/badge/Tags-Heap%20%7C%20Sorting%20%7C%20Divide%20%26%20Conquer-lightgrey)
 **LeetCode:** https://leetcode.com/problems/kth-largest-element-in-an-array/
 
 ## Problem
@@ -19,6 +21,10 @@ value (so duplicates each count individually).
 3. `nums = [1]`, `k = 1` → `1`. Single element, trivially the 1st largest.
 
 **Constraints:** `1 <= k <= nums.length <= 10^5`, `-10^4 <= nums[i] <= 10^4`.
+
+> 🔑 **Pattern Recognition**
+> Only a single rank is needed, not the full order → heap of size k, or better,
+> quickselect partitioning to find that one rank without sorting everything.
 
 ## Intuition (explained simply)
 "The k-th largest" is a question about *rank*, not about the full sorted order. A
@@ -63,6 +69,22 @@ needing to fully order everything else.
   stack.
 - Edge cases: `k = 1` (the maximum), `k = n` (the minimum), all elements equal,
   array with negative numbers.
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [3,2,1,5,6,4]`, `k=2` from example 1 (target ascending index =
+`n-k = 4`):
+
+```mermaid
+flowchart TD
+    A["array=[3,2,1,5,6,4]<br/>target index = n-k = 4"]
+    B["pivot = 4 (last)<br/>3,2,1 < 4 → left; 5,6 ≥ 4 → right"]
+    C["swap pivot into place<br/>→ [3,2,1,4,6,5]<br/>pivot lands at index 3"]
+    D["pivot index 3 < target 4<br/>→ recurse right half [6,5]"]
+    E["pivot = 5 (last of subarray)<br/>6 ≥ 5 → stays right"]
+    F["swap pivot into place<br/>→ [...,4,5,6]<br/>pivot lands at index 4"]
+    G["pivot index 4 == target 4<br/>✅ found: answer = 5"]
+    A --> B --> C --> D --> E --> F --> G
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

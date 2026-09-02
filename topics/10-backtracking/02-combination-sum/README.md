@@ -1,6 +1,8 @@
 # 39. Combination Sum
 
-**Difficulty:** Medium | **Pattern:** Backtracking | **Tags:** Array, Backtracking
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Backtracking-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Backtracking-lightgrey)
 **LeetCode:** https://leetcode.com/problems/combination-sum/
 
 ## Problem
@@ -23,6 +25,11 @@ duplicates).
 
 **Constraints:** `1 <= candidates.length <= 30`, all values distinct,
 `2 <= candidates[i] <= 40`, `1 <= target <= 40`.
+
+> 🔑 **Pattern Recognition**
+> Explore all combinations that hit a target sum, with unlimited reuse allowed →
+> backtracking that stays at the same index on "reuse" and prunes once sorted
+> candidates exceed the remaining target.
 
 ## Intuition (explained simply)
 At each step you decide "do I use this candidate again, or move on to the next
@@ -72,6 +79,31 @@ combination in different orders.
 - Edge cases: `target` smaller than every candidate → returns `[]` immediately after
   the first pruned branch; a candidate exactly equal to `target` → a valid
   single-element combination.
+
+#### 🎯 Visual Walkthrough
+Tracing sorted `candidates = [2,3,6,7]`, `target = 7` from example 1 (a
+representative slice of the decision tree — `break` fires once a candidate
+exceeds what's remaining):
+
+```mermaid
+graph TD
+    R["start: remaining=7, path=[]"]
+    A["pick 2 → remaining=5<br/>path=[2]"]
+    B["pick 2 → remaining=3<br/>path=[2,2]"]
+    C["pick 2 → remaining=1<br/>2 > 1 → ❌ pruned (break)"]
+    D["pick 3 → remaining=0<br/>path=[2,2,3] ✅"]
+    E["pick 3 → remaining=2<br/>3 > 2 → ❌ pruned (break)"]
+    F["pick 3 → remaining=4<br/>path=[3]"]
+    G["pick 3 → remaining=1<br/>3 > 1 → ❌ pruned (break)"]
+    H["pick 6 → remaining=1<br/>6 > 1 → ❌ pruned (break, skips 7 too)"]
+    I["pick 7 → remaining=0<br/>path=[7] ✅"]
+    R --> A --> B --> C
+    B --> D
+    A --> E
+    R --> F --> G
+    R --> H
+    R --> I
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

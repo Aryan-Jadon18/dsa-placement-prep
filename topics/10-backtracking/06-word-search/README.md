@@ -1,6 +1,8 @@
 # 79. Word Search
 
-**Difficulty:** Medium | **Pattern:** Backtracking on Grid | **Tags:** Array, Backtracking, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Backtracking%20on%20Grid-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Backtracking%20%7C%20DFS-lightgrey)
 **LeetCode:** https://leetcode.com/problems/word-search/
 
 ## Problem
@@ -24,6 +26,11 @@ than once within a single word.
 
 **Constraints:** `1 <= m, n <= 6`, `1 <= word.length <= 15`, board and word contain
 only uppercase/lowercase English letters.
+
+> 🔑 **Pattern Recognition**
+> Trace a path through a grid where each step must match the next required
+> character → DFS/backtracking over the 4 neighbors, undoing a "visited" mark on
+> dead ends.
 
 ## Intuition (explained simply)
 This is a grid-shaped backtracking search: from any cell matching `word`'s first
@@ -73,6 +80,35 @@ and try a different neighbor or a different starting cell.
 - Edge cases: `word` longer than the total number of cells → impossible, backtracking
   naturally returns `False` without special-casing; single-cell board matching a
   1-character word → trivially `True`.
+
+#### 🎯 Visual Walkthrough
+Tracing `word = "ABCCED"` on the example-1 board from `A(0,0)`, showing the
+matching path plus a few mismatched neighbors pruned along the way:
+
+```mermaid
+graph TD
+    R["start A(0,0)<br/>matches word[0]='A'"]
+    A["try (1,0)=S<br/>❌ pruned (S≠'B')"]
+    B["try (0,1)=B<br/>✅ matches word[1]='B'"]
+    B1["try (1,1)=F<br/>❌ pruned (F≠'C')"]
+    B2["try (0,2)=C<br/>✅ matches word[2]='C'"]
+    B2a["try (0,3)=E<br/>❌ pruned (E≠'C')"]
+    B2b["try (1,2)=C<br/>✅ matches word[3]='C'"]
+    B2b1["try (1,1)=F<br/>❌ pruned (F≠'E')"]
+    B2b2["try (2,2)=E<br/>✅ matches word[4]='E'"]
+    B2b2a["try (2,3)=E<br/>❌ pruned (E≠'D')"]
+    B2b2b["try (2,1)=D<br/>✅ matches word[5]='D' → complete ✅"]
+    R --> A
+    R --> B
+    B --> B1
+    B --> B2
+    B2 --> B2a
+    B2 --> B2b
+    B2b --> B2b1
+    B2b --> B2b2
+    B2b2 --> B2b2a
+    B2b2 --> B2b2b
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,8 @@
 # 973. K Closest Points to Origin
 
-**Difficulty:** Medium | **Pattern:** Heap | **Tags:** Heap, Array, Sorting
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Heap-blue)
+![Tags](https://img.shields.io/badge/Tags-Heap%20%7C%20Array%20%7C%20Sorting-lightgrey)
 **LeetCode:** https://leetcode.com/problems/k-closest-points-to-origin/
 
 ## Problem
@@ -21,6 +23,10 @@ ordering) when distances tie exactly at the boundary.
 3. `points = [[0,0]]`, `k = 1` → `[[0,0]]`. The origin itself has distance 0.
 
 **Constraints:** `1 <= k <= points.length <= 10^4`, `-10^4 <= xi, yi <= 10^4`.
+
+> 🔑 **Pattern Recognition**
+> Need the k smallest-by-distance items, order among them doesn't matter → a
+> bounded max-heap or, for the fastest average case, quickselect partitioning.
 
 ## Intuition (explained simply)
 We don't actually need the exact square-root distance to compare two points — since
@@ -70,6 +76,20 @@ a heap both solve.
   partitioning) or O(log n) recursion stack.
 - Edge cases: `k` equal to `n` (return all points), duplicate distances, the origin
   itself being one of the points (distance 0).
+
+#### 🎯 Visual Walkthrough
+Tracing `points = [[3,3],[5,-1],[-2,4]]`, `k=2` from example 2 (squared distances:
+`(3,3)=18`, `(5,-1)=26`, `(-2,4)=20`), pivot = last element:
+
+```mermaid
+flowchart TD
+    A["array by dist: P1=18, P2=26, P3=20<br/>pivot = P3 (dist 20)"]
+    B["scan: 18 < 20 → stays left<br/>26 < 20? no → stays right"]
+    C["swap pivot into place<br/>→ [P1=18, P3=20, P2=26]<br/>pivot lands at index 1"]
+    D["pivot index 1 == k-1 (1)<br/>✅ boundary found, stop recursing"]
+    E["return first k=2:<br/>[3,3] and [-2,4]"]
+    A --> B --> C --> D --> E
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,8 @@
 # 131. Palindrome Partitioning
 
-**Difficulty:** Medium | **Pattern:** Backtracking | **Tags:** String, Backtracking, DP
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Backtracking-blue)
+![Tags](https://img.shields.io/badge/Tags-String%20%7C%20Backtracking%20%7C%20DP-lightgrey)
 **LeetCode:** https://leetcode.com/problems/palindrome-partitioning/
 
 ## Problem
@@ -18,6 +20,11 @@ that concatenate back to `s`
 3. Input: `"aba"` → Output: `[["a","b","a"],["aba"]]`.
 
 **Constraints:** `1 <= s.length <= 16`, `s` contains only lowercase English letters.
+
+> 🔑 **Pattern Recognition**
+> Split a string into pieces that each satisfy a property (palindrome) →
+> backtrack over cut points, only recursing past a cut once the piece it created
+> is verified valid.
 
 ## Intuition (explained simply)
 At each position in the string, try every possible "next cut point" — take the
@@ -73,6 +80,26 @@ invalid and gets skipped. This is a classic backtracking-over-prefixes pattern.
   possible number of valid partitions (still exponential in the worst case, which
   is unavoidable since that's the true output size); single character → trivially
   one partition.
+
+#### 🎯 Visual Walkthrough
+Tracing `s = "aab"` from example 1 (full tree — every cut is checked against the
+palindrome table):
+
+```mermaid
+graph TD
+    R["s='aab', start=0"]
+    A["end=1: s[0:1]='a'<br/>✅ palindrome"]
+    A1["end=2: s[1:2]='a'<br/>✅ palindrome"]
+    A1a["end=3: s[2:3]='b'<br/>✅ → complete ['a','a','b'] ✅"]
+    A2["end=3: s[1:3]='ab'<br/>❌ pruned (not palindrome)"]
+    B["end=2: s[0:2]='aa'<br/>✅ palindrome"]
+    B1["end=3: s[2:3]='b'<br/>✅ → complete ['aa','b'] ✅"]
+    C["end=3: s[0:3]='aab'<br/>❌ pruned (not palindrome)"]
+    R --> A --> A1 --> A1a
+    A --> A2
+    R --> B --> B1
+    R --> C
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

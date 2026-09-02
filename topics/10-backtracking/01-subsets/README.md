@@ -1,6 +1,8 @@
 # 78. Subsets
 
-**Difficulty:** Medium | **Pattern:** Backtracking | **Tags:** Array, Backtracking
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Backtracking-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Backtracking-lightgrey)
 **LeetCode:** https://leetcode.com/problems/subsets/
 
 ## Problem
@@ -18,6 +20,10 @@ any order.
 3. Input: `[1,2]` → Output: `[[],[1],[2],[1,2]]` — all `2^2 = 4` subsets.
 
 **Constraints:** `1 <= nums.length <= 10`, all values unique, `-10 <= nums[i] <= 10`.
+
+> 🔑 **Pattern Recognition**
+> "Generate every possible combination of choices" with an independent
+> include/exclude decision per element → classic backtracking over a decision tree.
 
 ## Intuition (explained simply)
 For every element, you make a binary choice: include it in the current subset, or
@@ -64,6 +70,27 @@ branch too.
 - Edge cases: empty input isn't possible per constraints, but a single-element array
   correctly yields `[[], [nums[0]]]`; the very first recorded subset is always the
   empty list.
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [1,2,3]` from example 1 (record `path` at every node, `j >= i`
+loop over remaining indices):
+
+```mermaid
+graph TD
+    R["start: path=[]<br/>record → []"]
+    A["i=1: path=[1]<br/>record → [1]"]
+    B["i=2: path=[1,2]<br/>record → [1,2]"]
+    C["i=3: path=[1,2,3]<br/>record → [1,2,3] ✅"]
+    D["backtrack, no more j → return"]
+    E["i=3: path=[1,3]<br/>record → [1,3] ✅"]
+    F["i=2: path=[2]<br/>record → [2]"]
+    G["i=3: path=[2,3]<br/>record → [2,3] ✅"]
+    H["i=3: path=[3]<br/>record → [3] ✅"]
+    R --> A --> B --> C --> D
+    A --> E
+    R --> F --> G
+    R --> H
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

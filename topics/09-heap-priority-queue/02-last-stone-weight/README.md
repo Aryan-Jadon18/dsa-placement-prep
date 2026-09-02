@@ -1,6 +1,8 @@
 # 1046. Last Stone Weight
 
-**Difficulty:** Easy | **Pattern:** Heap | **Tags:** Heap
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Heap-blue)
+![Tags](https://img.shields.io/badge/Tags-Heap-lightgrey)
 **LeetCode:** https://leetcode.com/problems/last-stone-weight/
 
 ## Problem
@@ -21,6 +23,10 @@ most one stone remains. Return that stone's weight, or `0` if none remain.
 3. `stones = [2,2]` → `0`. Equal weights fully destroy each other.
 
 **Constraints:** `1 <= stones.length <= 30`, `1 <= stones[i] <= 1000`.
+
+> 🔑 **Pattern Recognition**
+> Repeatedly need "the current two largest values" from a shrinking/changing
+> collection → max-heap gives O(log n) access to extremes instead of rescanning.
 
 ## Intuition (explained simply)
 At every step we only care about the two *heaviest* stones — everything else is
@@ -69,6 +75,21 @@ changes.
 - Edge cases: a single stone (no smashing needed), all stones equal weight
   (everything destroys down to 0 or 1 leftover depending on parity), empty result
   (return 0), two stones with equal weight.
+
+#### 🎯 Visual Walkthrough
+Tracing `stones = [2,7,4,1,8,1]` from example 1 (max-heap shown as sorted values
+for readability):
+
+```mermaid
+flowchart TD
+    A["heapify → heap=[8,7,4,2,1,1]"]
+    B["pop 8,7 → diff=1<br/>push 1 → heap=[4,2,1,1,1]"]
+    C["pop 4,2 → diff=2<br/>push 2 → heap=[2,1,1,1]"]
+    D["pop 2,1 → diff=1<br/>push 1 → heap=[1,1,1]"]
+    E["pop 1,1 → diff=0<br/>equal, both destroyed → heap=[1]"]
+    F["heap size 1 → return 1"]
+    A --> B --> C --> D --> E --> F
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

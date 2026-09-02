@@ -1,6 +1,8 @@
 # 703. Kth Largest Element in a Stream
 
-**Difficulty:** Easy | **Pattern:** Heap Design | **Tags:** Heap, Design
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Heap%20Design-blue)
+![Tags](https://img.shields.io/badge/Tags-Heap%20%7C%20Design-lightgrey)
 **LeetCode:** https://leetcode.com/problems/kth-largest-element-in-a-stream/
 
 ## Problem
@@ -23,6 +25,10 @@ largest element among all numbers seen so far (including the initial array).
 **Constraints:** `1 <= k <= 10^4`, `0 <= nums.length <= 10^4`,
 `-10^4 <= nums[i], val <= 10^4`, `k <= nums.length + number of add calls`, at most
 `10^4` calls to `add`.
+
+> 🔑 **Pattern Recognition**
+> Need the k-th largest value repeatedly as new numbers stream in → keep a
+> min-heap of size k instead of re-sorting or re-scanning everything on each call.
 
 ## Intuition (explained simply)
 The naive way is to re-find the k-th largest from scratch every time a number is
@@ -70,6 +76,20 @@ access to the smallest of them, is exactly what a min-heap of size `k` gives us.
   guarantee, `k <= nums.length + number of add calls`, so this won't be queried
   before there are at least k elements), duplicate values, `k` equal to the total
   count of numbers seen (heap size stays exactly k).
+
+#### 🎯 Visual Walkthrough
+Tracing `k=3`, `nums=[4,5,8,2]` through example 1 (`add(3)→4`, `add(5)→5`,
+`add(10)→5`, `add(9)→8`):
+
+```mermaid
+flowchart TD
+    A["Seed from [4,5,8,2]<br/>keep top 3 → heap=[4,5,8]"]
+    B["add(3)<br/>push 3 → [3,4,5,8]<br/>pop min 3 → heap=[4,5,8]<br/>return root=4"]
+    C["add(5)<br/>push 5 → [4,5,5,8]<br/>pop min 4 → heap=[5,5,8]<br/>return root=5"]
+    D["add(10)<br/>push 10 → [5,5,8,10]<br/>pop min 5 → heap=[5,8,10]<br/>return root=5"]
+    E["add(9)<br/>push 9 → [5,8,9,10]<br/>pop min 5 → heap=[8,9,10]<br/>return root=8"]
+    A --> B --> C --> D --> E
+```
 
 ## Complexity Summary
 | Approach | Time (per add) | Space |

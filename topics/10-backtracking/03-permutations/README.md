@@ -1,6 +1,8 @@
 # 46. Permutations
 
-**Difficulty:** Medium | **Pattern:** Backtracking | **Tags:** Array, Backtracking
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Backtracking-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Backtracking-lightgrey)
 **LeetCode:** https://leetcode.com/problems/permutations/
 
 ## Problem
@@ -17,6 +19,10 @@ its elements. There are `n!` permutations for `n` distinct elements.
 3. Input: `[1]` → Output: `[[1]]` — only one ordering possible.
 
 **Constraints:** `1 <= nums.length <= 6`, all values distinct.
+
+> 🔑 **Pattern Recognition**
+> Need every possible ordering of a set of items → backtracking that fixes one
+> position at a time and tries every not-yet-placed value there.
 
 ## Intuition (explained simply)
 A permutation is built by deciding, one position at a time, which of the *remaining*
@@ -67,6 +73,36 @@ unused again) so it can be tried in a different position for the next branch.
 - Edge cases: single-element array → immediately yields the one trivial permutation;
   the swap-based method correctly restores original order after full backtracking
   completes.
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [1,2,3]` from example 1 with the in-place swap technique (full
+tree, since n=3 gives all `3! = 6` leaves):
+
+```mermaid
+graph TD
+    R["start=0<br/>nums=[1,2,3]"]
+    A["swap(0,0) → [1,2,3]"]
+    A1["swap(1,1) → [1,2,3]"]
+    A1a["swap(2,2) → [1,2,3] ✅"]
+    A2["swap(1,2) → [1,3,2]"]
+    A2a["swap(2,2) → [1,3,2] ✅"]
+    B["swap(0,1) → [2,1,3]"]
+    B1["swap(1,1) → [2,1,3]"]
+    B1a["swap(2,2) → [2,1,3] ✅"]
+    B2["swap(1,2) → [2,3,1]"]
+    B2a["swap(2,2) → [2,3,1] ✅"]
+    C["swap(0,2) → [3,2,1]"]
+    C1["swap(1,1) → [3,2,1]"]
+    C1a["swap(2,2) → [3,2,1] ✅"]
+    C2["swap(1,2) → [3,1,2]"]
+    C2a["swap(2,2) → [3,1,2] ✅"]
+    R --> A --> A1 --> A1a
+    A --> A2 --> A2a
+    R --> B --> B1 --> B1a
+    B --> B2 --> B2a
+    R --> C --> C1 --> C1a
+    C --> C2 --> C2a
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

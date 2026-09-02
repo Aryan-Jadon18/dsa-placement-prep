@@ -1,6 +1,8 @@
 # 90. Subsets II
 
-**Difficulty:** Medium | **Pattern:** Backtracking + Dedup | **Tags:** Array, Backtracking
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Backtracking%20%2B%20Dedup-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Backtracking-lightgrey)
 **LeetCode:** https://leetcode.com/problems/subsets-ii/
 
 ## Problem
@@ -20,6 +22,11 @@ subsets. Subsets may be returned in any order.
    indistinguishable, so only "how many 4s" matters, not which specific `4`.
 
 **Constraints:** `1 <= nums.length <= 10`, `-10 <= nums[i] <= 10`.
+
+> 🔑 **Pattern Recognition**
+> Same "include or exclude" subset search as LC 78, but duplicate input values
+> would generate duplicate subsets → sort first and only branch once per distinct
+> value (or loop over "how many copies to include").
 
 ## Intuition (explained simply)
 This is Subsets (LC 78) but with a duplicate-values twist. If you don't handle
@@ -75,6 +82,30 @@ of a repeated value as the "start of a new pick" among siblings.
 - Edge cases: all elements identical → produces exactly `n + 1` subsets (one for
   each possible count of the value, from 0 to n); no duplicates at all → behaves
   identically to plain Subsets (LC 78).
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [1,2,2]` from example 1 using the multiplicity framing (distinct
+values: `1` ×1, `2` ×2 — every leaf is a distinct valid subset, no dedup logic
+needed):
+
+```mermaid
+graph TD
+    R["sorted nums=[1,2,2]<br/>distinct: 1 (x1), 2 (x2)"]
+    A["include 1 × 0<br/>path=[]"]
+    B["include 1 × 1<br/>path=[1]"]
+    A0["include 2 × 0 → [] ✅"]
+    A1["include 2 × 1 → [2] ✅"]
+    A2["include 2 × 2 → [2,2] ✅"]
+    B0["include 2 × 0 → [1] ✅"]
+    B1["include 2 × 1 → [1,2] ✅"]
+    B2["include 2 × 2 → [1,2,2] ✅"]
+    R --> A --> A0
+    A --> A1
+    A --> A2
+    R --> B --> B0
+    B --> B1
+    B --> B2
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,8 @@
 # 51. N-Queens
 
-**Difficulty:** Hard | **Pattern:** Backtracking | **Tags:** Backtracking
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red)
+![Pattern](https://img.shields.io/badge/Pattern-Backtracking-blue)
+![Tags](https://img.shields.io/badge/Tags-Backtracking-lightgrey)
 **LeetCode:** https://leetcode.com/problems/n-queens/
 
 ## Problem
@@ -21,6 +23,11 @@ and `'.'` marks an empty cell.
    place 2 or 3 non-attacking queens on boards that small.
 
 **Constraints:** `1 <= n <= 9`.
+
+> 🔑 **Pattern Recognition**
+> Place one item per row under column/diagonal constraints, backtrack when no
+> column works → row-by-row backtracking with O(1) conflict checks (sets or
+> bitmasks) instead of rescanning placed queens.
 
 ## Intuition (explained simply)
 Since no two queens can share a row, you can simplify the problem to "place exactly
@@ -80,6 +87,27 @@ and try a different column there.
   returns `[]` since bitmask search exhausts all branches without success; results
   must be converted from column-index arrays back into the `n` board-string format
   expected by the problem.
+
+#### 🎯 Visual Walkthrough
+Tracing `n = 4` from example 1, building the solution `cols=[1,3,0,2]`
+(`[".Q..","...Q","Q...","..Q."]`), with two conflicting attempts pruned along
+the way:
+
+```mermaid
+graph TD
+    R["row0: try col=1<br/>place Q(0,1)"]
+    A["row1: try col=0<br/>(r+c)=1 conflicts row0's (r+c)=1<br/>❌ pruned (diagonal)"]
+    B["row1: try col=3<br/>no conflicts → place Q(1,3)"]
+    C["row2: try col=1<br/>same column as row0<br/>❌ pruned (column)"]
+    D["row2: try col=2<br/>(r+c)=4 conflicts row1's (r+c)=4<br/>❌ pruned (diagonal)"]
+    E["row2: try col=0<br/>no conflicts → place Q(2,0)"]
+    F["row3: try col=2<br/>no conflicts → place Q(3,2)<br/>✅ solution cols=[1,3,0,2]"]
+    R --> A
+    R --> B
+    B --> C
+    B --> D
+    B --> E --> F
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

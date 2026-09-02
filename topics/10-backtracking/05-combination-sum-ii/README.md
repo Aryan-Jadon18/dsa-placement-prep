@@ -1,6 +1,8 @@
 # 40. Combination Sum II
 
-**Difficulty:** Medium | **Pattern:** Backtracking + Dedup | **Tags:** Array, Backtracking
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Backtracking%20%2B%20Dedup-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Backtracking-lightgrey)
 **LeetCode:** https://leetcode.com/problems/combination-sum-ii/
 
 ## Problem
@@ -22,6 +24,11 @@ itself). No duplicate combinations in the output.
 
 **Constraints:** `1 <= candidates.length <= 100`, `1 <= candidates[i] <= 50`,
 `1 <= target <= 30`.
+
+> 🔑 **Pattern Recognition**
+> Combination-sum where each element is used at most once AND duplicate input
+> values could create duplicate combinations → advance the index on every pick
+> (no reuse) plus skip repeated sibling values (dedup), both after sorting.
 
 ## Intuition (explained simply)
 This combines two ideas: "each element used at most once" (like Subsets, advance the
@@ -75,6 +82,33 @@ Sorting first makes both rules easy to apply together.
   correctly allowed since duplicate-skip only applies to *sibling* choices at the
   same level, not to values already included deeper in the current path; no valid
   combination exists → returns `[]`.
+
+#### 🎯 Visual Walkthrough
+Tracing sorted `candidates = [1,2,2,2,5]`, `target = 5` from example 2 (a
+representative slice showing both the duplicate-skip and the `break` pruning):
+
+```mermaid
+graph TD
+    R["sorted=[1,2,2,2,5], target=5"]
+    A["pick 1 (idx0) → remaining=4<br/>path=[1]"]
+    A1["pick 2 (idx1) → remaining=2<br/>path=[1,2]"]
+    A1a["pick 2 (idx2) → remaining=0<br/>path=[1,2,2] ✅"]
+    A1b["idx3=2, same as idx2<br/>❌ pruned (skip duplicate)"]
+    A1c["idx4=5 → 5 > 2<br/>❌ pruned (break)"]
+    A2["idx2=2, same as idx1 sibling<br/>❌ pruned (skip duplicate)"]
+    B["pick 2 (idx1, top level) → remaining=3<br/>path=[2]"]
+    B1["pick 2 (idx2) → remaining=1<br/>path=[2,2]"]
+    B1a["idx3=2 → 2 > 1<br/>❌ pruned (break)"]
+    C["idx2=2, same as idx1 sibling<br/>❌ pruned (skip duplicate)"]
+    D["pick 5 (idx4, top level) → remaining=0<br/>path=[5] ✅"]
+    R --> A --> A1 --> A1a
+    A1 --> A1b
+    A1 --> A1c
+    A --> A2
+    R --> B --> B1 --> B1a
+    R --> C
+    R --> D
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

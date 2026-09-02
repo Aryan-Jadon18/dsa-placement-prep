@@ -1,6 +1,8 @@
 # 355. Design Twitter
 
-**Difficulty:** Medium | **Pattern:** Heap + HashMap Design | **Tags:** Heap, Design, Hash Table
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Heap%20%2B%20HashMap%20Design-blue)
+![Tags](https://img.shields.io/badge/Tags-Heap%20%7C%20Design%20%7C%20Hash%20Table-lightgrey)
 **LeetCode:** https://leetcode.com/problems/design-twitter/
 
 ## Problem
@@ -25,6 +27,10 @@ that.
 
 **Constraints:** `1 <= userId, followerId, followeeId <= 500`, `0 <= tweetId <= 10^4`,
 all tweetIds are unique, `1 <= number of calls <= 3*10^4`.
+
+> 🔑 **Pattern Recognition**
+> Merging several already-sorted timelines and taking only the top few → this is
+> "merge k sorted lists," solved with a max-heap keyed by recency.
 
 ## Intuition (explained simply)
 The news feed is "merge the tweet timelines of everyone I follow (plus myself),
@@ -81,6 +87,19 @@ grab the most recent slice.
 - Edge cases: a user with no tweets and no follows (empty feed), following yourself
   (should still just show your own tweets once, not duplicated), unfollowing a user
   never followed (no-op), more than 10 relevant tweets available (must truncate).
+
+#### 🎯 Visual Walkthrough
+Tracing `getNewsFeed(1)` from example 1 after `follow(1,2)` and `postTweet(2,6)`
+(user 1's timeline has tweet `5` at time `t0`, user 2's has tweet `6` at time `t1`):
+
+```mermaid
+flowchart TD
+    A["push most-recent tail of each followee:<br/>(t1,tweet6,user2), (t0,tweet5,user1)<br/>max-heap by timestamp"]
+    B["pop max → t1,tweet6<br/>result=[6]<br/>user2 has no older tweet to push back"]
+    C["pop max → t0,tweet5<br/>result=[6,5]<br/>heap empty → stop (< 10 needed)"]
+    D["return [6,5]"]
+    A --> B --> C --> D
+```
 
 ## Complexity Summary
 | Approach | Time (getNewsFeed) | Space |

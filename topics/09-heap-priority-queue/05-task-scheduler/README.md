@@ -1,6 +1,8 @@
 # 621. Task Scheduler
 
-**Difficulty:** Medium | **Pattern:** Greedy + Heap | **Tags:** Heap, Greedy, Array
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Greedy%20%2B%20Heap-blue)
+![Tags](https://img.shields.io/badge/Tags-Heap%20%7C%20Greedy%20%7C%20Array-lightgrey)
 **LeetCode:** https://leetcode.com/problems/task-scheduler/
 
 ## Problem
@@ -27,6 +29,11 @@ tasks)
 
 **Constraints:** `1 <= tasks.length <= 10^4`, tasks are uppercase English letters
 (26 possible types), `0 <= n <= 100`.
+
+> 🔑 **Pattern Recognition**
+> Repeatedly schedule the "currently most frequent remaining item" under a
+> cooldown → max-heap of counts (or, once you see the pattern, a closed-form
+> formula built around the most frequent task).
 
 ## Intuition (explained simply)
 The task that appears most often is the real bottleneck: it forces a minimum
@@ -85,6 +92,18 @@ slots pad out the leftover gaps.
   Space complexity: O(26) = O(1)
 - Edge cases: `n = 0` (answer is always just `len(tasks)`), single task type,
   enough distinct tasks that idle time is never needed, all tasks the same type.
+
+#### 🎯 Visual Walkthrough
+Tracing `tasks = ["A","A","A","B","B","B"]`, `n=2` from example 1:
+
+```mermaid
+flowchart TD
+    A["count frequencies: A=3, B=3<br/>max_freq=3, max_count=2 (A and B tie)"]
+    B["skeleton size = (max_freq-1)*(n+1) + max_count<br/>= (3-1)*(2+1) + 2 = 8"]
+    C["skeleton slots: A B _ A B _ A B<br/>(idle only where nothing else fits)"]
+    D["answer = max(len(tasks)=6, skeleton=8) = 8"]
+    A --> B --> C --> D
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

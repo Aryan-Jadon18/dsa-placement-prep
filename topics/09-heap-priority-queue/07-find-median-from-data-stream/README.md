@@ -1,6 +1,8 @@
 # 295. Find Median from Data Stream
 
-**Difficulty:** Hard | **Pattern:** Two Heaps | **Tags:** Heap, Design
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red)
+![Pattern](https://img.shields.io/badge/Pattern-Two%20Heaps-blue)
+![Tags](https://img.shields.io/badge/Tags-Heap%20%7C%20Design-lightgrey)
 **LeetCode:** https://leetcode.com/problems/find-median-from-data-stream/
 
 ## Problem
@@ -21,6 +23,11 @@ the two middle values for an even count.
 
 **Constraints:** `-10^5 <= num <= 10^5`, at most `5 * 10^4` calls to `addNum`,
 `findMedian` is only called when at least one number has been added.
+
+> 🔑 **Pattern Recognition**
+> Need the running middle value(s) of a growing stream → split into two balanced
+> heaps (a max-heap for the low half, a min-heap for the high half) instead of
+> keeping the whole stream sorted.
 
 ## Intuition (explained simply)
 Finding a median needs to know "what's in the middle," which normally requires
@@ -71,6 +78,21 @@ which are exactly what's needed to compute the median.
 - Time complexity: `addNum` O(log n), `findMedian` O(1)  Space complexity: O(n)
 - Edge cases: a single number added (median is that number), an odd vs. even total
   count (different formula), duplicate numbers, negative numbers.
+
+#### 🎯 Visual Walkthrough
+Tracing `addNum(1); addNum(2); findMedian(); addNum(3); findMedian()` from
+example 1 (`low` = max-heap of the smaller half, `high` = min-heap of the larger
+half):
+
+```mermaid
+flowchart TD
+    A["addNum(1)<br/>low=[1], high=[]"]
+    B["addNum(2)<br/>push→balance → low=[1], high=[2]"]
+    C["findMedian()<br/>equal sizes → avg(low max=1, high min=2) = 1.5"]
+    D["addNum(3)<br/>push→balance → low=[1,2], high=[3]"]
+    E["findMedian()<br/>low has 1 more → low max = 2"]
+    A --> B --> C --> D --> E
+```
 
 ## Complexity Summary
 | Approach | Time (addNum / findMedian) | Space |
