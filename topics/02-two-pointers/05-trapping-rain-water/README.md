@@ -1,6 +1,6 @@
 # 42. Trapping Rain Water
 
-**Difficulty:** Hard | **Pattern:** Two Pointers | **Tags:** Array, Two Pointers, DP, Stack
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-Two%20Pointers-blue)
 **LeetCode:** https://leetcode.com/problems/trapping-rain-water/
 
 ## Problem
@@ -15,6 +15,9 @@ Given an array representing an elevation map (bar heights of width 1), compute h
 3. `height = [1,2,3]` → `0` — strictly increasing heights trap nothing, there's no wall on the right to hold water in.
 
 **Constraints:** `1 <= height.length <= 2*10^4`, `0 <= height[i] <= 10^5`.
+
+> 🔑 **Pattern Recognition**
+> Water trapped at each position is bounded by the max-so-far on both sides → two pointers with running left-max/right-max, always advance the side whose running max is currently smaller (it's the binding wall).
 
 ## Intuition
 
@@ -34,6 +37,16 @@ Given an array representing an elevation map (bar heights of width 1), compute h
 - This works because whichever side currently has the smaller boundary determines the water level at that position — the water can never rise above the shorter of the two "walls" we know about so far, and we always know the true minimum boundary on the side we're processing since the other side is provably at least as tall.
 - Time complexity: O(n)  Space complexity: O(1)
 - Edge cases: strictly increasing or decreasing heights (traps 0 water, pointers naturally never accumulate anything), all same height (no water, flat surface), single bar or empty array (0 water, loop simply doesn't run), a bar taller than everything else in the middle (correctly acts as a divider between two independent trapping regions).
+
+#### 🎯 Visual Walkthrough
+Tracing `height = [0,1,0,2,1,0,1,3,2,1,2,1]` → total `6`:
+```mermaid
+flowchart TD
+    A["left=0(0), right=11(1)<br/>leftMax=0, rightMax=1<br/>height[left]<=height[right] → process left"] --> B["left=1(1): leftMax→1<br/>water += 1-1=0, left++"]
+    B --> C["left=2(0): leftMax stays 1<br/>water += 1-0=1 (total=1), left++"]
+    C --> D["... both pointers sweep inward,<br/>always processing the smaller-max side"]
+    D --> E["pointers meet<br/>→ total water = 6"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

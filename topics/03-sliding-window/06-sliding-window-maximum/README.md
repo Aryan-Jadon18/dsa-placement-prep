@@ -1,6 +1,6 @@
 # 239. Sliding Window Maximum
 
-**Difficulty:** Hard | **Pattern:** Sliding Window + Monotonic Deque | **Tags:** Array, Sliding Window, Monotonic Queue
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-Monotonic%20Deque-blue)
 **LeetCode:** https://leetcode.com/problems/sliding-window-maximum/
 
 ## Problem
@@ -15,6 +15,9 @@ You have an array and a window of fixed size `k` that slides from the left end t
 3. `nums = [9,11], k = 2` → `[11]`. One window `[9,11]`, max is 11.
 
 **Constraints:** `1 <= nums.length <= 10^5`, `1 <= k <= nums.length`, `-10^4 <= nums[i] <= 10^4`.
+
+> 🔑 **Pattern Recognition**
+> Max of every fixed-size window as it slides → a monotonic decreasing deque of indices, discarding anything that can never be the max again the moment a bigger element arrives.
 
 ## Intuition (explained simply)
 
@@ -35,6 +38,17 @@ You have an array and a window of fixed size `k` that slides from the left end t
 - This works because the deque only ever keeps indices that could plausibly be the max of some future window — anything smaller than a later element is permanently useless and gets discarded.
 - Time complexity: O(n) — each index is pushed and popped from the deque at most once.  Space complexity: O(k) for the deque.
 - Edge cases: `k = 1` (answer is the array itself); `k = n` (a single window, answer has one element); make sure to pop expired front indices *before* reading the max, not after.
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [1,3,-1,-3,5,3,6,7]`, `k = 3`:
+```mermaid
+flowchart TD
+    A["i=0(1): deque=[0]"] --> B["i=1(3): pop idx0(1<=3)<br/>deque=[1]"]
+    B --> C["i=2(-1): deque=[1,2]<br/>window full → max=nums[1]=3"]
+    C --> D["i=3(-3): deque=[1,2,3]<br/>front idx1 still in range → max=3"]
+    D --> E["i=4(5): pop idx3,2,1 (all <=5)<br/>deque=[4] → max=5"]
+    E --> F["... continues sliding<br/>→ result [3,3,5,5,6,7]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,6 @@
 # 994. Rotting Oranges
 
-**Difficulty:** Medium | **Pattern:** Graphs — Multi-source BFS | **Tags:** Graph, BFS, Matrix
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Multi--source%20BFS-blue) ![Tags](https://img.shields.io/badge/Tags-Grid%20%7C%20Simultaneous%20Sources-lightgrey)
 **LeetCode:** https://leetcode.com/problems/rotting-oranges/
 
 ## Problem
@@ -22,6 +22,9 @@ A grid contains `0` (empty), `1` (fresh orange), or `2` (rotten orange). Every m
 
 **Constraints:** `1 <= rows, cols <= 10`, values are `0`, `1`, or `2`.
 
+> **🔑 Pattern Recognition**
+> Multiple things spreading outward at the same rate, simultaneously → seed the BFS queue with **all** sources at once so BFS layers naturally correspond to time steps ("minute" = "BFS level").
+
 ## Intuition
 Multiple oranges can start rotten at once, and rot spreads outward simultaneously from all of them, level by level, like ripples merging — that's exactly what a **multi-source BFS** models, where "minute" = "BFS layer".
 
@@ -41,6 +44,20 @@ Multiple oranges can start rotten at once, and rot spreads outward simultaneousl
 - This works because we're maintaining an invariant (remaining fresh count) incrementally instead of re-deriving it with a fresh scan, saving one full O(rows×cols) pass — a small but real win, and often exactly the kind of "can you avoid the extra scan?" follow-up interviewers ask.
 - Time complexity: O(rows × cols)  Space complexity: O(rows × cols) for the queue
 - Edge cases: no fresh oranges at all → `0` minutes; no rotten oranges but some fresh ones → `-1` immediately; a fresh orange completely walled off by `0`s → `-1`.
+
+#### 🎯 Visual Walkthrough
+Tracing multi-source BFS on Example 1's grid, where each level = one minute:
+
+```mermaid
+graph TD
+    R00["(0,0) rotten — t=0"] --> R01["(0,1) — t=1"]
+    R00 --> R10["(1,0) — t=1"]
+    R01 --> R02["(0,2) — t=2"]
+    R10 --> R11["(1,1) — t=2"]
+    R11 --> R21["(2,1) — t=3"]
+    R21 --> R22["(2,2) — t=4 (last to rot)"]
+```
+The last orange to rot, `(2,2)`, finishes at minute `4` — matching the example's answer.
 
 ## Complexity Summary
 | Approach | Time | Space |

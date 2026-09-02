@@ -1,6 +1,6 @@
 # 217. Contains Duplicate
 
-**Difficulty:** Easy | **Pattern:** Arrays & Hashing — Hashing | **Tags:** Array, Hash Table
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-Hashing-blue)
 **LeetCode:** https://leetcode.com/problems/contains-duplicate/
 
 ## Problem
@@ -15,6 +15,9 @@ Given an array of integers, determine whether any value appears at least twice.
 3. `nums = [1, 1, 1, 3, 3, 4, 3, 2, 4, 2]` → `true` (lots of repeats, only need to find one).
 
 **Constraints:** `1 <= nums.length <= 10^5`, values can be negative, no ordering guaranteed.
+
+> 🔑 **Pattern Recognition**
+> Need to know "has this exact value shown up before?" while scanning → a hash set gives O(1) membership checks and turns an O(n²) pairwise comparison into a single O(n) pass.
 
 ## Intuition
 
@@ -34,6 +37,15 @@ Given an array of integers, determine whether any value appears at least twice.
 - Works because a hash set gives O(1) average membership checks, so we detect the repeat the moment we see it the second time — no need to sort at all.
 - Time complexity: O(n)  Space complexity: O(n)
 - Edge cases: single-element array (never a duplicate, return false), all elements identical (returns true right after the second element), empty input isn't allowed per constraints but the loop handles it gracefully anyway.
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [1, 2, 3, 1]`:
+```mermaid
+flowchart TD
+    A["num=1<br/>set={} → not seen<br/>add → set={1}"] --> B["num=2<br/>set={1} → not seen<br/>add → set={1,2}"]
+    B --> C["num=3<br/>set={1,2} → not seen<br/>add → set={1,2,3}"]
+    C --> D["num=1<br/>set={1,2,3} → seen! ✅<br/>return true"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

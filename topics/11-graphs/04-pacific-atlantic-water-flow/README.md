@@ -1,6 +1,6 @@
 # 417. Pacific Atlantic Water Flow
 
-**Difficulty:** Medium | **Pattern:** Graphs — Multi-source DFS/BFS | **Tags:** Graph, DFS, BFS, Matrix
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Multi--source%20DFS%2FBFS-blue) ![Tags](https://img.shields.io/badge/Tags-Grid%20%7C%20Reverse%20Flow-lightgrey)
 **LeetCode:** https://leetcode.com/problems/pacific-atlantic-water-flow/
 
 ## Problem
@@ -24,6 +24,9 @@ You have a rectangular island represented as a grid of heights. The Pacific Ocea
 
 **Constraints:** `1 <= rows, cols <= 200`, heights fit in a 32-bit integer.
 
+> **🔑 Pattern Recognition**
+> "Reachable from two boundaries" is easier solved backwards — flood-fill inward from each border simultaneously (multi-source search) instead of outward from every single cell, then intersect the two reachable sets.
+
 ## Intuition
 Checking "can water starting here reach the Pacific" for every cell independently is expensive. The trick: think **backwards** — instead of asking "where can water starting at cell X flow to", ask "which cells can *reach* the ocean if we walk uphill from the ocean's border". Reversing the flow direction turns this into a multi-source search from each ocean's border cells.
 
@@ -44,6 +47,20 @@ Checking "can water starting here reach the Pacific" for every cell independentl
 - Works for the identical reason as the BFS version — flow reachability is symmetric when you reverse direction and comparison. DFS and BFS visit the same O(rows×cols) set of cells, just in different order.
 - Time complexity: O(rows × cols)  Space complexity: O(rows × cols) for visited sets + O(rows × cols) worst-case recursion depth
 - Edge cases: 1x1 grid (trivially reaches both oceans), a grid with a single row/column (every cell touches both oceans' borders on that line), flat terrain (equal heights still flow due to the `<=`/`>=` rule).
+
+#### 🎯 Visual Walkthrough
+Tracing multi-source reverse-flow search on Example 2's grid for two of its answer cells:
+
+```mermaid
+graph LR
+    PAC["Pacific border<br/>(top + left)"] -->|"reverse-BFS uphill"| P04["(0,4) h=5"]
+    PAC -->|"reverse-BFS uphill"| P30["(3,0) h=6"]
+    ATL["Atlantic border<br/>(bottom + right)"] -->|"reverse-BFS uphill"| P04
+    ATL -->|"reverse-BFS uphill"| P30
+    P04 --> BOTH1["(0,4) reaches BOTH oceans"]
+    P30 --> BOTH2["(3,0) reaches BOTH oceans"]
+```
+A cell qualifies only when it's reachable walking uphill from *both* border searches — that intersection is the answer set.
 
 ## Complexity Summary
 | Approach | Time | Space |

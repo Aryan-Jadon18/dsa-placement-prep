@@ -1,6 +1,6 @@
 # 1. Two Sum
 
-**Difficulty:** Easy | **Pattern:** Arrays & Hashing — Hashing | **Tags:** Array, Hash Table
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-Hashing-blue)
 **LeetCode:** https://leetcode.com/problems/two-sum/
 
 ## Problem
@@ -15,6 +15,9 @@ You're given an array of integers and a target value. Find the indices of the tw
 3. `nums = [3, 3]`, `target = 6` → `[0, 1]` — duplicate values are allowed as long as they're different indices.
 
 **Constraints:** `2 <= nums.length <= 10^4`, values can be negative, exactly one valid answer exists.
+
+> 🔑 **Pattern Recognition**
+> Need to find a pair summing to a target in one array pass → keep a hash map of values you've already seen (value → index) so each lookup is O(1) instead of nested loops.
 
 ## Intuition
 
@@ -34,6 +37,13 @@ You're given an array of integers and a target value. Find the indices of the tw
 - This works because by the time we reach index `j`, every earlier index `i` is already in the map, so we discover the pair the moment we hit the second element of it.
 - Time complexity: O(n)  Space complexity: O(n)
 - Edge cases: duplicate values (must not reuse the same index twice — check *before* inserting the current number), no solution existing (not applicable here per constraints), negative numbers (hashing works the same).
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [2, 7, 11, 15]`, `target = 9`:
+```mermaid
+flowchart TD
+    A["i=0, num=2<br/>need=9-2=7<br/>map={} → not found<br/>insert 2 → map={2:0}"] --> B["i=1, num=7<br/>need=9-7=2<br/>map={2:0} → 2 found!<br/>return [0,1]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

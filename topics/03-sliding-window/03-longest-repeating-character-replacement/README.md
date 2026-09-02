@@ -1,6 +1,6 @@
 # 424. Longest Repeating Character Replacement
 
-**Difficulty:** Medium | **Pattern:** Sliding Window — Variable Size | **Tags:** String, Sliding Window
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Sliding%20Window-blue)
 **LeetCode:** https://leetcode.com/problems/longest-repeating-character-replacement/
 
 ## Problem
@@ -15,6 +15,9 @@ You have a string of uppercase letters and are allowed to change up to `k` chara
 3. `s = "AAAA", k = 0` → `4`. No replacements needed or allowed; the string is already uniform.
 
 **Constraints:** `1 <= s.length <= 10^5`, `s` consists of uppercase English letters, `0 <= k <= s.length`.
+
+> 🔑 **Pattern Recognition**
+> Longest substring achievable within a "budget" of `k` allowed changes → sliding window that only ever grows or slides (never shrinks), tracking the count of the window's most frequent character.
 
 ## Intuition (explained simply)
 
@@ -35,6 +38,15 @@ You have a string of uppercase letters and are allowed to change up to `k` chara
 - This works because we're not trying to find *every* valid window, only the length of the largest one — and once we've achieved a window of size `L`, we never need a smaller one again.
 - Time complexity: O(n) — one pass, O(1) work per character with a fixed 26-letter alphabet.  Space complexity: O(26) = O(1).
 - Edge cases: `k = 0` (no replacements allowed, answer is just the longest run of one repeated letter); `k >= s.length` (answer is the whole string length).
+
+#### 🎯 Visual Walkthrough
+Tracing `s = "ABAB"`, `k = 2`:
+```mermaid
+flowchart TD
+    A["right=0 'A': count={A:1}<br/>maxFreq=1, len=1<br/>1-1=0<=2 → valid"] --> B["right=1 'B': count={A:1,B:1}<br/>maxFreq=1, len=2<br/>2-1=1<=2 → valid"]
+    B --> C["right=2 'A': count={A:2,B:1}<br/>maxFreq=2, len=3<br/>3-2=1<=2 → valid"]
+    C --> D["right=3 'B': count={A:2,B:2}<br/>maxFreq=2, len=4<br/>4-2=2<=2 → valid<br/>→ answer 4"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

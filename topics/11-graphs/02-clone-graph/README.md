@@ -1,6 +1,6 @@
 # 133. Clone Graph
 
-**Difficulty:** Medium | **Pattern:** Graphs — DFS/BFS + Hashing | **Tags:** Graph, DFS, BFS, Hash Table
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-DFS%2FBFS%20%2B%20Hashing-blue) ![Tags](https://img.shields.io/badge/Tags-Cycle%20Detection%20%7C%20Hash%20Map-lightgrey)
 **LeetCode:** https://leetcode.com/problems/clone-graph/
 
 ## Problem
@@ -15,6 +15,9 @@ You're given a reference to a node in a connected, undirected graph. Each node h
 3. `node = None` (empty graph) → return `None`.
 
 **Constraints:** number of nodes in `[0, 100]`, node values are unique, graph is connected and undirected (may have cycles, so naive recursion without tracking visited nodes will loop forever).
+
+> **🔑 Pattern Recognition**
+> A graph traversal that must survive cycles → always pair the traversal with a visited/clone map so each node is processed exactly once; store the mapping *before* recursing into neighbors so a cyclic back-edge short-circuits instead of looping forever.
 
 ## Intuition
 The graph can have cycles, so we can't just recursively clone every neighbor blindly — we need a map from "original node" → "its clone" so we never build the same clone twice and never recurse forever.
@@ -36,6 +39,19 @@ The graph can have cycles, so we can't just recursively clone every neighbor bli
 - Storing the clone in the map before recursing is the key trick: when a cyclic neighbor points back to a node currently being cloned, the recursive call finds it already in the map and returns instantly instead of looping.
 - Time complexity: O(V + E)  Space complexity: O(V) for the map, plus O(V) recursion stack in the worst case (a path-shaped graph)
 - Edge cases: `node = None` → return `None` immediately; a single isolated node with no neighbors; a node that's its own neighbor (self-loop, handled fine by the map check).
+
+#### 🎯 Visual Walkthrough
+Tracing DFS-with-memoization on Example 1's triangle graph (`1 -- 2 -- 3 -- 1`):
+
+```mermaid
+graph TD
+    A["visit 1<br/>create clone(1), map[1]=clone1"] --> B["visit 2<br/>create clone(2), map[2]=clone2"]
+    B --> C["visit 3<br/>create clone(3), map[3]=clone3"]
+    C -->|"neighbor 1 already cloned"| D["return map[1] — breaks the cycle"]
+    C -->|"neighbor 2 already cloned"| E["return map[2]"]
+    A -->|"neighbor 3 already cloned"| F["return map[3]"]
+```
+The map lookup on an already-cloned node is what stops the recursion from looping around the triangle forever.
 
 ## Complexity Summary
 | Approach | Time | Space |

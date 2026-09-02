@@ -1,6 +1,6 @@
 # 567. Permutation in String
 
-**Difficulty:** Medium | **Pattern:** Sliding Window — Fixed Size | **Tags:** String, Sliding Window
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Sliding%20Window-blue)
 **LeetCode:** https://leetcode.com/problems/permutation-in-string/
 
 ## Problem
@@ -15,6 +15,9 @@ Given two strings `s1` and `s2`, determine whether `s2` contains any contiguous 
 3. `s1 = "adc", s2 = "dcda"` → `True`. The substring `"cda"` (positions 1-3) uses the same letters as `"adc"`.
 
 **Constraints:** `1 <= s1.length, s2.length <= 10^4`, both strings are lowercase English letters.
+
+> 🔑 **Pattern Recognition**
+> "Does any fixed-length window match a target frequency profile?" → fixed-size sliding window with an incrementally updated frequency/match count, sliding one character at a time.
 
 ## Intuition (explained simply)
 
@@ -35,6 +38,15 @@ Given two strings `s1` and `s2`, determine whether `s2` contains any contiguous 
 - This works because an anagram check reduces to "do all 26 frequency counts match," and we can track that incrementally instead of recomputing every window.
 - Time complexity: O(n) — one pass over `s2`, O(1) work per step (fixed alphabet size).  Space complexity: O(26) = O(1).
 - Edge cases: `len(s1) > len(s2)` → immediately `False`; identical strings → `True`; make sure the window size stays fixed at `len(s1)` throughout.
+
+#### 🎯 Visual Walkthrough
+Tracing `s1 = "ab"`, `s2 = "eidbaooo"`:
+```mermaid
+flowchart TD
+    A["need={a:1,b:1}<br/>window='ei' → matches=0"] --> B["slide → window='id'<br/>matches=0"]
+    B --> C["slide → window='db'<br/>'b' now matches → matches=1"]
+    C --> D["slide → window='ba'<br/>'a' also matches → matches=2 = need<br/>→ found True"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

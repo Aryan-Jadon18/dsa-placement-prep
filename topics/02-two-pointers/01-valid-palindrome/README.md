@@ -1,6 +1,6 @@
 # 125. Valid Palindrome
 
-**Difficulty:** Easy | **Pattern:** Two Pointers | **Tags:** String, Two Pointers
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-Two%20Pointers-blue)
 **LeetCode:** https://leetcode.com/problems/valid-palindrome/
 
 ## Problem
@@ -15,6 +15,9 @@ Given a string, decide whether it reads the same forwards and backwards after we
 3. `s = " "` → `true` — after removing the space there's nothing left, and an empty string is trivially a palindrome.
 
 **Constraints:** `1 <= s.length <= 2*10^5`, `s` consists of printable ASCII characters.
+
+> 🔑 **Pattern Recognition**
+> Checking a sequence against its own mirror image → two pointers closing in from both ends is the natural, zero-extra-space way to compare front and back simultaneously.
 
 ## Intuition
 
@@ -33,6 +36,15 @@ Given a string, decide whether it reads the same forwards and backwards after we
 - This works because we never need a separate cleaned copy — skipping invalid characters in-place as we move the pointers achieves the same filtering with zero extra allocation.
 - Time complexity: O(n)  Space complexity: O(1)
 - Edge cases: empty string or all-punctuation string (pointers cross immediately, trivially a palindrome), single character (trivially a palindrome), mixed case and digits (`"0P"` vs `"0p"` — case-fold letters but compare digits as-is).
+
+#### 🎯 Visual Walkthrough
+Tracing `s = "A man, a plan, a canal: Panama"`:
+```mermaid
+flowchart TD
+    A["left=0 'A', right=28 'a'<br/>skip non-alnum both sides<br/>fold case: 'a'=='a' → match"] --> B["left++, right--<br/>skip spaces/punctuation<br/>'m'=='m' → match"]
+    B --> C["... continues inward<br/>every aligned pair matches"]
+    C --> D["pointers meet/cross<br/>→ true"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

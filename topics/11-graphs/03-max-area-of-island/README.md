@@ -1,6 +1,6 @@
 # 695. Max Area of Island
 
-**Difficulty:** Medium | **Pattern:** Graphs — DFS on Grid | **Tags:** Graph, DFS, Matrix, Union Find
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Graph%20DFS-blue) ![Tags](https://img.shields.io/badge/Tags-Grid%20%7C%20Union%20Find%20Size-lightgrey)
 **LeetCode:** https://leetcode.com/problems/max-area-of-island/
 
 ## Problem
@@ -22,6 +22,9 @@ Given a grid of `0`s (water) and `1`s (land), where land cells connect horizonta
 
 **Constraints:** `1 <= rows, cols <= 50`, grid values are only `0` or `1`.
 
+> **🔑 Pattern Recognition**
+> Same connectivity signal as Number of Islands, but the question wants a component's *size*, not just a count — augment the BFS/DFS or Union-Find with a running size per component instead of a plain visited flag.
+
 ## Intuition
 Same connected-components idea as Number of Islands, except instead of just *counting* islands, we need to track each island's *size* and keep the max.
 
@@ -41,6 +44,21 @@ Same connected-components idea as Number of Islands, except instead of just *cou
 - This works because DSU maintains component sizes incrementally as unions happen — no separate flood-fill pass needed, and it directly generalizes to "islands that grow over time" style follow-ups.
 - Time complexity: O(rows × cols × α(rows × cols)) ≈ O(rows × cols)  Space complexity: O(rows × cols) for parent/rank/size arrays
 - Edge cases: all-water grid → max area `0`; single land cell → area `1`; entire grid is land → area `rows*cols`.
+
+#### 🎯 Visual Walkthrough
+Tracing size-tracking Union-Find on Example 1's grid:
+
+```mermaid
+graph TD
+    subgraph IslandA["Island A — area 3 (max)"]
+        P02["(0,2)"] --> P12["(1,2)"]
+        P12 --> P11["(1,1)"]
+    end
+    subgraph IslandB["Island B — area 1"]
+        P23["(2,3)"]
+    end
+```
+Each successful union bumps that root's size by one; the max size across all roots (`3`) is the answer.
 
 ## Complexity Summary
 | Approach | Time | Space |

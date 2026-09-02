@@ -1,6 +1,6 @@
 # 121. Best Time to Buy and Sell Stock
 
-**Difficulty:** Easy | **Pattern:** Sliding Window — Single Pass | **Tags:** Array, DP
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-Sliding%20Window-blue)
 **LeetCode:** https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 
 ## Problem
@@ -15,6 +15,9 @@ You're given an array of daily stock prices. You may buy the stock on exactly on
 3. `prices = [2,4,1]` → `2`. Buy at 2, sell at 4 for profit 2 (buying at 1 later doesn't help since it's the last day).
 
 **Constraints:** `1 <= prices.length <= 10^5`, `0 <= prices[i] <= 10^4`.
+
+> 🔑 **Pattern Recognition**
+> Best single buy-then-sell profit over a sequence → a one-sided sliding window: track the running minimum seen so far and check the profit at every later day, no need to look back further.
 
 ## Intuition (explained simply)
 
@@ -35,6 +38,17 @@ You're given an array of daily stock prices. You may buy the stock on exactly on
 - This works because the minimum-so-far is always a valid buy day that occurred before the current (sell) day — we never need to look back further than "the cheapest point so far."
 - Time complexity: O(n)  Space complexity: O(1)
 - Edge cases: empty or single-element array → profit 0; strictly decreasing prices → profit 0 (never let profit go negative, just skip an update).
+
+#### 🎯 Visual Walkthrough
+Tracing `prices = [7, 1, 5, 3, 6, 4]`:
+```mermaid
+flowchart TD
+    A["price=7<br/>minPrice=7, maxProfit=0"] --> B["price=1<br/>new low → minPrice=1"]
+    B --> C["price=5<br/>profit=5-1=4 → maxProfit=4"]
+    C --> D["price=3<br/>profit=3-1=2, no improvement"]
+    D --> E["price=6<br/>profit=6-1=5 → maxProfit=5"]
+    E --> F["price=4<br/>profit=4-1=3, no improvement<br/>→ answer 5"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

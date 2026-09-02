@@ -1,6 +1,6 @@
 # 743. Network Delay Time
 
-**Difficulty:** Medium | **Pattern:** Advanced Graphs — Dijkstra's Algorithm | **Tags:** Graph, Dijkstra, Heap, Shortest Path
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Dijkstra's%20Algorithm-blue) ![Tags](https://img.shields.io/badge/Tags-Weighted%20Graph%20%7C%20Min--Heap-lightgrey)
 **LeetCode:** https://leetcode.com/problems/network-delay-time/
 
 ## Problem
@@ -15,6 +15,9 @@
 3. `times = [[1,2,1]]`, `n = 2`, `k = 2` → `-1`. Starting from node `2`, node `1` is unreachable (the edge only goes `1 -> 2`).
 
 **Constraints:** `1 <= k <= n <= 100`, `1 <= times.length <= 6000`, `0 <= w <= 100`, no self-loops, no duplicate edges.
+
+> **🔑 Pattern Recognition**
+> "Minimum time/cost from one source to reach everything" with non-negative weights → single-source shortest paths, i.e. Dijkstra's algorithm. Watch for the twist here: the answer is the *maximum* of all shortest distances, since we need the last node to be reached.
 
 ## Intuition
 "Minimum time to reach every node from a single source" is exactly single-source shortest paths with non-negative weights — the classic use case for **Dijkstra's algorithm**. The final answer is the *largest* of all the shortest distances (the last node to hear the signal determines when everyone has it).
@@ -36,6 +39,17 @@
 - This works for the same greedy correctness reason as above, but the heap makes "find the next closest node" logarithmic instead of linear, which is a big win for sparse graphs (here, up to 6000 edges over up to 100 nodes — solidly sparse relative to the 100^2 possible edges).
 - Time complexity: O(E log V)  Space complexity: O(V + E) for the adjacency list + heap
 - Edge cases: `n = 1` (the source trivially "reaches" itself at time `0`); a node totally unreachable from `k` → `-1`; multiple edges between the same pair aren't present per constraints, but a self-loop-free graph with a direct zero-weight edge is handled fine (`w >= 0`).
+
+#### 🎯 Visual Walkthrough
+Tracing heap-based Dijkstra on Example 1 (`times=[[2,1,1],[2,3,1],[3,4,1]]`, `n=4`, `k=2`):
+
+```mermaid
+graph LR
+    N2["node 2 (source)<br/>dist 0"] -->|w=1| N1["node 1<br/>dist 1"]
+    N2 -->|w=1| N3["node 3<br/>dist 1"]
+    N3 -->|w=1| N4["node 4<br/>dist 2 (last reached)"]
+```
+Nodes `1` and `3` finalize at distance `1`, then `4` (via `3`) at distance `2`. The answer is the max over all finalized distances: `2`.
 
 ## Complexity Summary
 | Approach | Time | Space |

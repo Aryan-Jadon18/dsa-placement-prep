@@ -1,6 +1,6 @@
 # 49. Group Anagrams
 
-**Difficulty:** Medium | **Pattern:** Arrays & Hashing — Hashing | **Tags:** Array, Hash Table, String, Sorting
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Hashing-blue)
 **LeetCode:** https://leetcode.com/problems/group-anagrams/
 
 ## Problem
@@ -15,6 +15,9 @@ Given a list of strings, group the ones that are anagrams of each other into the
 3. `strs = ["a"]` → `[["a"]]` — a single-character word is its own group.
 
 **Constraints:** `1 <= strs.length <= 10^4`, `0 <= strs[i].length <= 100`, lowercase English letters.
+
+> 🔑 **Pattern Recognition**
+> Need to bucket items that share a hidden property (same letter multiset) → compute a canonical key per item (sorted string or count signature) and group by that key in a hash map.
 
 ## Intuition
 
@@ -34,6 +37,16 @@ Given a list of strings, group the ones that are anagrams of each other into the
 - Works because the count tuple is also a canonical form of a letter multiset, and computing it is linear in the string's length rather than `k log k`.
 - Time complexity: O(n * k)  Space complexity: O(n * k)
 - Edge cases: empty strings (count tuple of all zeros, correctly grouped together), single-character strings, very long strings (counting still linear), strings with repeated identical entries.
+
+#### 🎯 Visual Walkthrough
+Tracing `strs = ["eat", "tea", "tan", "ate", "nat", "bat"]` (using count signatures as keys):
+```mermaid
+flowchart TD
+    A["'eat' → sig(a:1,e:1,t:1)<br/>map={sig1:[eat]}"] --> B["'tea' → sig(a:1,e:1,t:1)<br/>same key → map={sig1:[eat,tea]}"]
+    B --> C["'tan' → sig(a:1,n:1,t:1)<br/>new key → map={sig1:..., sig2:[tan]}"]
+    C --> D["'ate' → sig1 → [eat,tea,ate]<br/>'nat' → sig2 → [tan,nat]<br/>'bat' → new sig3 → [bat]"]
+    D --> E["result: [[eat,tea,ate],[tan,nat],[bat]]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

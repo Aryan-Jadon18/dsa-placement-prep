@@ -1,6 +1,6 @@
 # 210. Course Schedule II
 
-**Difficulty:** Medium | **Pattern:** Graphs — Topological Sort | **Tags:** Graph, Topological Sort, DFS, BFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Topological%20Sort-blue) ![Tags](https://img.shields.io/badge/Tags-DAG%20%7C%20Kahn's%20Algorithm-lightgrey)
 **LeetCode:** https://leetcode.com/problems/course-schedule-ii/
 
 ## Problem
@@ -15,6 +15,9 @@ Same setup as Course Schedule (LC 207): `numCourses` courses and a list of prere
 3. `numCourses = 2`, `prerequisites = [[1,0],[0,1]]` → `[]` (cycle, impossible).
 
 **Constraints:** `1 <= numCourses <= 2000`, `0 <= prerequisites.length <= 5000`, no duplicate pairs.
+
+> **🔑 Pattern Recognition**
+> Same DAG-feasibility signal as Course Schedule, but now the interview wants the actual order produced — Kahn's BFS builds it directly forward as courses hit in-degree `0`; DFS postorder works too but needs a final reversal.
 
 ## Intuition
 This is literally "produce a topological sort of the prerequisite DAG, or detect that it isn't a DAG." Same core idea as LC 207, but now we must actually construct and return the order instead of just a boolean.
@@ -36,6 +39,18 @@ This is literally "produce a topological sort of the prerequisite DAG, or detect
 - This works for the same underlying reason as LC 207 — in-degree-`0` exactly characterizes "safe to take now" — and it builds the order directly and iteratively, with no recursion and no need to reverse anything.
 - Time complexity: O(V + E)  Space complexity: O(V + E) graph + in-degree array + queue
 - Edge cases: `numCourses = 1`, no prerequisites → `[0]`; a self-loop prerequisite `[0,0]` → `[]` (in-degree never reaches 0); disconnected groups of courses with no edges between them → both groups still get fully ordered.
+
+#### 🎯 Visual Walkthrough
+Tracing Kahn's algorithm on Example 2's DAG (`numCourses=4`, `prerequisites=[[1,0],[2,0],[3,1],[3,2]]`), one valid resulting order:
+
+```mermaid
+graph TD
+    C0["Course 0 — order #1<br/>in-degree 0"] --> C1["Course 1 — order #2"]
+    C0 --> C2["Course 2 — order #3"]
+    C1 --> C3["Course 3 — order #4<br/>in-degree 0 only after 1 & 2 done"]
+    C2 --> C3
+```
+Appending each course the instant its in-degree hits `0` builds the answer directly: `[0, 1, 2, 3]` (or `[0, 2, 1, 3]`, both valid).
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,6 @@
 # 3. Longest Substring Without Repeating Characters
 
-**Difficulty:** Medium | **Pattern:** Sliding Window — Variable Size | **Tags:** Hash Table, String, Sliding Window
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Sliding%20Window-blue)
 **LeetCode:** https://leetcode.com/problems/longest-substring-without-repeating-characters/
 
 ## Problem
@@ -15,6 +15,9 @@ Given a string, find the length of the longest contiguous stretch of it that con
 3. `s = "pwwkew"` → `3`. `"wke"` has length 3; note `"pwke"` is not contiguous so it doesn't count.
 
 **Constraints:** `0 <= s.length <= 5 * 10^4`, `s` consists of printable ASCII characters.
+
+> 🔑 **Pattern Recognition**
+> Longest substring under a "no repeats" constraint → sliding window with a hash map tracking each character's last-seen index, jumping the left edge past the duplicate instead of shrinking one step at a time.
 
 ## Intuition (explained simply)
 
@@ -35,6 +38,15 @@ Given a string, find the length of the longest contiguous stretch of it that con
 - This works because the map lets us compute exactly where the duplicate is and skip past it in O(1), rather than walking left step by step.
 - Time complexity: O(n) — a true single pass, each character visited once.  Space complexity: O(min(n, alphabet size)).
 - Edge cases: empty string → 0; all identical characters → 1; ensure the left pointer never moves backward (guard with `max(left, last_seen[c] + 1)`).
+
+#### 🎯 Visual Walkthrough
+Tracing `s = "abcabcbb"`:
+```mermaid
+flowchart TD
+    A["right=0 'a': map={a:0}<br/>window='a', best=1"] --> B["right=1 'b', right=2 'c'<br/>window='abc', best=3"]
+    B --> C["right=3 'a': seen at 0, inside window<br/>left jumps to 1<br/>map[a]=3, window='bca'"]
+    C --> D["... repeats jumping on each dup<br/>best length stays 3"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

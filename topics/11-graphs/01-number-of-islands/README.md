@@ -1,6 +1,6 @@
 # 200. Number of Islands
 
-**Difficulty:** Medium | **Pattern:** Graphs — BFS/DFS on Grid | **Tags:** Graph, BFS, DFS, Matrix, Union Find
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Graph%20BFS%2FDFS-blue) ![Tags](https://img.shields.io/badge/Tags-Grid%20%7C%20Union%20Find-lightgrey)
 **LeetCode:** https://leetcode.com/problems/number-of-islands/
 
 ## Problem
@@ -23,6 +23,9 @@ You get a 2D grid of `'1'`s (land) and `'0'`s (water). An island is a group of l
 
 **Constraints:** `1 <= rows, cols <= 300`, grid contains only `'0'`/`'1'`.
 
+> **🔑 Pattern Recognition**
+> A grid of cells with adjacency-based connectivity is an implicit graph — whenever you see "count groups of connected cells," think BFS/DFS flood-fill or Union-Find over grid coordinates.
+
 ## Intuition
 Think of land cells as nodes in a graph, where two land cells are connected if they're adjacent. Each connected group is one island — we just need to count connected components.
 
@@ -41,6 +44,26 @@ Think of land cells as nodes in a graph, where two land cells are connected if t
 - This works because Union-Find directly tracks connected components with near-constant-time union/find, and — unlike flood fill — it naturally extends to *dynamic* connectivity (adding land cells one at a time), which is exactly what interviewers probe for as a follow-up.
 - Time complexity: O(rows × cols × α(rows × cols)) ≈ O(rows × cols)  Space complexity: O(rows × cols) for the parent/rank arrays
 - Edge cases: empty grid, a grid of all water (`0` islands), a single cell, a grid that's entirely land (`1` island).
+
+#### 🎯 Visual Walkthrough
+Tracing Union-Find on Example 1's grid — each subgraph is one connected component (one Union-Find root):
+
+```mermaid
+graph TD
+    subgraph IslandA["Island 1 — top-left block"]
+        A00["(0,0)"] --> A01["(0,1)"]
+        A00 --> A10["(1,0)"]
+        A10 --> A11["(1,1)"]
+        A01 --> A11
+    end
+    subgraph IslandB["Island 2 — lone cell"]
+        B22["(2,2)"]
+    end
+    subgraph IslandC["Island 3 — bottom-right pair"]
+        C33["(3,3)"] --> C34["(3,4)"]
+    end
+```
+Sweeping left-to-right, top-to-bottom, we union each land cell with its right/down land neighbors. Three distinct roots remain at the end → `3` islands.
 
 ## Complexity Summary
 | Approach | Time | Space |

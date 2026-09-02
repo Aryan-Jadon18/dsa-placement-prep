@@ -1,6 +1,6 @@
 # 1584. Min Cost to Connect All Points
 
-**Difficulty:** Medium | **Pattern:** Advanced Graphs — MST (Prim's Algorithm) | **Tags:** Graph, MST, Heap, Union Find
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-MST%20(Prim's)-blue) ![Tags](https://img.shields.io/badge/Tags-MST%20%7C%20Heap-lightgrey)
 **LeetCode:** https://leetcode.com/problems/min-cost-to-connect-all-points/
 
 ## Problem
@@ -15,6 +15,9 @@ You're given `n` points on a 2D plane. The cost to connect two points is their *
 3. `points = [[0,0]]` → `0`. A single point needs no connections at all.
 
 **Constraints:** `1 <= n <= 1000`, coordinates in `[-10^6, 10^6]`, no two points are identical.
+
+> **🔑 Pattern Recognition**
+> "Connect everything with minimum total edge weight, no redundant cycles" → Minimum Spanning Tree. On a dense complete graph (every pair of points is a potential edge), array-based Prim's is often just as fast as heap-based — but heap-Prim's/Kruskal's is the general-purpose MST answer interviewers expect you to name.
 
 ## Intuition
 Every pair of points can be an "edge" with weight = Manhattan distance. We want to connect all `n` points with minimum total edge weight and no redundant cycles — that's the textbook **Minimum Spanning Tree** problem.
@@ -36,6 +39,18 @@ Every pair of points can be an "edge" with weight = Manhattan distance. We want 
 - This works for the same greedy-MST guarantee as above; the heap lets us efficiently retrieve the minimum crossing edge without a full linear scan each round, which matters a lot on sparser graphs. For this specific problem (a *dense* complete graph on `n` points), the heap version costs `O(n^2 log n)` in the worst case (each of the `n^2` edges can be pushed), which is technically *worse* than the O(n^2) array-based Prim's — but it's still presented as "optimal" here because it's the general-purpose MST technique that scales down gracefully to sparse graphs, and interviewers most often want to see the heap-based Prim's (or Kruskal's with Union-Find) as the canonical "I know MST algorithms" answer.
 - Time complexity: O(n^2 log n)  Space complexity: O(n^2) for the heap in the worst case
 - Edge cases: `n = 1` → cost `0` (nothing to connect); two points → cost is just their Manhattan distance; duplicate coordinates aren't possible per constraints, but zero-cost edges (colinear/overlapping-ish points) are handled naturally since distance can be small but nonzero.
+
+#### 🎯 Visual Walkthrough
+Tracing heap-based Prim's on Example 1's points, building the MST edge by edge:
+
+```mermaid
+graph LR
+    P00["(0,0)"] -->|w=4| P22["(2,2)"]
+    P22 -->|w=3| P52["(5,2)"]
+    P52 -->|w=4| P70["(7,0)"]
+    P22 -->|w=9| P310["(3,10)"]
+```
+Each edge is the cheapest crossing edge popped from the heap at that step. Total cost `4 + 3 + 4 + 9 = 20`, matching the example's answer — no cheaper spanning structure connects all five points.
 
 ## Complexity Summary
 | Approach | Time | Space |

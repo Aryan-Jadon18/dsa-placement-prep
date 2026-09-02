@@ -1,6 +1,6 @@
 # 242. Valid Anagram
 
-**Difficulty:** Easy | **Pattern:** Arrays & Hashing — Hashing/Counting | **Tags:** String, Hash Table, Sorting
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-Hashing%2FCounting-blue)
 **LeetCode:** https://leetcode.com/problems/valid-anagram/
 
 ## Problem
@@ -15,6 +15,9 @@ Given two strings, decide whether the second is an anagram of the first — mean
 3. `s = "aacc"`, `t = "ccac"` → `false` — same letters present but counts differ (`t` has three c's, `s` has two).
 
 **Constraints:** `1 <= s.length, t.length <= 5 * 10^4`, lowercase English letters (general solution should still handle full Unicode gracefully).
+
+> 🔑 **Pattern Recognition**
+> "Do these two strings use exactly the same letters, the same number of times?" → frequency counting (a hash map or fixed 26-array) is a single linear pass, no sorting required.
 
 ## Intuition
 
@@ -34,6 +37,14 @@ Given two strings, decide whether the second is an anagram of the first — mean
 - This works because tallying frequencies is a direct, single-pass way to compare multisets without sorting overhead.
 - Time complexity: O(n)  Space complexity: O(1) for a fixed 26-letter alphabet, O(k) in general for k distinct characters
 - Edge cases: different lengths (short-circuit immediately), empty strings (equal length, trivially match), non-lowercase/Unicode input (use a `Counter`/dict instead of a fixed 26-array).
+
+#### 🎯 Visual Walkthrough
+Tracing `s = "anagram"`, `t = "nagaram"`:
+```mermaid
+flowchart TD
+    A["Count s → a:3, n:1, g:1, r:1, m:1"] --> B["Scan t: n,a,g,a,r,a,m<br/>decrement each letter's count"]
+    B --> C["All counts back to 0<br/>→ true"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

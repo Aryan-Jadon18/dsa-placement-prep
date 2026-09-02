@@ -1,6 +1,6 @@
 # 207. Course Schedule
 
-**Difficulty:** Medium | **Pattern:** Graphs — Topological Sort (Cycle Detection) | **Tags:** Graph, Topological Sort, DFS, BFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Topological%20Sort-blue) ![Tags](https://img.shields.io/badge/Tags-DAG%20%7C%20Kahn's%20Algorithm-lightgrey)
 **LeetCode:** https://leetcode.com/problems/course-schedule/
 
 ## Problem
@@ -15,6 +15,9 @@ There are `numCourses` courses labeled `0` to `numCourses - 1`. You're given a l
 3. `numCourses = 4`, `prerequisites = [[1,0],[2,0],[3,1],[3,2]]` → `True`. This is a DAG: e.g. `0, 1, 2, 3` (or `0, 2, 1, 3`) is a valid order.
 
 **Constraints:** `1 <= numCourses <= 2000`, `0 <= prerequisites.length <= 5000`, no duplicate pairs.
+
+> **🔑 Pattern Recognition**
+> "Task A needs task B done first" → directed graph with edges `b -> a`; whether all tasks are finishable is exactly "does this graph have a cycle", answered by topological sort (Kahn's BFS or DFS 3-coloring).
 
 ## Intuition
 Model courses as nodes and each prerequisite `[a, b]` as a directed edge `b -> a` ("finish b before a"). Finishing all courses is possible exactly when this directed graph has **no cycle** — a cyclic dependency chain can never be satisfied.
@@ -36,6 +39,18 @@ Model courses as nodes and each prerequisite `[a, b]` as a directed edge `b -> a
 - This works because a node can only ever be safely "completed" once every one of its prerequisites has been completed — which is exactly what in-degree tracking with a queue guarantees, level by level, with no recursion needed.
 - Time complexity: O(V + E)  Space complexity: O(V + E) for the graph + in-degree array + queue
 - Edge cases: `numCourses = 1` with no prerequisites (trivially `True`); a self-loop `[0, 0]` (immediately a cycle, in-degree of `0` never reaches `0`... careful: this is `True` in-degree stays 1 forever); duplicate/parallel prerequisite pairs generally aren't present per constraints, but the algorithm handles them fine either way.
+
+#### 🎯 Visual Walkthrough
+Tracing Kahn's algorithm on Example 3's dependency DAG (`numCourses=4`, `prerequisites=[[1,0],[2,0],[3,1],[3,2]]`):
+
+```mermaid
+graph TD
+    C0["Course 0<br/>in-degree 0"] --> C1["Course 1"]
+    C0 --> C2["Course 2"]
+    C1 --> C3["Course 3"]
+    C2 --> C3
+```
+Start the queue with in-degree-`0` course `0`; processing it drops `1` and `2` to in-degree `0`; processing both drops `3` to in-degree `0`. All 4 courses get processed → no cycle → `True`.
 
 ## Complexity Summary
 | Approach | Time | Space |

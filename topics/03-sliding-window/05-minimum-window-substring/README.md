@@ -1,6 +1,6 @@
 # 76. Minimum Window Substring
 
-**Difficulty:** Hard | **Pattern:** Sliding Window — Variable Size | **Tags:** Hash Table, String, Sliding Window
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-Sliding%20Window-blue)
 **LeetCode:** https://leetcode.com/problems/minimum-window-substring/
 
 ## Problem
@@ -15,6 +15,9 @@ Given two strings `s` and `t`, find the smallest contiguous substring of `s` tha
 3. `s = "a", t = "aa"` → `""`. `t` needs two `a`s but `s` only has one, so no valid window exists.
 
 **Constraints:** `1 <= s.length, t.length <= 10^5`, both strings consist of English letters (upper/lower case).
+
+> 🔑 **Pattern Recognition**
+> Smallest window in `s` that covers all of `t`'s characters → classic variable-size sliding window: expand the right edge until the window is valid, then greedily shrink the left edge to minimize it.
 
 ## Intuition (explained simply)
 
@@ -35,6 +38,15 @@ Given two strings `s` and `t`, find the smallest contiguous substring of `s` tha
 - This works because `have`/`need` gives an O(1) check for "is the window currently valid," replacing the O(26)–O(52) frequency comparison with a single integer comparison, so the whole algorithm becomes a true linear two-pointer sweep.
 - Time complexity: O(n + m) — each pointer moves forward at most n times, and building the requirement table from `t` takes O(m).  Space complexity: O(52) ≈ O(1) (fixed alphabet).
 - Edge cases: `t` longer than `s` → impossible, return `""`; duplicate characters in `t` (need per-character *counts*, not just presence); no valid window ever found → return `""`.
+
+#### 🎯 Visual Walkthrough
+Tracing `s = "ADOBECODEBANC"`, `t = "ABC"`:
+```mermaid
+flowchart TD
+    A["need={A:1,B:1,C:1}, have=0<br/>expand right to 'ADOBEC'<br/>have=3 == need → start shrinking"] --> B["shrink left from 'ADOBEC'<br/>'A' is required, can't drop further<br/>best='ADOBEC' (len 6)"]
+    B --> C["keep expanding/shrinking:<br/>next valid windows are shorter"]
+    C --> D["smallest valid window found = 'BANC' (len 4)<br/>→ answer 'BANC'"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

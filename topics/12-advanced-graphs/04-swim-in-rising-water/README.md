@@ -1,6 +1,6 @@
 # 778. Swim in Rising Water
 
-**Difficulty:** Hard | **Pattern:** Advanced Graphs — Dijkstra / Binary Search + BFS | **Tags:** Graph, Heap, Binary Search, BFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-Minimax%20Path%20(Dijkstra)-blue) ![Tags](https://img.shields.io/badge/Tags-Grid%20%7C%20Binary%20Search-lightgrey)
 **LeetCode:** https://leetcode.com/problems/swim-in-rising-water/
 
 ## Problem
@@ -15,6 +15,9 @@ You're on an `n x n` grid where cell `(i, j)` has elevation `grid[i][j]`. Water 
 3. `grid = [[0]]` → `0`. Single cell, already both start and destination, no water needed.
 
 **Constraints:** `n == grid.length == grid[i].length`, `1 <= n <= 50`, all elevations are a permutation of `0..n^2-1` (distinct).
+
+> **🔑 Pattern Recognition**
+> "Minimize the maximum value along a path" → this is a minimax-path problem, solved with a Dijkstra variant where relaxation uses `max()` instead of `+`; the same greedy property (the cheapest-by-running-max unvisited cell is already final) still holds.
 
 ## Intuition
 We need the smallest `t` such that a path exists using only cells with elevation `<= t`. Equivalently: among all paths from start to end, find the one that **minimizes the maximum elevation cell along the path** — this is a "minimax path" problem.
@@ -36,6 +39,18 @@ We need the smallest `t` such that a path exists using only cells with elevation
 - This works because it's exactly Dijkstra's algorithm with the "distance" relaxation redefined as `max` instead of `+` — the greedy property still holds (the cheapest-by-max-so-far unvisited cell's cost is already final, since any other route to it can only have an equal or larger running max), so we never need to reconsider a cell once popped.
 - Time complexity: O(n^2 log n)  Space complexity: O(n^2) for visited + heap
 - Edge cases: `n = 1` → answer is `grid[0][0]` (or by problem convention, `0`, since you start there); the start or end cell itself might have a large elevation, which sets a hard floor on the answer regardless of the rest of the grid.
+
+#### 🎯 Visual Walkthrough
+Tracing the minimax-Dijkstra on Example 1 (`grid=[[0,2],[1,3]]`):
+
+```mermaid
+graph TD
+    G00["(0,0) elev=0<br/>start, cost=0"] -->|"max(0,2)"| G01["(0,1) elev=2<br/>cost=2"]
+    G00 -->|"max(0,1)"| G10["(1,0) elev=1<br/>cost=1"]
+    G10 -->|"max(1,3)"| G11["(1,1) elev=3<br/>cost=3 (dest)"]
+    G01 -->|"max(2,3)"| G11
+```
+Both routes into `(1,1)` are forced through elevation `3` — the running max never drops below it — so the minimum time to reach the destination is `3`.
 
 ## Complexity Summary
 | Approach | Time | Space |

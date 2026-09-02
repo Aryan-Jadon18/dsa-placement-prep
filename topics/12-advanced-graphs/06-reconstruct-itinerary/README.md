@@ -1,6 +1,6 @@
 # 332. Reconstruct Itinerary
 
-**Difficulty:** Hard | **Pattern:** Advanced Graphs — Eulerian Path (Hierholzer's Algorithm) | **Tags:** Graph, DFS, Eulerian Path, Backtracking
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-Eulerian%20Path%20(Hierholzer's)-blue) ![Tags](https://img.shields.io/badge/Tags-Use--Every--Edge%20%7C%20Min--Heap%20DFS-lightgrey)
 **LeetCode:** https://leetcode.com/problems/reconstruct-itinerary/
 
 ## Problem
@@ -15,6 +15,9 @@ You're given a list of airline tickets `tickets[i] = [from, to]`. Reconstruct th
 3. `tickets = [["JFK","A"],["A","JFK"]]` → `["JFK","A","JFK"]`. A simple round trip using both tickets.
 
 **Constraints:** `1 <= tickets.length <= 300`, all airport codes are 3 uppercase letters, at least one valid itinerary using every ticket exists.
+
+> **🔑 Pattern Recognition**
+> "Use every edge exactly once, prefer the lexicographically smallest path" → Eulerian path territory. Hierholzer's algorithm (always take the smallest available edge, backtrack onto the result stack only once genuinely stuck) builds it directly with no combinatorial backtracking.
 
 ## Intuition
 Every ticket is a directed edge; we need a path that uses **every edge exactly once** — that's the definition of an **Eulerian path**. Among all valid Eulerian paths, we want the lexicographically smallest, which we get by always preferring the alphabetically smallest next destination when we have a choice.
@@ -36,6 +39,15 @@ Every ticket is a directed edge; we need a path that uses **every edge exactly o
 - This works because a graph with a valid Eulerian path is guaranteed (by graph theory) to never get "truly stuck" before all edges are used **if you only stop advancing from a node once it's genuinely out of edges** — any node we pop early (dead-ended) must have used all its edges already, so it can safely be placed in the final route; no backtracking is ever needed, since Hierholzer's algorithm's core guarantee is that this "dead-end-first" ordering, reversed, is always a valid Eulerian path.
 - Time complexity: O(E log E) (each of the E tickets is pushed/popped from a heap once)  Space complexity: O(E) for the heaps + stack + result
 - Edge cases: an airport that's visited multiple times (handled naturally — each visit just consumes a different outgoing ticket); airports with no outgoing tickets left mid-route are exactly where we start popping onto the final path; the guarantee that "an Eulerian path always exists" (given by the problem) means we never need failure-handling for an unsolvable input.
+
+#### 🎯 Visual Walkthrough
+Tracing Hierholzer's algorithm on Example 1's tickets (`[["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]`):
+
+```mermaid
+graph LR
+    JFK --> MUC --> LHR --> SFO --> SJC
+```
+Starting at `JFK`, each airport has exactly one unused ticket, so the smallest-available-edge walk never needs to backtrack — it consumes every ticket in one pass, popping the final route `JFK -> MUC -> LHR -> SFO -> SJC`.
 
 ## Complexity Summary
 | Approach | Time | Space |

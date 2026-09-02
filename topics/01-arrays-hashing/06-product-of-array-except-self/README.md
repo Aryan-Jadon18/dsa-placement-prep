@@ -1,6 +1,6 @@
 # 238. Product of Array Except Self
 
-**Difficulty:** Medium | **Pattern:** Arrays & Hashing — Prefix/Suffix Products | **Tags:** Array, Prefix Sum
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Prefix%2FSuffix%20Product-blue)
 **LeetCode:** https://leetcode.com/problems/product-of-array-except-self/
 
 ## Problem
@@ -15,6 +15,9 @@ Given an integer array, return a new array where each position holds the product
 3. `nums = [2,3]` → `[3,2]` — smallest valid case with two elements.
 
 **Constraints:** `2 <= nums.length <= 10^5`, product of any prefix/suffix fits in a 32-bit integer, no division allowed.
+
+> 🔑 **Pattern Recognition**
+> "Product/sum of everything except index i" with no division allowed → split it into a prefix pass and a suffix pass, and combine them at each index.
 
 ## Intuition
 
@@ -34,6 +37,16 @@ Given an integer array, return a new array where each position holds the product
 - Works because we only ever need the running suffix product at each step, not the whole suffix array stored simultaneously — a single accumulator variable suffices.
 - Time complexity: O(n)  Space complexity: O(1) extra (output array doesn't count toward extra space per the problem's convention)
 - Edge cases: array containing one zero (result is zero everywhere except that index), array containing two or more zeros (result is all zeros), negative numbers (sign handled naturally by multiplication).
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [1, 2, 3, 4]` → `[24, 12, 8, 6]`:
+```mermaid
+flowchart TD
+    A["Prefix pass (L→R):<br/>answer=[1,1,2,6]<br/>(product of everything to the left)"] --> B["Suffix pass (R→L), suffix=1:<br/>i=3: answer[3]=6*1=6, suffix→4"]
+    B --> C["i=2: answer[2]=2*4=8, suffix→12"]
+    C --> D["i=1: answer[1]=1*12=12, suffix→24"]
+    D --> E["i=0: answer[0]=1*24=24<br/>→ [24,12,8,6]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

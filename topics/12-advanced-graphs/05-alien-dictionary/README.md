@@ -1,6 +1,6 @@
 # 269. Alien Dictionary
 
-**Difficulty:** Hard | **Pattern:** Advanced Graphs — Topological Sort | **Tags:** Graph, Topological Sort, DFS, BFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-Topological%20Sort-blue) ![Tags](https://img.shields.io/badge/Tags-DAG%20%7C%20Kahn's%20Algorithm-lightgrey)
 **LeetCode:** https://leetcode.com/problems/alien-dictionary/
 
 > **Note:** This is a LeetCode **Premium/locked** problem, but it's a very standard, frequently-asked interview question (Google and Meta both favor it) — it's the go-to problem for testing topological sort applied to something less obviously graph-shaped than a course schedule.
@@ -17,6 +17,9 @@ You're given a list of words from an alien language, sorted **lexicographically*
 3. `words = ["abc","ab"]` → `""`. This is **invalid**: a shorter word must come before a longer word that shares its prefix (like normal dictionary order — "ab" should come before "abc", not after), so this ordering is contradictory.
 
 **Constraints:** `1 <= words.length <= 100`, `1 <= words[i].length <= 100`, all lowercase English letters.
+
+> **🔑 Pattern Recognition**
+> Ordering constraints extracted from adjacent pairwise comparisons (a sorted word list) → build a precedence graph from just the neighboring pairs, then topological sort it; a cycle in that graph means the constraints are contradictory.
 
 ## Intuition
 Compare each pair of **adjacent** words to extract ordering constraints: the first position where they differ tells us "this letter comes before that letter" in the alien alphabet. Collect all such constraints into a directed graph (letter -> letter it precedes), then a valid overall letter order is just a **topological sort** of that graph. A cycle means contradictory constraints, i.e. no valid order.
@@ -38,6 +41,18 @@ Compare each pair of **adjacent** words to extract ordering constraints: the fir
 - This works for the same reason Kahn's algorithm works generally, and it directly builds the answer forward with no recursion or reversal — plus, for a problem where the *contradiction* case (cycle) is common in test inputs, Kahn's algorithm makes "did we place every letter" a trivial length check rather than needing a separate explicit cycle flag.
 - Time complexity: O(N × L + V + E)  Space complexity: O(V + E) graph + in-degree array + queue
 - Edge cases: a single word (no constraints at all — every distinct letter in it, any order among them is valid since there's nothing to compare); the invalid "longer word is a prefix-extension appearing before its own prefix" case (`["abc","ab"]`) must be explicitly checked, since a naive adjacent-comparison loop that finds no differing character at all would silently ignore this contradiction; a cycle in the constraints (return `""`).
+
+#### 🎯 Visual Walkthrough
+Tracing the constraint graph and Kahn's algorithm on Example 1 (`words=["wrt","wrf","er","ett","rftt"]`):
+
+```mermaid
+graph LR
+    W["w"] --> E["e"]
+    E --> R["r"]
+    R --> T["t"]
+    T --> F["f"]
+```
+Adjacent-pair comparisons yield `w<e` (`wrf` vs `er`), `e<r` (`ett` vs `rftt`), `r<t` (`er` vs `ett`), and `t<f` (`wrt` vs `wrf`) — chaining into the topological order `"wertf"`, matching the example's answer.
 
 ## Complexity Summary
 | Approach | Time | Space |

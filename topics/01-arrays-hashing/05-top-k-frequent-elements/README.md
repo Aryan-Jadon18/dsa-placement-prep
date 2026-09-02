@@ -1,6 +1,6 @@
 # 347. Top K Frequent Elements
 
-**Difficulty:** Medium | **Pattern:** Arrays & Hashing — Heap/Bucket Sort | **Tags:** Array, Hash Table, Heap, Bucket Sort
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Bucket%20Sort-blue)
 **LeetCode:** https://leetcode.com/problems/top-k-frequent-elements/
 
 ## Problem
@@ -15,6 +15,9 @@ Given an integer array and an integer `k`, return the `k` values that occur most
 3. `nums = [4,4,4,6,6,7]`, `k = 2` → `[4, 6]` — 4 appears most, 6 is the runner-up over 7.
 
 **Constraints:** `1 <= nums.length <= 10^5`, `k` is always valid (`1 <= k <= number of distinct elements`), answer is guaranteed unique for the given inputs in the typical judge (ties can be broken arbitrarily in general).
+
+> 🔑 **Pattern Recognition**
+> "Top k by frequency" where frequency is bounded by `n` → bucket sort by count (or a size-k heap) avoids a full O(d log d) sort of every distinct value.
 
 ## Intuition
 
@@ -33,6 +36,15 @@ Given an integer array and an integer `k`, return the `k` values that occur most
 - This works because frequency can never exceed `n` (the array length), so bucketing by frequency turns the "top k by count" problem into a simple linear scan over a bounded range — no comparison-based sorting needed at all. (A heap of size k, O(n log k), is the other standard optimal-ish approach and is shown as an alternative comment.)
 - Time complexity: O(n)  Space complexity: O(n)
 - Edge cases: `k` equals the number of distinct elements (return all of them), all elements identical (single bucket at max frequency), ties in frequency (any valid set of k is accepted).
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [1,1,1,2,2,3]`, `k = 2`:
+```mermaid
+flowchart TD
+    A["Count: 1→3, 2→2, 3→1"] --> B["Buckets indexed by frequency:<br/>bucket[3]=[1], bucket[2]=[2], bucket[1]=[3]"]
+    B --> C["Scan buckets from freq=n down to 1<br/>freq=3: take value 1 (need 1 more)"]
+    C --> D["freq=2: take value 2 (k satisfied)<br/>→ result [1, 2]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

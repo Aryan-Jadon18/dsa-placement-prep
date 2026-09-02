@@ -1,6 +1,6 @@
 # 323. Number of Connected Components in an Undirected Graph
 
-**Difficulty:** Medium | **Pattern:** Graphs — Union Find | **Tags:** Graph, Union Find, BFS, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Union%20Find-blue) ![Tags](https://img.shields.io/badge/Tags-DSU%20%7C%20Component%20Count-lightgrey)
 **LeetCode:** https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/
 
 > **Note:** This is a LeetCode **Premium/locked** problem, but it's an extremely common interview question (Meta and Amazon both ask it frequently) since it's the cleanest possible setup for practicing Union-Find fundamentals.
@@ -17,6 +17,9 @@ You have `n` nodes labeled `0` to `n-1` and a list of undirected edges connectin
 3. `n = 4`, `edges = []` → `4`. No edges at all means every node is its own isolated component.
 
 **Constraints:** `1 <= n <= 2000`, `0 <= edges.length <= n*(n-1)/2`, no duplicate/self-loop edges.
+
+> **🔑 Pattern Recognition**
+> "How many separate groups" with edges arriving as a list → start from `n` singleton components and decrement a running counter on every *successful* Union-Find merge; no traversal needed at all.
 
 ## Intuition
 This is the textbook definition of "connected components" — group nodes together if they're reachable from each other, and count the groups. Any traversal-based or Union-Find-based method works; the interesting part is comparing their trade-offs.
@@ -38,6 +41,21 @@ This is the textbook definition of "connected components" — group nodes togeth
 - This works because Union-Find directly maintains "how many distinct groups are there" as a running counter, updated in near-constant time per edge — no traversal needed at all, and it naturally extends to online/incremental versions of the problem (edges arriving one at a time, need the count after each).
 - Time complexity: O((V + E) × α(V)) ≈ O(V + E)  Space complexity: O(V) for parent/rank arrays
 - Edge cases: `n = 1` with no edges → `1` component; no edges at all → `n` components (every node isolated); all nodes connected into one chain → `1` component.
+
+#### 🎯 Visual Walkthrough
+Tracing Union-Find on Example 1 (`n=5`, `edges=[[0,1],[1,2],[3,4]]`):
+
+```mermaid
+graph TD
+    subgraph Component1["Component root: {0,1,2}"]
+        A0((0)) --> A1((1))
+        A1 --> A2((2))
+    end
+    subgraph Component2["Component root: {3,4}"]
+        A3((3)) --> A4((4))
+    end
+```
+3 edges, 3 successful unions, count starts at `5` and drops by `1` each merge → `5 - 3 = 2` components.
 
 ## Complexity Summary
 | Approach | Time | Space |

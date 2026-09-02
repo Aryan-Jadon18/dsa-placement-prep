@@ -1,6 +1,6 @@
 # 560. Subarray Sum Equals K
 
-**Difficulty:** Medium | **Pattern:** Arrays & Hashing — Prefix Sum + HashMap | **Tags:** Array, Hash Table, Prefix Sum
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Prefix%20Sum-blue)
 **LeetCode:** https://leetcode.com/problems/subarray-sum-equals-k/
 
 ## Problem
@@ -15,6 +15,9 @@ Given an integer array and a target integer `k`, count how many contiguous subar
 3. `nums = [1,-1,0]`, `k = 0` → `3` — the qualifying subarrays are `[1,-1]` (indices 0-1), `[0]` (index 2 alone), and `[1,-1,0]` (the whole array) — three subarrays sum to 0.
 
 **Constraints:** `1 <= nums.length <= 2*10^4`, values (including k) can be negative, so two pointers alone won't work directly — this is a prefix-sum problem.
+
+> 🔑 **Pattern Recognition**
+> Counting subarrays with an exact target sum, and values can be negative → prefix sums plus a hash map counting how often each prefix sum has occurred (not a sliding window, since negatives break monotonicity).
 
 ## Intuition
 
@@ -34,6 +37,15 @@ Given an integer array and a target integer `k`, count how many contiguous subar
 - This works because the hash map lets us answer "how many valid start points exist for the current end point" in O(1) average time instead of scanning backward, turning an O(n^2) pair-check into a single O(n) pass.
 - Time complexity: O(n)  Space complexity: O(n)
 - Edge cases: negative numbers (prefix sums can decrease, handled naturally — no monotonicity assumed), `k = 0` (relies on the `{0: 1}` seed to catch subarrays whose sum is exactly the running total so far), all zeros (many overlapping valid subarrays, counted correctly since we count subarrays not distinct sums).
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [1, 1, 1]`, `k = 2`:
+```mermaid
+flowchart TD
+    A["prefix=0, map={0:1}, count=0"] --> B["i=0: prefix=1<br/>need 1-2=-1, not in map<br/>map={0:1, 1:1}"]
+    B --> C["i=1: prefix=2<br/>need 2-2=0, map has it (1x)<br/>count=1, map={0:1,1:1,2:1}"]
+    C --> D["i=2: prefix=3<br/>need 3-2=1, map has it (1x)<br/>count=2 → final answer 2"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

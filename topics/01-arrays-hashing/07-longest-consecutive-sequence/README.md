@@ -1,6 +1,6 @@
 # 128. Longest Consecutive Sequence
 
-**Difficulty:** Medium | **Pattern:** Arrays & Hashing — Hashing | **Tags:** Array, Hash Table, Union Find
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Hashing-blue)
 **LeetCode:** https://leetcode.com/problems/longest-consecutive-sequence/
 
 ## Problem
@@ -15,6 +15,9 @@ Given an unsorted array of integers, find the length of the longest run of conse
 3. `nums = [1,1,1,1]` → `1` — duplicates collapse to a single value, so the longest run is just `[1]`.
 
 **Constraints:** `0 <= nums.length <= 10^5`, values can be negative, must run in O(n) time to be accepted as optimal (this rules out simply sorting for full credit, though sorting is a valid "better" solution).
+
+> 🔑 **Pattern Recognition**
+> Longest run of *consecutive values* in unsorted data, needs O(n) → hash set for O(1) lookups, but only start counting a run from a number whose predecessor (`num - 1`) is absent, so every run gets counted exactly once.
 
 ## Intuition
 
@@ -33,6 +36,17 @@ Given an unsorted array of integers, find the length of the longest run of conse
 - This works because the "only start if no predecessor" check guarantees each consecutive run is expanded from its start exactly once — every number is visited a constant number of times in total across the whole algorithm, giving true O(n) amortized time.
 - Time complexity: O(n)  Space complexity: O(n)
 - Edge cases: empty array (return 0), all duplicates (longest run is length 1), negative numbers (hashing handles them the same as positive), array already fully consecutive (whole array is one run).
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [100, 4, 200, 1, 3, 2]`:
+```mermaid
+flowchart TD
+    A["set={100,4,200,1,3,2}"] --> B["num=1: is 0 in set? No<br/>→ start a run! count 1,2,3,4 → length 4"]
+    B --> C["num=4,3,2: predecessor in set<br/>→ skip (not a run start)"]
+    C --> D["num=100: is 99 in set? No<br/>→ start, length 1"]
+    D --> E["num=200: is 199 in set? No<br/>→ start, length 1"]
+    E --> F["max length = 4"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

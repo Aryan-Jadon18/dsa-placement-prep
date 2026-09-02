@@ -1,6 +1,6 @@
 # 130. Surrounded Regions
 
-**Difficulty:** Medium | **Pattern:** Graphs — Boundary DFS/BFS | **Tags:** Graph, DFS, BFS, Matrix, Union Find
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Boundary%20DFS%2FBFS-blue) ![Tags](https://img.shields.io/badge/Tags-Grid%20%7C%20Virtual%20Node%20Union%20Find-lightgrey)
 **LeetCode:** https://leetcode.com/problems/surrounded-regions/
 
 ## Problem
@@ -29,6 +29,9 @@ X O X X
 
 **Constraints:** `1 <= rows, cols <= 200`, grid contains only `'X'`/`'O'`.
 
+> **🔑 Pattern Recognition**
+> "Survives only if connected to the boundary" → don't test each region in isolation; flood-fill (or Union-Find with a virtual border node) from every border cell at once, then flip whatever wasn't marked safe.
+
 ## Intuition
 A region of `O`s only survives if it's connected to the border. So instead of checking "is this region surrounded" for every region separately, flip the question: start from the border `O`s and mark everything *reachable* from them as "safe". Anything not marked safe gets flipped.
 
@@ -49,6 +52,19 @@ A region of `O`s only survives if it's connected to the border. So instead of ch
 - This works because "connected to the border" is exactly "same DSU component as the virtual border node" — Union-Find gives us that answer with one linear pass and no recursion, and it's the natural technique if this problem were extended to online updates (cells added/removed over time).
 - Time complexity: O(rows × cols × α(rows × cols)) ≈ O(rows × cols)  Space complexity: O(rows × cols) for parent/rank arrays
 - Edge cases: no `O`s at all (grid unchanged); every `O` touches the border (grid unchanged); a single-row or single-column grid (every cell is a border cell, so nothing is ever flipped).
+
+#### 🎯 Visual Walkthrough
+Tracing the virtual-border Union-Find on Example 1's grid:
+
+```mermaid
+graph TD
+    BORDER["Virtual Border Node"] --> B31["(3,1) — touches bottom border"]
+    O11["(1,1)"] --- O12["(1,2)"]
+    O12 --- O22["(2,2)"]
+    O11 -.->|"not unioned with BORDER"| RESULT1["flipped to X"]
+    B31 -->|"unioned with BORDER"| RESULT2["stays O"]
+```
+`(1,1)-(1,2)-(2,2)` never touch a border cell, so their root differs from the border node's root → flipped. `(3,1)` is unioned directly with `BORDER` → stays `O`.
 
 ## Complexity Summary
 | Approach | Time | Space |

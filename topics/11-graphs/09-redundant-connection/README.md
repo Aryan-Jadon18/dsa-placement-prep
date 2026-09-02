@@ -1,6 +1,6 @@
 # 684. Redundant Connection
 
-**Difficulty:** Medium | **Pattern:** Graphs — Union Find | **Tags:** Graph, Union Find
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Union%20Find-blue) ![Tags](https://img.shields.io/badge/Tags-Tree%20%2B%201%20Edge%20%7C%20DSU-lightgrey)
 **LeetCode:** https://leetcode.com/problems/redundant-connection/
 
 ## Problem
@@ -15,6 +15,9 @@ You start with a tree of `n` nodes (labeled `1` to `n`) and `n` edges instead of
 3. `edges = [[1,2],[1,3],[1,4],[1,5]]` → this is already a valid tree (`n=5` nodes, `4` edges, no redundant edge) — not a real test case for this problem since the problem guarantees exactly one redundant edge exists, but illustrates why we must find the *specific* edge that closes a loop.
 
 **Constraints:** `n` nodes, `n` edges, `1 <= u, v <= n`, `u != v`, no duplicate edges, exactly one redundant edge exists in the input.
+
+> **🔑 Pattern Recognition**
+> "`n` nodes, `n` edges, exactly one cycle" → process edges one at a time with Union-Find; the first edge whose endpoints already share a root is precisely the one that closes the cycle.
 
 ## Intuition
 Adding an edge between two nodes that are **already connected** through existing edges is exactly what creates a cycle. So we process edges one at a time, and the first time an edge connects two nodes that are already in the same connected component, that edge is the culprit.
@@ -36,6 +39,19 @@ Adding an edge between two nodes that are **already connected** through existing
 - This works for the same connectivity reason as above, but path compression + union by rank together give near-constant amortized time per operation (the famous inverse-Ackermann bound), so the whole algorithm processes all `n` edges in almost linear time.
 - Time complexity: O(n × α(n)) ≈ O(n)  Space complexity: O(n) for parent/rank arrays
 - Edge cases: the redundant edge appears very early (still detected correctly, we just keep scanning — no, we return the *first* edge whose union fails, which by the problem's guarantee of exactly one cycle is also the *last* one that would need removing, since exactly one edge closes the single cycle); a self-referential edge isn't possible per constraints (`u != v`).
+
+#### 🎯 Visual Walkthrough
+Tracing Union-Find on Example 2's edges (`[[1,2],[2,3],[3,4],[1,4],[1,5]]`):
+
+```mermaid
+graph LR
+    N1((1)) -->|"edge 1: union"| N2((2))
+    N2 -->|"edge 2: union"| N3((3))
+    N3 -->|"edge 3: union"| N4((4))
+    N1 -.->|"edge 4: find(1)==find(4) → REDUNDANT"| N4b((4))
+    N1 -->|"edge 5: union"| N5((5))
+```
+Edges 1-3 build the chain `1-2-3-4`. Edge 4 (`[1,4]`) tries to union two nodes already in the same set — that's the redundant edge, returned immediately.
 
 ## Complexity Summary
 | Approach | Time | Space |

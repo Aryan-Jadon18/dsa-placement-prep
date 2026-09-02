@@ -1,6 +1,6 @@
 # 261. Graph Valid Tree
 
-**Difficulty:** Medium | **Pattern:** Graphs — Union Find | **Tags:** Graph, Union Find, BFS, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Union%20Find-blue) ![Tags](https://img.shields.io/badge/Tags-n--1%20Edges%20%7C%20Cycle%20Check-lightgrey)
 **LeetCode:** https://leetcode.com/problems/graph-valid-tree/
 
 > **Note:** This is a LeetCode **Premium/locked** problem, but it's a very standard interview question — it's the cleanest test of whether you understand what makes a graph a tree.
@@ -17,6 +17,9 @@ Given `n` nodes labeled `0` to `n-1` and a list of undirected edges, determine w
 3. `n = 4`, `edges = [[0,1],[2,3]]` → `False`. Only `2` edges for `4` nodes — the graph is disconnected (two separate components), so it can't be a single tree.
 
 **Constraints:** `1 <= n <= 2000`, no self-loops, no duplicate edges.
+
+> **🔑 Pattern Recognition**
+> "Is this a tree?" = exactly `n-1` edges **and** no cycle **and** fully connected. Check the edge count first as a cheap disqualifier, then Union-Find every edge: any union that fails (already same root) proves a cycle, and `n-1` cycle-free edges among `n` nodes guarantee connectivity for free.
 
 ## Intuition
 A graph on `n` nodes is a tree **iff** it has exactly `n-1` edges *and* is fully connected. (Those two facts together automatically rule out cycles — a connected graph with exactly `n-1` edges can't have a cycle, because a cycle would require at least one "extra" edge beyond what's needed to connect everything.) So the edge-count check gives us an instant disqualifier, and then we just need to verify connectivity.
@@ -38,6 +41,18 @@ A graph on `n` nodes is a tree **iff** it has exactly `n-1` edges *and* is fully
 - This works because a cycle is detected the instant we try to union two nodes already in the same component — no separate connectivity pass is even needed, since `n-1` cycle-free edges among `n` nodes are *guaranteed* to connect everything (a classic graph theory fact: a forest with `n` nodes and `n-1` edges and no cycles must be a single tree).
 - Time complexity: O(n × α(n)) ≈ O(n)  Space complexity: O(n) for parent/rank arrays
 - Edge cases: `n = 1` with no edges → `True` (trivially a single-node tree); any self-loop or duplicate edge (not present per constraints, but Union-Find would correctly flag it as a cycle anyway); disconnected graph with the *right* edge count by coincidence (impossible — disconnection with `n-1` total edges forces a cycle somewhere else, which Union-Find still catches).
+
+#### 🎯 Visual Walkthrough
+Tracing Union-Find on Example 1 (`n=5`, `edges=[[0,1],[0,2],[0,3],[1,4]]`):
+
+```mermaid
+graph TD
+    N0((0)) --> N1((1))
+    N0 --> N2((2))
+    N0 --> N3((3))
+    N1 --> N4((4))
+```
+Edge count is `4 = n-1` (passes the pre-check). Every union succeeds — no edge ever connects two nodes already sharing a root — so all 5 nodes end up under one root with zero cycles → valid tree, `True`.
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,6 @@
 # 167. Two Sum II - Input Array Is Sorted
 
-**Difficulty:** Medium | **Pattern:** Two Pointers | **Tags:** Array, Two Pointers, Binary Search
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Two%20Pointers-blue)
 **LeetCode:** https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
 
 ## Problem
@@ -15,6 +15,9 @@ Given a **1-indexed** array that is already sorted in non-decreasing order, find
 3. `numbers = [-1,0]`, `target = -1` → `[1,2]` because `-1 + 0 = -1` — negatives are allowed too.
 
 **Constraints:** `2 <= numbers.length <= 3*10^4`, `numbers` sorted non-decreasing, exactly one solution exists, must use O(1) extra space for full credit (which points straight at two pointers over a hash map).
+
+> 🔑 **Pattern Recognition**
+> Pair-sum target on an **already-sorted** array → two pointers from both ends, moving the low pointer up when the sum is too small and the high pointer down when it's too big, beats re-hashing in O(1) extra space.
 
 ## Intuition
 
@@ -33,6 +36,15 @@ Given a **1-indexed** array that is already sorted in non-decreasing order, find
 - This works because sortedness guarantees monotonic behavior: increasing `left` can only increase the sum, decreasing `right` can only decrease it, so at every step we can safely discard one end without missing the answer.
 - Time complexity: O(n)  Space complexity: O(1)
 - Edge cases: two-element array (pointers start adjacent, one comparison solves it), negative numbers (two pointers handle them naturally since comparisons are just `<`, `>`, `==`), target achievable only at the very ends (handled correctly since pointers start there).
+
+#### 🎯 Visual Walkthrough
+Tracing `numbers = [2, 7, 11, 15]`, `target = 9`:
+```mermaid
+flowchart TD
+    A["left=0(2), right=3(15)<br/>sum=17 > 9 → right--"] --> B["left=0(2), right=2(11)<br/>sum=13 > 9 → right--"]
+    B --> C["left=0(2), right=1(7)<br/>sum=9 == 9 → found!"]
+    C --> D["return [1, 2] (1-indexed)"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |
