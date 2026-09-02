@@ -1,6 +1,7 @@
 # 226. Invert Binary Tree
 
-**Difficulty:** Easy | **Pattern:** Tree Traversal — DFS/BFS | **Tags:** Tree, DFS, BFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Tree_Traversal_DFS%2FBFS-blue)
 **LeetCode:** https://leetcode.com/problems/invert-binary-tree/
 
 ## Problem
@@ -18,6 +19,11 @@ tree.
 3. Input: `[]` → Output: `[]`. Nothing to invert.
 
 **Constraints:** `0 <= number of nodes <= 100`, `-100 <= Node.val <= 100`.
+
+> 🔑 **Pattern Recognition**
+> Every node's children need to be touched independently and identically → this screams
+> recursive/iterative tree traversal (DFS or BFS), not a specialized algorithm. Whenever
+> a problem says "do X to every node," reach for a traversal template first.
 
 ## Intuition (explained simply)
 "Inverting" a tree means making it a mirror of itself — whatever was on the left is
@@ -54,6 +60,23 @@ up the children's children the same way, the whole tree ends up mirrored.
   (up to O(n) in the worst case, but no call-stack risk)
 - Edge cases: empty tree (`root is None`) → return `None` immediately; single node →
   swapping two `None` children is a no-op, correctly returns the same node.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 1 (`[4,2,7,1,3,6,9]`) with iterative BFS — each node's children get
+swapped the moment it's popped from the queue, in this visit order:
+
+```mermaid
+graph TD
+    A["4<br/>#1 visited: swap children"] --> B["2<br/>#2 visited: swap children"]
+    A --> C["7<br/>#3 visited: swap children"]
+    B --> D["1<br/>#4 visited: leaf"]
+    B --> E["3<br/>#5 visited: leaf"]
+    C --> F["6<br/>#6 visited: leaf"]
+    C --> G["9<br/>#7 visited: leaf"]
+```
+
+After processing: node `4`'s children become `7` and `2`; node `2`'s children become
+`3` and `1`; node `7`'s children become `9` and `6` — giving `[4,7,2,9,6,3,1]`.
 
 ## Complexity Summary
 | Approach | Time | Space |

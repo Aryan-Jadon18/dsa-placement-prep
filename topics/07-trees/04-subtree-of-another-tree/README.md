@@ -1,6 +1,7 @@
 # 572. Subtree of Another Tree
 
-**Difficulty:** Easy | **Pattern:** Tree Traversal — DFS | **Tags:** Tree, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Tree_Traversal_DFS-blue)
 **LeetCode:** https://leetcode.com/problems/subtree-of-another-tree/
 
 ## Problem
@@ -22,6 +23,11 @@ values) to `subRoot`.
 
 **Constraints:** `1 <= nodes in root <= 2000`, `1 <= nodes in subRoot <= 1000`,
 `-10^4 <= Node.val <= 10^4`.
+
+> 🔑 **Pattern Recognition**
+> "Does tree B appear anywhere inside tree A" → this is Same-Tree run from every
+> possible starting node, or better, subtree hashing (Merkle-style) to avoid the
+> O(n·m) blowup. Recognize "find an exact matching substructure" as a hashing cue.
 
 ## Intuition (explained simply)
 This is really "same tree" applied repeatedly: check every node of `root` as a
@@ -66,6 +72,23 @@ possible starting point, and see if the tree hanging from it is identical to
 - Edge cases: `subRoot` is a single leaf — must still match individual leaf nodes in
   `root`, not just larger subtrees; `root` and `subRoot` identical — trivially `True`;
   `subRoot` larger than `root` — hash will simply never be found.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 1 (`root = [3,4,5,1,2]`, `subRoot = [4,1,2]`): postorder hashing gives
+the node valued `4` the same hash as `subRoot`'s root, so it's reported as a match.
+
+```mermaid
+graph TD
+    R1["3<br/>root"] --> R2["4<br/>hash == hash(subRoot) ✓"]
+    R1 --> R3["5<br/>leaf"]
+    R2 --> R4["1<br/>leaf"]
+    R2 --> R5["2<br/>leaf"]
+    S1["subRoot: 4"] --> S2["1"]
+    S1 --> S3["2"]
+```
+
+Because the subtree rooted at `4` has the same shape and values as `subRoot`, their
+hashes collide and the answer is `True`.
 
 ## Complexity Summary
 | Approach | Time | Space |

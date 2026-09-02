@@ -1,6 +1,7 @@
 # 297. Serialize and Deserialize Binary Tree
 
-**Difficulty:** Hard | **Pattern:** Tree Design | **Tags:** Tree, DFS, BFS, Design
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red)
+![Pattern](https://img.shields.io/badge/Pattern-Tree_Design-blue)
 **LeetCode:** https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
 
 ## Problem
@@ -23,6 +24,11 @@ reconstructed root
    children → `deserialize` reproduces a single-node tree.
 
 **Constraints:** `0 <= number of nodes <= 10^4`, `-1000 <= Node.val <= 1000`.
+
+> 🔑 **Pattern Recognition**
+> Need to rebuild a tree exactly from a string → any traversal works as long as
+> `null` children are explicitly marked; preorder + null markers is cleanest because
+> a recursive parser can consume tokens in exactly the order they were written.
 
 ## Intuition (explained simply)
 To rebuild a tree exactly, the string needs to capture two things: which values exist,
@@ -76,6 +82,22 @@ order works as long as `null` children are explicitly recorded as markers.
 - Edge cases: empty tree → serializes to a single `"#"`, deserializes to `None`;
   values that could be negative or multi-digit → use a delimiter (comma) between
   tokens, not just concatenation, so parsing stays unambiguous.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 1 (`[1,2,3,null,null,4,5]`) with preorder DFS serialization:
+
+```mermaid
+graph TD
+    A["1<br/>preorder #1"] --> B["2<br/>preorder #2 (leaf → then #,#)"]
+    A --> C["3<br/>preorder #3"]
+    C --> D["4<br/>preorder #4 (leaf → then #,#)"]
+    C --> E["5<br/>preorder #5 (leaf → then #,#)"]
+```
+
+This produces the token stream `1,2,#,#,3,4,#,#,5,#,#`. Deserializing reads the same
+tokens left-to-right — `1` becomes root, then the next tokens (`2,#,#`) fully rebuild
+its left subtree before the remaining tokens (`3,4,#,#,5,#,#`) rebuild its right
+subtree, reproducing the exact original tree.
 
 ## Complexity Summary
 | Approach | Time | Space |

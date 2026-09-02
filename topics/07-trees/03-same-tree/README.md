@@ -1,6 +1,7 @@
 # 100. Same Tree
 
-**Difficulty:** Easy | **Pattern:** Tree Traversal — DFS | **Tags:** Tree, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Tree_Traversal_DFS-blue)
 **LeetCode:** https://leetcode.com/problems/same-tree/
 
 ## Problem
@@ -19,6 +20,11 @@ identical and have the same node values at every corresponding position.
 
 **Constraints:** `0 <= number of nodes in each tree <= 100`, `-10^4 <= Node.val <=
 10^4`.
+
+> 🔑 **Pattern Recognition**
+> Comparing two trees for structural + value equality → walk both trees in lockstep
+> with simultaneous DFS, short-circuiting on the first mismatch. Whenever a problem
+> asks "are these two structures equal," compare live instead of serializing first.
 
 ## Intuition (explained simply)
 Two trees are "the same" only if, at every matching position, both are `None`, or
@@ -59,6 +65,25 @@ halves are each the same.
 - Edge cases: both trees empty → `True`; one empty and one not → `False` immediately;
   identical values but mirrored structure → correctly `False` since left/right
   positions are compared, not swapped.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 2 (`p = [1,2]`, `q = [1,null,2]`): the stack pushes `(p, q)` pairs and
+compares them one at a time — the mismatch is found as soon as `2`'s position differs.
+
+```mermaid
+graph TD
+    subgraph P["Tree p = [1,2]"]
+        P1["1"] --> P2["2 (left child)"]
+    end
+    subgraph Q["Tree q = [1,null,2]"]
+        Q1["1"] --> Q3["2 (right child)"]
+    end
+    P1 -.->|"stack pop: compare (p,q) values match"| Q1
+    P2 -.->|"compare (p.left,q.left): p.left=2, q.left=None → False"| Q3
+```
+
+The moment `p.left` (`2`) is compared against `q.left` (`None`), the mismatch is
+detected and the algorithm returns `False` without visiting anything else.
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,7 @@
 # 104. Maximum Depth of Binary Tree
 
-**Difficulty:** Easy | **Pattern:** Tree Traversal — DFS/BFS | **Tags:** Tree, DFS, BFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Tree_Traversal_DFS%2FBFS-blue)
 **LeetCode:** https://leetcode.com/problems/maximum-depth-of-binary-tree/
 
 ## Problem
@@ -17,6 +18,11 @@ the longest path from the root down to the farthest leaf.
 3. Input: `[]` → Output: `0`. An empty tree has depth 0.
 
 **Constraints:** `0 <= number of nodes <= 10^4`, `-100 <= Node.val <= 100`.
+
+> 🔑 **Pattern Recognition**
+> "Longest path from root to leaf" is the textbook signal for bottom-up recursion
+> (`1 + max(depth(left), depth(right))`) or level-counting BFS. Any "depth/height of
+> a tree" phrasing should immediately trigger one of these two templates.
 
 ## Intuition (explained simply)
 Depth means "how many nodes deep does this tree go." A leaf by itself has depth 1. For
@@ -48,6 +54,21 @@ any node, its depth is 1 (itself) plus the deeper of its two children's depths.
 - Time complexity: O(n)  Space complexity: O(w) where w is the max width of the tree
 - Edge cases: empty tree → return 0 immediately; single node → returns 1; a completely
   skewed (linked-list-like) tree → BFS avoids the recursion-depth issue entirely.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 1 (`[3,9,20,null,null,15,7]`) with level-by-level BFS: the queue
+empties one whole level at a time, and the level counter reaches `3` once the last
+level is drained.
+
+```mermaid
+graph TD
+    A["3<br/>level 1 (depth=1)"] --> B["9<br/>level 2 (depth=2)"]
+    A --> C["20<br/>level 2 (depth=2)"]
+    C --> D["15<br/>level 3 (depth=3)"]
+    C --> E["7<br/>level 3 (depth=3)"]
+```
+
+The deepest level reached is level 3, so the answer is `3`.
 
 ## Complexity Summary
 | Approach | Time | Space |

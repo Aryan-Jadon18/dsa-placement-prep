@@ -1,6 +1,7 @@
 # 102. Binary Tree Level Order Traversal
 
-**Difficulty:** Medium | **Pattern:** BFS | **Tags:** Tree, BFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-BFS-blue)
 **LeetCode:** https://leetcode.com/problems/binary-tree-level-order-traversal/
 
 ## Problem
@@ -17,6 +18,11 @@ level, from top to bottom, left to right within each level.
 3. Input: `[]` → Output: `[]`. No levels in an empty tree.
 
 **Constraints:** `0 <= number of nodes <= 2000`, `-1000 <= Node.val <= 1000`.
+
+> 🔑 **Pattern Recognition**
+> "Group nodes by depth/level" is the textbook signal for BFS with a queue — snapshot
+> the queue's current length once per iteration to know exactly where one level ends
+> and the next begins, without any extra bookkeeping.
 
 ## Intuition (explained simply)
 "Level order" just means visiting the tree row by row, like reading a family tree
@@ -58,6 +64,22 @@ before anything at distance k+1" is a queue — that's exactly what BFS is built
   (for the queue), plus O(n) for the output
 - Edge cases: empty tree → return `[]` immediately; single node → returns `[[val]]`;
   fully skewed tree → each level has exactly one node, queue stays small throughout.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 1 (`[3,9,20,null,null,15,7]`): the queue is drained one full level at
+a time, producing `[[3],[9,20],[15,7]]`.
+
+```mermaid
+flowchart TD
+    A["3<br/>level 0"] --> B["9<br/>level 1"]
+    A --> C["20<br/>level 1"]
+    C --> D["15<br/>level 2"]
+    C --> E["7<br/>level 2"]
+```
+
+Step by step: queue starts as `[3]` (size 1 → level `[3]`); after popping `3` and
+pushing its children, queue is `[9,20]` (size 2 → level `[9,20]`); after popping both
+and pushing `20`'s children, queue is `[15,7]` (size 2 → level `[15,7]`); queue empties.
 
 ## Complexity Summary
 | Approach | Time | Space |

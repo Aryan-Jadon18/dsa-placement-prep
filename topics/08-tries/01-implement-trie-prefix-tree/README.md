@@ -1,6 +1,7 @@
 # 208. Implement Trie (Prefix Tree)
 
-**Difficulty:** Medium | **Pattern:** Trie Design | **Tags:** Trie, Design
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Trie_Design-blue)
 **LeetCode:** https://leetcode.com/problems/implement-trie-prefix-tree/
 
 ## Problem
@@ -23,6 +24,11 @@ inserted; `startsWith(prefix)` returns `True` if any inserted word begins with
 
 **Constraints:** `1 <= word/prefix length <= 2000`, lowercase English letters only,
 up to `3 * 10^4` total calls across all three methods.
+
+> 🔑 **Pattern Recognition**
+> "Insert words, then answer prefix questions fast" → a character-by-character
+> shared-node structure (a trie), not a list/set of strings. Whenever "prefix" shows
+> up as a first-class operation, think trie immediately.
 
 ## Intuition (explained simply)
 A trie is a tree where each edge is labeled with one character, and following a path
@@ -75,6 +81,23 @@ stored only once.
 - Edge cases: inserting the empty string, inserting the same word twice, searching
   for a prefix that's also a complete word (must distinguish via `is_end`), prefix
   longer than any stored word.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 1 — `insert("apple")`, then `insert("app")` — building the trie
+character by character, sharing the common `a -> p -> p` prefix:
+
+```mermaid
+graph TD
+    R["(root)"] --> A["a"]
+    A --> P1["p"]
+    P1 --> P2["p 🏁 (end: 'app')"]
+    P2 --> L["l"]
+    L --> E["e 🏁 (end: 'apple')"]
+```
+
+`search("app")` walks `a -> p -> p` and finds `is_end = True` there → `True`.
+`startsWith("app")` only needs to reach that node, regardless of `is_end` → `True`.
+`search("ap")` reaches a node with `is_end = False` → `False`.
 
 ## Complexity Summary
 | Approach | Time (insert / search / startsWith) | Space |

@@ -1,6 +1,7 @@
 # 98. Validate Binary Search Tree
 
-**Difficulty:** Medium | **Pattern:** BST Property | **Tags:** Tree, BST, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-BST_Property-blue)
 **LeetCode:** https://leetcode.com/problems/validate-binary-search-tree/
 
 ## Problem
@@ -22,6 +23,12 @@ must hold for *every* node, not just its immediate children.
    violate.
 
 **Constraints:** `1 <= number of nodes <= 10^4`, `-2^31 <= Node.val <= 2^31 - 1`.
+
+> 🔑 **Pattern Recognition**
+> "Is this a valid BST" is NOT just "is each node bigger than its left child and
+> smaller than its right" — the whole-subtree constraint means you must carry a
+> `(low, high)` bound down through recursion, or exploit that a valid BST's inorder
+> traversal is strictly increasing.
 
 ## Intuition (explained simply)
 It's tempting to just check "is each node bigger than its left child and smaller than
@@ -65,6 +72,21 @@ its immediate parent.
 - Edge cases: single node → always valid; duplicate values anywhere in the tree →
   invalid, since the BST property is *strict* inequality; using `float('-inf')` /
   `float('inf')` as sentinel bounds correctly handles the full range of `Node.val`.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 2 (`[5,1,4,null,null,3,6]`) with the `(low, high)` range approach: the
+violation is caught the instant node `4` is checked against its inherited range.
+
+```mermaid
+graph TD
+    A["5<br/>range: (-inf, inf) ✓"] --> B["1<br/>range: (-inf, 5) ✓ valid"]
+    A --> C["4<br/>range: (5, inf) ✗ 4 is not > 5!"]
+    C --> D["3<br/>never checked - parent already failed"]
+    C --> E["6<br/>never checked - parent already failed"]
+```
+
+`4` is the right child of `5`, so it inherits the range `(5, inf)` — but `4` is not
+greater than `5`, so validation fails right there without descending further.
 
 ## Complexity Summary
 | Approach | Time | Space |

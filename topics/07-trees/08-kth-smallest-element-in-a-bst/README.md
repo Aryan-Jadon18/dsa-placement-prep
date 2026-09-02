@@ -1,6 +1,7 @@
 # 230. Kth Smallest Element in a BST
 
-**Difficulty:** Medium | **Pattern:** Inorder Traversal | **Tags:** Tree, BST, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Inorder_Traversal-blue)
 **LeetCode:** https://leetcode.com/problems/kth-smallest-element-in-a-bst/
 
 ## Problem
@@ -19,6 +20,11 @@ value stored in the tree (1-indexed, so `k = 1` means the smallest value overall
 
 **Constraints:** `1 <= number of nodes <= 10^4`, `0 <= Node.val <= 10^4`,
 `1 <= k <= number of nodes`.
+
+> 🔑 **Pattern Recognition**
+> "Kth smallest/largest in a BST" → inorder traversal produces values in sorted order
+> for free; stop counting the moment you reach `k` instead of materializing the whole
+> sorted list.
 
 ## Intuition (explained simply)
 The defining feature of a BST is that an inorder traversal (left, node, right)
@@ -60,6 +66,22 @@ becomes "do an inorder traversal and stop once you've counted k values."
 - Edge cases: `k` equals the total number of nodes → traversal must go all the way to
   the largest value; `k = 1` → returns almost immediately after reaching the
   leftmost node; single-node tree → trivially returns that node's value.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 2 (`root = [5,3,6,2,4,null,null,1]`, `k = 3`) with iterative inorder
+traversal: nodes pop off the stack in strictly increasing order, and the 3rd pop wins.
+
+```mermaid
+graph TD
+    A["5<br/>visit order: 5th"] --> B["3<br/>visit order: 3rd ← k=3 answer"]
+    A --> C["6<br/>visit order: 6th"]
+    B --> D["2<br/>visit order: 2nd"]
+    B --> E["4<br/>visit order: 4th"]
+    D --> F["1<br/>visit order: 1st"]
+```
+
+Inorder visit order is `1, 2, 3, 4, 5, 6` — the 3rd value popped is `3`, so that's
+returned immediately without visiting `4`, `5`, or `6`.
 
 ## Complexity Summary
 | Approach | Time | Space |

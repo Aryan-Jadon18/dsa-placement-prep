@@ -1,6 +1,7 @@
 # 105. Construct Binary Tree from Preorder and Inorder Traversal
 
-**Difficulty:** Medium | **Pattern:** Tree Construction | **Tags:** Tree, DFS, Divide and Conquer
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Tree_Construction-blue)
 **LeetCode:** https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
 
 ## Problem
@@ -21,6 +22,11 @@ return the original binary tree.
 3. Input: `preorder = [1]`, `inorder = [1]` → Output: `[1]`. Single node.
 
 **Constraints:** `1 <= number of nodes <= 3000`, all values unique.
+
+> 🔑 **Pattern Recognition**
+> Given two traversal orders and asked to rebuild the tree → preorder tells you the
+> root first, inorder tells you the left/right split around that root. Reach for a
+> hashmap of value→index plus index-range recursion instead of slicing arrays.
 
 ## Intuition (explained simply)
 Preorder always visits `root` first, so `preorder[0]` tells you the root's value
@@ -68,6 +74,20 @@ subtree" (after it). Do this recursively and the whole tree falls out.
 - Edge cases: single node → trivially returns that node; a fully left-skewed or
   fully right-skewed tree → index ranges shrink correctly to empty (`left > right`)
   at the base case.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 1 (`preorder = [3,9,20,15,7]`, `inorder = [9,3,15,20,7]`): `3` is
+consumed from `preorder` first as root; `9` (left of `3` in inorder) becomes the
+entire left subtree; `[20,15,7]` (right of `3` in inorder) becomes the right subtree,
+built recursively the same way.
+
+```mermaid
+graph TD
+    A["3<br/>build order: 1st (preorder[0])"] --> B["9<br/>build order: 2nd (only value left of 3 in inorder)"]
+    A --> C["20<br/>build order: 3rd (next unconsumed preorder value)"]
+    C --> D["15<br/>build order: 4th (left of 20 in inorder slice)"]
+    C --> E["7<br/>build order: 5th (right of 20 in inorder slice)"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

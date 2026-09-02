@@ -1,6 +1,7 @@
 # 124. Binary Tree Maximum Path Sum
 
-**Difficulty:** Hard | **Pattern:** DFS Post-order | **Tags:** Tree, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red)
+![Pattern](https://img.shields.io/badge/Pattern-DFS_Postorder-blue)
 **LeetCode:** https://leetcode.com/problems/binary-tree-maximum-path-sum/
 
 ## Problem
@@ -20,6 +21,11 @@ node values along any such path.
    least one node, so we're forced to take it even though it's negative.
 
 **Constraints:** `1 <= number of nodes <= 3*10^4`, `-1000 <= Node.val <= 1000`.
+
+> 🔑 **Pattern Recognition**
+> A "path" that can bend at any node and doesn't need to touch the root or a leaf →
+> post-order DFS where each call returns only the best *single-direction* extension
+> upward, while a separate running variable tracks the "both branches meet here" peak.
 
 ## Intuition (explained simply)
 Think of each node as a potential "peak" of a path shaped like an upside-down V: the
@@ -71,6 +77,21 @@ overall answer is the best "peak" found anywhere in the tree.
 - Edge cases: all-negative tree → the answer is simply the least-negative single
   node, since every downward extension is clamped to 0 and never chosen; single node
   → returns that node's value directly.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 2 (`[-10,9,20,null,null,15,7]`): the best path never touches the root
+— it "peaks" at node `20`, combining both of its children.
+
+```mermaid
+graph TD
+    A["-10<br/>peak here = -10+9+35 = 34<br/>returns up: max(0,-10+35)=25"] --> B["9<br/>leaf, downward=9"]
+    A --> C["20<br/>peak here = 20+15+7 = 42 ★ answer<br/>returns up: 20+15=35"]
+    C --> D["15<br/>leaf, downward=15"]
+    C --> E["7<br/>leaf, downward=7"]
+```
+
+Node `20`'s peak value (`20 + 15 + 7 = 42`) beats every other candidate, including the
+root's own peak of `34` — so `42` is the final answer, from the path `15 -> 20 -> 7`.
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,7 @@
 # 212. Word Search II
 
-**Difficulty:** Hard | **Pattern:** Trie + Backtracking | **Tags:** Trie, Backtracking, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red)
+![Pattern](https://img.shields.io/badge/Pattern-Trie_Backtracking-blue)
 **LeetCode:** https://leetcode.com/problems/word-search-ii/
 
 ## Problem
@@ -24,6 +25,11 @@ reused within a single word's path.
 
 **Constraints:** `1 <= m, n <= 12`, board cells are lowercase letters,
 `1 <= number of words <= 3*10^4`, `1 <= word length <= 10`, all words distinct.
+
+> 🔑 **Pattern Recognition**
+> Searching a grid for many candidate words at once → don't repeat a full DFS per
+> word. Merge all words into one shared trie so the board DFS explores each shared
+> prefix exactly once and prunes dead branches the instant no word can match.
 
 ## Intuition (explained simply)
 For one word, you could just try tracing it starting from every cell (classic DFS
@@ -83,6 +89,34 @@ a shared trie of all words simultaneously — common prefixes are explored toget
   prefixes (e.g., `"oa"` and `"oath"` — the trie must let paths terminate on
   internal nodes marked as end-of-word too), same word appearing to match multiple
   paths (only need to report it once).
+
+#### 🎯 Visual Walkthrough
+Tracing Example 1 — `words = ["oath","pea","eat","rain"]` — built into a single
+shared trie before the board DFS begins:
+
+```mermaid
+graph TD
+    R["(root)"] --> O["o"]
+    O --> OA["a"]
+    OA --> OAT["t"]
+    OAT --> OATH["h 🏁 'oath'"]
+    R --> P["p"]
+    P --> PE["e"]
+    PE --> PEA["a 🏁 'pea'"]
+    R --> E["e"]
+    E --> EA["a"]
+    EA --> EAT["t 🏁 'eat'"]
+    R --> RA["r"]
+    RA --> RAI["a"]
+    RAI --> RAIN1["i"]
+    RAIN1 --> RAIN["n 🏁 'rain'"]
+```
+
+The board DFS starting at cell `(0,0)` = `'o'` follows `o -> a -> t -> h` through the
+trie, hitting `is_end = True` at `h` and reporting `"oath"`. Starting at `(1,0)` =
+`'e'` follows `e -> a -> t`, hitting `is_end = True` and reporting `"eat"`. No
+DFS ever starts down the `p` or `r` branches unless a board cell matches those first
+letters, and `"rain"` fails once no adjacent path can complete it.
 
 ## Complexity Summary
 | Approach | Time | Space |

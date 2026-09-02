@@ -1,6 +1,7 @@
 # 211. Design Add and Search Words Data Structure
 
-**Difficulty:** Medium | **Pattern:** Trie + DFS | **Tags:** Trie, Design, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Trie_DFS-blue)
 **LeetCode:** https://leetcode.com/problems/design-add-and-search-words-data-structure/
 
 ## Problem
@@ -25,6 +26,11 @@ Design a data structure supporting `addWord(word)` (adds a word) and
 `search`, lowercase letters only for `addWord`, at most `2 * 10^5` calls, at most 2
 dots per `search` call in most test data (though the algorithm should handle any
 number correctly).
+
+> 🔑 **Pattern Recognition**
+> Trie search plus a wildcard `.` that can match any letter → trie traversal with
+> backtracking: at a `.`, fan out into every child instead of following one fixed
+> path, and let failed branches die naturally.
 
 ## Intuition (explained simply)
 This is "Implement Trie" plus one twist: a `.` in the search word means "try every
@@ -77,6 +83,28 @@ naturally handled by backtracking/DFS over the trie.
   plus O(L) recursion stack depth per search.
 - Edge cases: query entirely made of dots (must try all matching-length words),
   query longer/shorter than any stored word (fails immediately), empty trie.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 1 — after `addWord("bad")`, `addWord("dad")`, `addWord("mad")` — the
+trie has three branches from the root. `search(".ad")` must fan out at the root
+(the `.` position) and try all three:
+
+```mermaid
+graph TD
+    R["(root)"] --> B["b"]
+    R --> D["d"]
+    R --> M["m"]
+    B --> BA["a"]
+    D --> DA["a"]
+    M --> MA["a"]
+    BA --> BAD["d 🏁 'bad'"]
+    DA --> DAD["d 🏁 'dad'"]
+    MA --> MAD["d 🏁 'mad'"]
+```
+
+`search(".ad")`: position 0 is `.` → try child `b`, then `d`, then `m` of the root;
+each branch then matches the fixed letters `a` and `d` exactly. Any branch reaching a
+node with `is_end = True` returns `True` immediately — here all three do.
 
 ## Complexity Summary
 | Approach | Time (search) | Space |

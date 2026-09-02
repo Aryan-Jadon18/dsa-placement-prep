@@ -1,6 +1,7 @@
 # 235. Lowest Common Ancestor of a Binary Search Tree
 
-**Difficulty:** Medium | **Pattern:** BST Property | **Tags:** Tree, BST, DFS
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-BST_Property-blue)
 **LeetCode:** https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 
 ## Problem
@@ -20,6 +21,11 @@ and `q` as descendants (a node can be its own descendant).
 
 **Constraints:** `2 <= number of nodes <= 10^5`, all node values are unique,
 `p != q`, both `p` and `q` exist in the tree.
+
+> 🔑 **Pattern Recognition**
+> Two nodes, need their common ancestor, in a tree with an ordering property → don't
+> do generic tree search. Exploit the BST invariant (left < node < right) to steer a
+> single path downward — no backtracking, no need to build full root-to-node paths.
 
 ## Intuition (explained simply)
 In a general binary tree you'd have to search everywhere to find where two nodes'
@@ -62,6 +68,25 @@ without searching — you just compare values. The LCA is the first node where `
 - Edge cases: `p` or `q` equals the current node → return immediately (a node is
   considered its own ancestor); `p` and `q` on the same side the whole way down to a
   leaf → loop terminates at that leaf-adjacent node correctly.
+
+#### 🎯 Visual Walkthrough
+Tracing Example 1 (`root = [6,2,8,0,4,7,9,null,null,3,5]`, `p = 2`, `q = 8`): at the
+root, `p < 6 < q`, so the two targets sit in different subtrees — the walk stops
+immediately.
+
+```mermaid
+graph TD
+    A["6<br/>p=2 < 6 < q=8 → split here = LCA"] --> B["2<br/>p"]
+    A --> C["8<br/>q"]
+    B --> D["0"]
+    B --> E["4"]
+    E --> F["3"]
+    E --> G["5"]
+    C --> H["7"]
+    C --> I["9"]
+```
+
+Since `p` and `q` fall on opposite sides of `6`, the loop stops there and returns `6`.
 
 ## Complexity Summary
 | Approach | Time | Space |
