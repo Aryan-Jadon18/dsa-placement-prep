@@ -1,0 +1,22 @@
+# Top-down recursion + memoization — Time: O(n), Space: O(n)
+from functools import lru_cache
+
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        @lru_cache(maxsize=None)
+        def climb(i: int) -> int:
+            if i <= 1:
+                return 1
+            return climb(i - 1) + climb(i - 2)
+
+        result = climb(n)
+        climb.cache_clear()  # avoid cache bleeding across calls
+        return result
+
+
+if __name__ == "__main__":
+    sol = Solution()
+    print("expected 2, got", sol.climbStairs(2))
+    print("expected 3, got", sol.climbStairs(3))
+    print("expected 8, got", sol.climbStairs(5))
