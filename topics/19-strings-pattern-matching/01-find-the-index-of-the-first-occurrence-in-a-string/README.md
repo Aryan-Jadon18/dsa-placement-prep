@@ -1,6 +1,6 @@
 # 28. Find the Index of the First Occurrence in a String
 
-**Difficulty:** Easy | **Pattern:** String Matching (Brute vs KMP) | **Tags:** String, Two Pointers, String Matching
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-String%20Matching%20(KMP)-blue) ![Tags](https://img.shields.io/badge/Tags-String%20%7C%20Two%20Pointers-lightgrey)
 **LeetCode:** https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
 
 ## Problem
@@ -23,6 +23,9 @@ An empty needle is considered to match at index 0 by convention.
 
 **Constraints:** `0 <= haystack.length, needle.length <= 10^4`.
 
+> 🔑 **Pattern Recognition**
+> Finding a needle's first occurrence with worst-case-linear guarantees → build a failure function (LPS array) on the needle first, so a mismatch never forces a full restart. Any "reimplement `strStr`/`indexOf`" ask is the canonical setup for KMP.
+
 ## Intuition (explained simply)
 The most obvious approach is to try matching the needle starting at every possible position in the haystack. The reason that can be slow is repeated re-checking of characters we've already compared; smarter algorithms use information from a failed match to skip ahead instead of restarting from scratch.
 
@@ -44,6 +47,18 @@ The most obvious approach is to try matching the needle starting at every possib
 - Why it works: the failure function captures exactly how much "already-matched" information can be salvaged after a mismatch, so we never re-examine a haystack character more than a constant number of times (each haystack pointer only ever moves forward).
 - Time complexity: O(n + m) guaranteed — O(m) to build the failure function, O(n) to scan the haystack.  Space complexity: O(m) for the failure function array.
 - Edge cases: empty `needle` → return `0`; `needle` longer than `haystack` → return `-1` immediately; needle equal to the entire haystack; repeated characters that stress-test the failure function (e.g. `needle = "aaaab"`).
+
+#### 🎯 Visual Walkthrough
+Tracing the KMP scan on Example 1's `haystack = "sadbutsad"`, `needle = "sad"` (LPS array `[0,0,0]` since `"sad"` has no repeated prefix/suffix structure, so every mismatch would fall straight back to index 0):
+
+```mermaid
+flowchart TD
+    A["i=0: haystack[0]='s', needle[0]='s' -> match"] --> B["i=1: haystack[1]='a', needle[1]='a' -> match"]
+    B --> C["i=2: haystack[2]='d', needle[2]='d' -> match, needle fully consumed"]
+    C --> D["Report start index = 0"]
+```
+
+All three characters match on the very first alignment, so KMP returns `0` immediately — matching Example 1's expected output.
 
 ## Complexity Summary
 | Approach | Time | Space |

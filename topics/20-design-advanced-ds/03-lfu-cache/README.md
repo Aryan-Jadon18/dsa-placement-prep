@@ -1,6 +1,6 @@
 # 460. LFU Cache
 
-**Difficulty:** Hard | **Pattern:** Design — Frequency Buckets | **Tags:** Hash Table, Linked List, Design
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-Design%20%E2%80%94%20Frequency%20Buckets-blue) ![Tags](https://img.shields.io/badge/Tags-Hash%20Table%20%7C%20Linked%20List%20%7C%20Design-lightgrey)
 **LeetCode:** https://leetcode.com/problems/lfu-cache/
 
 ## Problem
@@ -25,6 +25,9 @@ get(4) -> 4
 
 **Constraints:** `0 <= capacity <= 10^4`, up to `2*10^5` total calls, keys/values fit in a 32-bit int.
 
+> 🔑 **Pattern Recognition**
+> Need O(1) eviction by "least frequent, tie-broken by least recent" → group keys into frequency buckets, and make each bucket itself an ordered structure (an `OrderedDict`) so both "find the LRU member of the min-frequency bucket" and "move a key between buckets" are O(1). Two eviction criteria stacked together is the cue for two-level bucketing rather than one hash map with a linear scan.
+
 ## Intuition (explained simply)
 We need to track two things about every key at once: **how often** it's used (frequency) and, among equally-frequent keys, **how recently** it was used (for the tie-break). The efficient trick is to group keys into "buckets" by frequency, where within each bucket the keys are kept in least-recently-used-to-most-recently-used order — that way, evicting is always "look at the lowest-frequency bucket, remove its oldest entry."
 
@@ -45,6 +48,22 @@ We need to track two things about every key at once: **how often** it's used (fr
 - Why it works: an `OrderedDict` gives O(1) `popitem(last=False)` (remove-from-front, the LRU victim) and O(1) arbitrary-key deletion (when a key's frequency changes, we delete it from its old bucket by key directly, no scan needed) — combining the frequency-grouping idea with a data structure that supports O(1) mutation at both ends.
 - Time complexity: `get` O(1), `put` O(1), all average-case (amortized for the hash map operations).  Space complexity: O(n) (capacity-bounded, plus the frequency-bucket bookkeeping)
 - Edge cases: `capacity == 0` (never store anything, every `put` is a no-op, every `get` returns -1); `get`/`put` on a key that bumps it into a brand-new highest frequency bucket; eviction tie-break must pick the least-recently-used among equally-frequent keys, not an arbitrary one.
+
+#### 🎯 Visual Walkthrough
+Tracing the frequency-bucket design on the problem's own worked example (`capacity = 2`):
+
+```mermaid
+flowchart TD
+    A["put(1,1)<br/>cache={1:1}<br/>freq={1:1}"] --> B["put(2,2)<br/>cache={1:1,2:2}<br/>freq={1:1,2:1}"]
+    B --> C["get(1) -> 1<br/>freq={1:2,2:1}"]
+    C --> D["put(3,3): capacity full<br/>evict key 2 (freq 1, lowest)<br/>cache={1:1,3:3}"]
+    D --> E["get(2) -> -1 (evicted)"]
+    E --> F["get(3) -> 3<br/>freq={1:2,3:2}"]
+    F --> G["put(4,4): tie freq=2 between 1 & 3<br/>evict 1 (less recently used)<br/>cache={3:3,4:4}"]
+    G --> H["get(1) -> -1, get(3) -> 3, get(4) -> 4"]
+```
+
+When `1` and `3` tie at frequency `2`, the frequency-2 bucket's `OrderedDict` remembers `1` was touched before `3` — so `1` sits at the front and is evicted first, in O(1).
 
 ## Complexity Summary
 | Approach | get | put | Space |

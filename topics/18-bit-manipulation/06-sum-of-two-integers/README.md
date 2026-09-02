@@ -1,6 +1,6 @@
 # 371. Sum of Two Integers
 
-**Difficulty:** Medium | **Pattern:** Bit Manipulation (add without +/-) | **Tags:** Bit Manipulation, Math
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-XOR%20%2B%20Carry-blue) ![Tags](https://img.shields.io/badge/Tags-Bit%20Manipulation%20%7C%20Math-lightgrey)
 **LeetCode:** https://leetcode.com/problems/sum-of-two-integers/
 
 ## Problem
@@ -15,6 +15,9 @@ Given two integers `a` and `b`, compute their sum without using the `+` or `-` o
 3. `a = -2, b = 3` → `1`. Must work correctly with negative operands too.
 
 **Constraints:** `-1000 <= a, b <= 1000`, and per LeetCode both `a` and `b` are meant to be treated as 32-bit signed integers (so results must wrap around like real 32-bit arithmetic would, even though Python ints don't naturally overflow).
+
+> 🔑 **Pattern Recognition**
+> "Add two numbers without `+`/`-`" → simulate a hardware adder: XOR gives sum-without-carry, AND+shift gives the carry, repeat until no carry remains. Any "forbidden arithmetic operator" problem is a cue to fall back on the bitwise operations that implement it underneath.
 
 ## Intuition (explained simply)
 Addition without `+`/`-` has to be built from bitwise operations: XOR (`^`) combines two bits and gives the sum *ignoring* any carry (`1^1=0`, `1^0=1`, `0^0=0` — matches addition except it drops the carry-out of `1+1`), while AND (`&`) followed by a left shift (`<<1`) produces exactly the carry that XOR dropped. Add the "sum without carry" and the "carry" together the same way, repeating until there's no carry left — this is literally how a hardware adder works, bit by bit.
@@ -36,6 +39,17 @@ Addition without `+`/`-` has to be built from bitwise operations: XOR (`^`) comb
 - **32-bit correctness:** Python integers don't wrap around like a real 32-bit register, so we must simulate that. Mask both operands to 32 bits after every operation (`& 0xFFFFFFFF`), and at the very end, if the result's 32nd bit (the sign bit) is set, convert it from the unsigned 32-bit representation back to a negative Python int by subtracting `2^32`.
 - Time complexity: O(1) — bounded by the fixed 32-bit width (at most 32 iterations of carry propagation)  Space complexity: O(1)
 - Edge cases: both negative (`a=-2, b=-3` → `-5`, needs correct sign-bit handling after masking); one zero (`a=0, b=x` → `x`, loop exits immediately since carry is `0`); result crosses the signed 32-bit range boundary (must reinterpret using the `2^32` subtraction trick, otherwise you'd get an incorrect large positive number instead of the expected negative wraparound).
+
+#### 🎯 Visual Walkthrough
+Tracing `a, b = a ^ b, (a & b) << 1` on Example 2's `a = 2, b = 3` (expected answer `5`):
+
+| Iteration | a (binary) | b (binary) | a ^ b (sum w/o carry) | (a & b) << 1 (carry) |
+|---|---|---|---|---|
+| start | 010 (2) | 011 (3) | — | — |
+| 1 | 001 (1) | 100 (4) | 001 | 100 |
+| 2 | **101 (5)** | **000 (0)** | 101 | 000 |
+
+After iteration 2 the carry `b` is `0`, so the loop stops and `a = 5` is the final sum.
 
 ## Complexity Summary
 | Approach | Time | Space |

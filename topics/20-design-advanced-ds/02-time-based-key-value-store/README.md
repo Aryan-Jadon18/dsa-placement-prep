@@ -1,6 +1,6 @@
 # 981. Time Based Key-Value Store
 
-**Difficulty:** Medium | **Pattern:** Design + Binary Search | **Tags:** Design, Hash Table, Binary Search
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Design%20%2B%20Binary%20Search-blue) ![Tags](https://img.shields.io/badge/Tags-Design%20%7C%20Hash%20Table%20%7C%20Binary%20Search-lightgrey)
 **LeetCode:** https://leetcode.com/problems/time-based-key-value-store/
 
 ## Problem
@@ -20,6 +20,9 @@ get("foo", 0)  -> ""               # nothing set at or before timestamp 0
 ```
 
 **Constraints:** up to `2*10^5` calls total, `1 <= timestamp <= 10^7`, timestamps for each key strictly increasing across `set` calls.
+
+> 🔑 **Pattern Recognition**
+> "Get the value for the largest timestamp `<=` query" where timestamps only ever increase per key → the per-key history is sorted "for free" just from insertion order, so this is a binary-search-for-floor problem, not a linear scan.
 
 ## Intuition (explained simply)
 Since `set` calls for a given key always arrive with strictly increasing timestamps, the list of `(timestamp, value)` pairs stored for any key is **already sorted by timestamp** just from the order we append them. That means answering "largest timestamp `<=` query" is a textbook binary search problem — we don't need to search linearly through history.
@@ -41,6 +44,21 @@ Since `set` calls for a given key always arrive with strictly increasing timesta
 - Why it works: because timestamps for a key are strictly increasing (guaranteed by the problem), the stored list is always sorted, so binary search correctly and efficiently finds the "largest value `<=` target" (this is exactly what `bisect_right` followed by stepping back one index computes).
 - Time complexity: `set` O(1), `get` O(log k) (k = number of entries for that key)  Space complexity: O(n)
 - Edge cases: `get` called before any `set` for that key → `""`; `get` with timestamp smaller than the first `set` for that key → `""`; `get` with timestamp larger than the last `set` → returns the most recent value; querying a key that was never set at all.
+
+#### 🎯 Visual Walkthrough
+Tracing the per-key sorted list + binary search on the problem's worked example:
+
+```mermaid
+flowchart TD
+    A["set(foo,bar,1)<br/>store[foo]=[(1,bar)]"] --> B["get(foo,1)<br/>floor(ts<=1) -> (1,bar)<br/>return 'bar'"]
+    B --> C["get(foo,3)<br/>floor(ts<=3) -> (1,bar)<br/>return 'bar'"]
+    C --> D["set(foo,bar2,4)<br/>store[foo]=[(1,bar),(4,bar2)]"]
+    D --> E["get(foo,4)<br/>floor(ts<=4) -> (4,bar2)<br/>return 'bar2'"]
+    E --> F["get(foo,5)<br/>floor(ts<=5) -> (4,bar2)<br/>return 'bar2'"]
+    F --> G["get(foo,0)<br/>no ts<=0 exists<br/>return ''"]
+```
+
+Every `get` is a binary search (`bisect_right`) over `store["foo"]`'s timestamps — never a rescan of the whole history.
 
 ## Complexity Summary
 | Approach | set | get | Space |

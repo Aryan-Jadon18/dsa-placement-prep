@@ -1,6 +1,6 @@
 # 191. Number of 1 Bits
 
-**Difficulty:** Easy | **Pattern:** Bit Manipulation | **Tags:** Bit Manipulation
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-Bit%20Manipulation-blue) ![Tags](https://img.shields.io/badge/Tags-Bit%20Manipulation-lightgrey)
 **LeetCode:** https://leetcode.com/problems/number-of-1-bits/
 
 ## Problem
@@ -15,6 +15,9 @@ Given an unsigned 32-bit integer `n`, count how many of its bits are set to `1` 
 3. `n = 0b11111111111111111111111111111101` → `31`. All bits set except one.
 
 **Constraints:** `n` fits in 32 bits, treated as unsigned (LeetCode passes it as a Python `int` already in `[0, 2^32 - 1]`).
+
+> 🔑 **Pattern Recognition**
+> "Count set bits" (Hamming weight) → the `n & (n - 1)` lowest-set-bit-clearing trick. Whenever an operation should only cost as much as the number of `1` bits (not the full bit-width), this trick is the go-to.
 
 ## Intuition (explained simply)
 The straightforward way is to look at every one of the 32 bit positions and check if it's a `1`. A cleverer way notices that subtracting 1 from a number flips its lowest set bit to 0 (and everything below it to 1s), so `n & (n-1)` always clears exactly the lowest set bit — repeating that operation counts the set bits directly, skipping over all the 0 bits entirely.
@@ -36,6 +39,18 @@ The straightforward way is to look at every one of the 32 bit positions and chec
 - Repeatedly apply `n = n & (n - 1)` and count how many times you can do this before `n` becomes `0` — that count is exactly the number of set bits, since each application removes exactly one `1` bit.
 - Time complexity: O(k) where `k` is the number of set bits (at most 32, so effectively O(1), but strictly faster than the brute force's fixed 32 iterations whenever `k < 32`)  Space complexity: O(1)
 - Edge cases: `n = 0` → loop never executes, returns 0 immediately; `n` with all 32 bits set (`2^32 - 1`) → takes exactly 32 iterations, same as brute force in the worst case.
+
+#### 🎯 Visual Walkthrough
+Tracing `n & (n - 1)` on Example 1's `n = 0b1011` (`11`, expected answer `3`):
+
+| Step | n | n - 1 | n & (n-1) | Count |
+|---|---|---|---|---|
+| start | 1011 | — | — | 0 |
+| 1 | 1011 | 1010 | **1010** | 1 |
+| 2 | 1010 | 1001 | **1000** | 2 |
+| 3 | 1000 | 0111 | **0000** | 3 |
+
+Each application clears exactly the lowest `1` bit; the loop stops once `n` reaches `0000`, having taken exactly as many steps as there were set bits.
 
 ## Complexity Summary
 | Approach | Time | Space |

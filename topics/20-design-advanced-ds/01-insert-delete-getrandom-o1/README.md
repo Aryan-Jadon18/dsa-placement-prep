@@ -1,6 +1,6 @@
 # 380. Insert Delete GetRandom O(1)
 
-**Difficulty:** Medium | **Pattern:** Design — Array + Hash Map Combo | **Tags:** Array, Hash Table, Design
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Array%20%2B%20Hash%20Map%20Combo-blue) ![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Hash%20Table%20%7C%20Design-lightgrey)
 **LeetCode:** https://leetcode.com/problems/insert-delete-getrandom-o1/
 
 ## Problem
@@ -22,6 +22,9 @@ getRandom() -> 2 (always, only element left)
 
 **Constraints:** up to `2*10^5` calls total across all three methods; values fit in a 32-bit signed int.
 
+> 🔑 **Pattern Recognition**
+> Need O(1) insert, O(1) remove-by-value, *and* O(1) uniform-random access all at once → no single structure gives all three, so combine an array (for O(1) indexed access) with a hash map (value → index) and evict via swap-with-last-then-pop instead of shifting.
+
 ## Intuition (explained simply)
 Each individual requirement is easy alone: a **hash set** gives O(1) insert/remove/contains but can't give O(1) uniformly-random access (you can't index into a hash set). An **array/list** gives O(1) random access by index (`random.choice` needs O(1) indexing) but O(n) removal-by-value (shifting elements). The trick is combining both: keep the values in a list (for O(1) random indexing) *and* a hash map from value → its index in that list (for O(1) lookup), and handle removal cleverly so it doesn't require shifting the whole array.
 
@@ -42,6 +45,21 @@ Each individual requirement is easy alone: a **hash set** gives O(1) insert/remo
 - Why it works: removing an arbitrary element from an *unordered* list doesn't require preserving order — swapping it to the end before popping avoids ever shifting more than one element, and the hash map always tells us exactly where any value currently sits so the swap is O(1) too.
 - Time complexity: `insert` O(1), `remove` O(1), `getRandom` O(1), all average-case.  Space complexity: O(n) (list + hash map, both proportional to element count)
 - Edge cases: `remove` on the last remaining element (swap-with-self, still correct); `insert` of a duplicate (return `False`, no-op); `remove` of a value never inserted (return `False`); `getRandom` called when the structure has exactly one element.
+
+#### 🎯 Visual Walkthrough
+Tracing the array + hash-map structure through the problem's worked example:
+
+```mermaid
+flowchart TD
+    A["insert(1)<br/>list=[1], idx={1:0}"] --> B["remove(2)<br/>not present -> no-op, return False"]
+    B --> C["insert(2)<br/>list=[1,2], idx={1:0, 2:1}"]
+    C --> D["getRandom()<br/>list[random(0,1)] -> 1 or 2"]
+    D --> E["remove(1)<br/>swap idx0 & last(idx1): list=[2,1], pop -> list=[2], idx={2:0}"]
+    E --> F["insert(2)<br/>already present -> no-op, return False"]
+    F --> G["getRandom()<br/>list[0] -> 2"]
+```
+
+`remove(1)` never shifts the whole array — it swaps `1` with the last element (`2`), pops the now-last slot, and updates only the swapped entry's index in the map.
 
 ## Complexity Summary
 | Approach | insert | remove | getRandom | Space |

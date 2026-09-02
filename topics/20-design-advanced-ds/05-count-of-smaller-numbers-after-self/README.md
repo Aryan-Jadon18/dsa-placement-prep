@@ -1,6 +1,6 @@
 # 315. Count of Smaller Numbers After Self
 
-**Difficulty:** Hard | **Pattern:** BIT / Merge Sort — Inversion Counting | **Tags:** Binary Indexed Tree, Segment Tree, Merge Sort, Divide and Conquer
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-BIT%20%E2%80%94%20Inversion%20Counting-blue) ![Tags](https://img.shields.io/badge/Tags-BIT%20%7C%20Segment%20Tree%20%7C%20Merge%20Sort-lightgrey)
 **LeetCode:** https://leetcode.com/problems/count-of-smaller-numbers-after-self/
 
 ## Problem
@@ -23,6 +23,9 @@ They're equal, not strictly smaller, so neither counts toward the other.
 
 **Constraints:** `1 <= nums.length <= 10^5`, `-10^4 <= nums[i] <= 10^4`.
 
+> 🔑 **Pattern Recognition**
+> "For each element, count smaller elements to its right" is inversion-counting in disguise → process right to left, and ask "how many smaller values have I already seen?" via a Fenwick Tree over coordinate-compressed ranks. Any "count pairs satisfying an order relation" problem over an array is the cue for BIT-with-compression or merge-sort counting.
+
 ## Intuition (explained simply)
 This is the classic **"counting inversions"** problem in disguise (an inversion is a pair `(i, j)` with `i < j` but `nums[i] > nums[j]`), just asking for the per-element breakdown instead of one grand total. Two classical techniques solve counting inversions in O(n log n): merge sort (count cross-inversions during the merge step) and a Fenwick Tree processed right-to-left (count how many smaller values have already been "seen").
 
@@ -44,6 +47,18 @@ This is the classic **"counting inversions"** problem in disguise (an inversion 
 - Why it works: processing right-to-left means "already seen" always means "somewhere to the right of the current index" — exactly matching the problem's definition. The Fenwick Tree turns "how many smaller values have I seen so far" into an O(log n) prefix-count query instead of a linear scan.
 - Time complexity: O(n log n) (n elements, O(log n) per Fenwick Tree update/query, plus O(n log n) for the initial sort during coordinate compression)  Space complexity: O(n) (the Fenwick Tree array + rank mapping)
 - Edge cases: all elements equal (every count is 0, since "smaller" is strict); already sorted ascending (every count is 0); already sorted descending (`counts[i] = n-1-i`); duplicate values (coordinate compression must map duplicates to the same rank, and the Fenwick prefix query up to `r-1` — not `r` — correctly excludes equal values).
+
+#### 🎯 Visual Walkthrough
+Tracing the right-to-left Fenwick-tree scan on Example 1's `nums = [5, 2, 6, 1]` (expected `[2, 1, 1, 0]`). Coordinate-compressed ranks: `1→0, 2→1, 5→2, 6→3`.
+
+| i (R→L) | nums[i] | rank | ranks seen so far | count of seen ranks < r | counts[i] |
+|---|---|---|---|---|---|
+| 3 | 1 | 0 | {} | 0 | **0** |
+| 2 | 6 | 3 | {0} | 1 | **1** |
+| 1 | 2 | 1 | {0, 3} | 1 | **1** |
+| 0 | 5 | 2 | {0, 1, 3} | 2 | **2** |
+
+After each step, the current element's rank is added to the Fenwick tree so later (leftward) elements can query against it — final result `[2, 1, 1, 0]` matches Example 1.
 
 ## Complexity Summary
 | Approach | Time | Space |

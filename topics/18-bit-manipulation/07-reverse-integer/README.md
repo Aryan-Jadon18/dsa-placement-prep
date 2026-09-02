@@ -1,6 +1,6 @@
 # 7. Reverse Integer
 
-**Difficulty:** Medium | **Pattern:** Math / 32-bit Overflow Handling | **Tags:** Math
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-32--bit%20Overflow%20Handling-blue) ![Tags](https://img.shields.io/badge/Tags-Math-lightgrey)
 **LeetCode:** https://leetcode.com/problems/reverse-integer/
 
 ## Problem
@@ -15,6 +15,9 @@ Given a signed 32-bit integer `x`, reverse the digits of `x`. If reversing cause
 3. `x = 1534236469` → `0`. Reversed digits would be `9646324351`, which exceeds `2^31 - 1 = 2147483647`, so we must return `0` instead of the overflowed value.
 
 **Constraints:** `-2^31 <= x <= 2^31 - 1`.
+
+> 🔑 **Pattern Recognition**
+> "Reverse the digits of a number, watch for 32-bit overflow" → peel digits with `% 10` / `// 10` and rebuild, but check the overflow bound *before* each multiply-add, not after. Any "fixed-width integer" constraint on an otherwise simple arithmetic loop is a cue to pre-check bounds every step.
 
 ## Intuition (explained simply)
 Reversing digits means peeling off the last digit repeatedly (`x % 10`) and building a new number by appending each peeled digit to the front of a running result (`result * 10 + digit`), while shrinking `x` by removing that digit (`x // 10`), until `x` becomes 0. The only real trap is the 32-bit overflow check, since a reversed number can easily land outside the allowed signed range even though the input was valid.
@@ -36,6 +39,18 @@ Reversing digits means peeling off the last digit repeatedly (`x % 10`) and buil
 - Process digits one at a time via `x % 10` and `x // 10` (using `abs(x)` and reapplying the sign at the very end keeps the modulo logic simple and correct for negative inputs), building `result` the same way as before, but returning `0` immediately the moment an overflow is detected — this mirrors exactly how you'd have to write it in a fixed-width language like C++ or Java, where checking after the fact is too late.
 - Time complexity: O(d) where `d` is the number of digits (at most 10 for a 32-bit int)  Space complexity: O(1)
 - Edge cases: `x = 0` → returns `0`; `x` ending in trailing zeros (e.g. `x = 120` → reversed is `21`, the leading zero from `120`'s reversal is naturally dropped since arithmetic accumulation doesn't preserve leading zeros); most negative 32-bit int `x = -2147483648` → its reverse would overflow (`8463847412` exceeds range), correctly caught and returns `0`.
+
+#### 🎯 Visual Walkthrough
+Tracing `result = result * 10 + x % 10; x //= 10` on Example 1's `x = 123` (expected answer `321`), checking the overflow bound before each step (none triggered here):
+
+| Step | x before | digit (x % 10) | x after (x // 10) | result after |
+|---|---|---|---|---|
+| start | 123 | — | — | 0 |
+| 1 | 123 | 3 | 12 | 3 |
+| 2 | 12 | 2 | 1 | 32 |
+| 3 | 1 | 1 | 0 | **321** |
+
+`x` reaches `0` after 3 steps, so the loop stops and `321` is returned — well within the 32-bit signed range, so no overflow guard fires.
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,6 @@
 # 214. Shortest Palindrome
 
-**Difficulty:** Hard | **Pattern:** KMP | **Tags:** String, String Matching
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-KMP%20String%20Matching-blue) ![Tags](https://img.shields.io/badge/Tags-String%20%7C%20String%20Matching-lightgrey)
 **LeetCode:** https://leetcode.com/problems/shortest-palindrome/
 
 ## Problem
@@ -23,6 +23,9 @@ No palindromic prefix longer than `"a"` exists, so almost the whole reversed str
 
 **Constraints:** `0 <= s.length <= 5 * 10^4`, lowercase English letters.
 
+> 🔑 **Pattern Recognition**
+> "Only allowed to prepend, want shortest palindrome" → the answer hinges entirely on the longest palindromic *prefix*; finding it reduces to a KMP failure-function trick on `s + separator + reverse(s)`. Whenever a problem needs "longest prefix of X matching a property tied to X's reverse," concatenating with a separator and running KMP is the move.
+
 ## Intuition (explained simply)
 If `s` already starts with a palindrome of length `k` (a "palindromic prefix"), then everything *after* that prefix (the remaining suffix) is what's "unbalanced" and needs a mirror image added in front. The bigger that palindromic prefix is, the less we need to add — so the goal is: find the **longest palindromic prefix** of `s`, then prepend the reverse of everything after it.
 
@@ -43,6 +46,21 @@ If `s` already starts with a palindrome of length `k` (a "palindromic prefix"), 
 - Why it works: `reverse(s)`'s suffix of length `k` equals `s`'s prefix of length `k` if and only if that prefix, read forwards, equals itself read backwards from the *other* string — which collapses to "that prefix of `s` is a palindrome" exactly when we're comparing `s` against its own reverse this way. The separator guarantees the LPS value can never exceed `len(s)` (no false matches spanning across into the reversed half).
 - Time complexity: O(n) (build combined string of length `2n+1`, run one linear KMP-LPS pass)  Space complexity: O(n)
 - Edge cases: empty string → return `""`; already a palindrome (LPS hits `n`, nothing to prepend); single character (trivially a palindrome); all identical characters.
+
+#### 🎯 Visual Walkthrough
+Tracing the optimal approach on Example 1's `s = "aacecaaa"` (expected answer `"aaacecaaa"`):
+
+```mermaid
+flowchart TD
+    A["combined = s + '#' + reverse(s)<br/>= 'aacecaaa#aaacecaa'"] --> B["Run KMP LPS build on combined (17 chars)"]
+    B --> C["lps of last char = 7"]
+    C --> D["Longest palindromic prefix = s[:7] = 'aacecaa'"]
+    D --> E["Leftover suffix = s[7:] = 'a'"]
+    E --> F["Reverse leftover = 'a'"]
+    F --> G["Answer = reverse(leftover) + s = 'a' + 'aacecaaa' = 'aaacecaaa'"]
+```
+
+The `#` separator caps the LPS value at `len(s)`, so it can never falsely detect a match spanning across into the reversed half.
 
 ## Complexity Summary
 | Approach | Time | Space |

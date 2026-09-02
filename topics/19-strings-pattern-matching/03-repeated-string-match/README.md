@@ -1,6 +1,6 @@
 # 686. Repeated String Match
 
-**Difficulty:** Medium | **Pattern:** String Matching — Repetition + Search | **Tags:** String, String Matching
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Repetition%20%2B%20Search-blue) ![Tags](https://img.shields.io/badge/Tags-String%20%7C%20String%20Matching-lightgrey)
 **LeetCode:** https://leetcode.com/problems/repeated-string-match/
 
 ## Problem
@@ -23,6 +23,9 @@ Given two strings `a` and `b`, find the minimum number of times you must repeat 
 
 **Constraints:** `1 <= a.length, b.length <= 10^4`.
 
+> 🔑 **Pattern Recognition**
+> "How many repeats of `a` until `b` fits inside" → compute the minimum length arithmetically (`ceil(len(b)/len(a))`, plus one for boundary straddling), then run a single substring search — don't grow the string one copy at a time and re-search from scratch.
+
 ## Intuition (explained simply)
 For `b` to appear inside repeated copies of `a`, we first need "enough" copies of `a` so the total length is at least `len(b)` — but we also need one extra copy as a safety margin, because `b` might start partway through one copy of `a` and end partway through another. Once we have a candidate repeated string long enough, we just need to check whether `b` is a substring of it.
 
@@ -44,6 +47,19 @@ For `b` to appear inside repeated copies of `a`, we first need "enough" copies o
 - Why it works: mathematically, if `b` can appear anywhere in infinitely repeated `a`, it must appear within `ceil(len(b)/len(a)) + 1` copies (any valid starting position within one extra copy's worth of overlap is covered); KMP then finds that occurrence (or confirms its absence) in linear time.
 - Time complexity: O(len(a) + len(b)) (building the candidate string + one linear-time KMP search)  Space complexity: O(len(a) + len(b))
 - Edge cases: `b` shorter than `a` (still need the `+1` check for wraparound); `b` requiring exactly `ceil` copies vs one more; characters in `b` that never appear in `a` at all (fails immediately, worth an early check for efficiency); `a == b`.
+
+#### 🎯 Visual Walkthrough
+Tracing the candidate-count-then-search approach on Example 1's `a = "abcd"`, `b = "cdabcdab"` (expected answer `3`):
+
+```mermaid
+flowchart TD
+    A["count = ceil(8/4) = 2<br/>candidate = 'abcdabcd'"] --> B{"Is b='cdabcdab' a substring?"}
+    B -->|No| C["count = 3<br/>candidate = 'abcdabcdabcd'"]
+    C --> D{"Is b='cdabcdab' a substring?"}
+    D -->|"Yes, starting at index 2"| E["Return count = 3"]
+```
+
+Two copies of `a` (length 8, same length as `b`) aren't a match, but three copies give `b` room to straddle the repetition boundary and align at index 2 — matching Example 1's expected output.
 
 ## Complexity Summary
 | Approach | Time | Space |

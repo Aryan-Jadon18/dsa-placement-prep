@@ -1,6 +1,6 @@
 # 480. Sliding Window Median
 
-**Difficulty:** Hard | **Pattern:** Two Heaps + Lazy Deletion | **Tags:** Heap, Design, Sliding Window
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-Two%20Heaps%20%2B%20Lazy%20Deletion-blue) ![Tags](https://img.shields.io/badge/Tags-Heap%20%7C%20Design%20%7C%20Sliding%20Window-lightgrey)
 **LeetCode:** https://leetcode.com/problems/sliding-window-median/
 
 ## Problem
@@ -22,6 +22,9 @@ Only one window `[1,2]`; even-sized, so median is the average `(1+2)/2 = 1.5`.
 
 **Constraints:** `1 <= k <= nums.length <= 10^5`, values fit in a 32-bit int.
 
+> 🔑 **Pattern Recognition**
+> "Running median" → two balanced heaps (max-heap for the smaller half, min-heap for the larger half). "...but elements also leave the window" → heaps can't remove from the middle efficiently, so pair the two-heaps trick with **lazy deletion** (mark-as-removed, clean up only when a stale value would surface at the top).
+
 ## Intuition (explained simply)
 This combines two classic ideas: **"find median of a running stream" (two-heaps trick)** and **"sliding window."** The two-heaps trick for a running median works by splitting numbers into a max-heap of the smaller half and a min-heap of the larger half, keeping them balanced in size — the median is then always at the top of one (or both) heaps. The extra twist here is that elements also need to **leave** the window as it slides, and heaps don't support efficient arbitrary removal — so the optimal solution uses a trick called **lazy deletion** to work around that.
 
@@ -42,6 +45,18 @@ This combines two classic ideas: **"find median of a running stream" (two-heaps 
 - Why it works: a heap only needs its top element to be valid at read-time — elements buried in the middle can be "logically deleted" and cleaned up later, lazily, the moment they'd otherwise surface at the top. This turns what would be an O(k) removal into an amortized O(log k) operation (each element is pushed once and popped at most once over the whole algorithm).
 - Time complexity: O(n log k) (n slides, O(log k) heap operations each, amortized for the lazy cleanup)  Space complexity: O(k) (both heaps plus the pending-removal map)
 - Edge cases: `k == 1` (median is just the element itself); `k == len(nums)` (only one window); duplicate values (the pending-removal map must count *occurrences*, not just presence, since duplicates can be simultaneously in the window and pending removal); rebalancing after both an insertion and an outgoing removal in the same slide.
+
+#### 🎯 Visual Walkthrough
+Tracing the balanced two-heap state through the first few windows of Example 1's `nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3` (expected medians `[1.0, -1.0, -1.0, 3.0, ...]`). `lo` = max-heap of the smaller half (size 2), `hi` = min-heap of the larger half (size 1); median = `lo`'s top:
+
+```mermaid
+flowchart TD
+    A["Window [1,3,-1]<br/>lo={1,-1} top=1<br/>hi={3}<br/>median=1.0"] --> B["Slide: 1 leaves, -3 enters<br/>Window [3,-1,-3]<br/>lo={-1,-3} top=-1<br/>hi={3}<br/>median=-1.0"]
+    B --> C["Slide: 3 leaves, 5 enters<br/>Window [-1,-3,5]<br/>lo={-3,-1} top=-1<br/>hi={5}<br/>median=-1.0"]
+    C --> D["Slide: -1 leaves, 3 enters<br/>Window [-3,5,3]<br/>lo={-3,3} top=3<br/>hi={5}<br/>median=3.0"]
+```
+
+`lo`'s top is always the max of the smaller half, which is exactly the median when `k` is odd — matching Example 1's first four outputs `1.0, -1.0, -1.0, 3.0`.
 
 ## Complexity Summary
 | Approach | Time | Space |

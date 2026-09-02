@@ -1,6 +1,6 @@
 # 1392. Longest Happy Prefix
 
-**Difficulty:** Hard | **Pattern:** KMP Failure Function | **Tags:** String, String Matching
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red) ![Pattern](https://img.shields.io/badge/Pattern-KMP%20Failure%20Function-blue) ![Tags](https://img.shields.io/badge/Tags-String%20%7C%20String%20Matching-lightgrey)
 **LeetCode:** https://leetcode.com/problems/longest-happy-prefix/
 
 ## Problem
@@ -23,6 +23,9 @@ Prefix `"leet"` (first 4 chars) matches the suffix `"leet"` (last 4 chars, posit
 
 **Constraints:** `1 <= s.length <= 10^5`, lowercase English letters.
 
+> 🔑 **Pattern Recognition**
+> "Longest proper prefix that's also a suffix" is *literally the definition* of the KMP failure function's last entry — recognizing this exact phrase means the whole problem collapses to "build the LPS array, read off `lps[-1]`."
+
 ## Intuition (explained simply)
 This problem is *literally* asking for the value that KMP's failure function computes for the very last position of the string — the failure function at index `i` already tells you "the length of the longest proper prefix of `s[0..i]` that's also a suffix of `s[0..i]`." So the answer to this whole problem is just: build the standard KMP failure/LPS array for `s`, and read off its last entry.
 
@@ -43,6 +46,20 @@ This problem is *literally* asking for the value that KMP's failure function com
 - Why it works: the LPS array is *defined* to be exactly the answer to this question, computed incrementally for every prefix of the string in one linear pass — no separate hashing or comparison step needed at all; it's baked into the DP-like recurrence of the KMP preprocessing itself.
 - Time complexity: O(n) worst case, no reliance on hash luck.  Space complexity: O(n) for the LPS array.
 - Edge cases: single character string → no proper prefix/suffix possible, return `""`; all-identical characters (e.g. `"aaaa"` → `"aaa"`, longest proper prefix/suffix); string with no repeating structure at all (e.g. `"abcde"` → `""`).
+
+#### 🎯 Visual Walkthrough
+Building the LPS array for Example 2's `s = "ababab"` (expected answer `"abab"`):
+
+| i | s[i] | length before | comparison | length after | lps[i] |
+|---|---|---|---|---|---|
+| 0 | a | 0 | (base case) | 0 | 0 |
+| 1 | b | 0 | s[1]='b' vs s[0]='a' → mismatch | 0 | 0 |
+| 2 | a | 0 | s[2]='a' vs s[0]='a' → match | 1 | 1 |
+| 3 | b | 1 | s[3]='b' vs s[1]='b' → match | 2 | 2 |
+| 4 | a | 2 | s[4]='a' vs s[2]='a' → match | 3 | 3 |
+| 5 | b | 3 | s[5]='b' vs s[3]='b' → match | 4 | **4** |
+
+`lps[-1] = 4`, so the answer is `s[:4] = "abab"` — matching Example 2.
 
 ## Complexity Summary
 | Approach | Time | Space |

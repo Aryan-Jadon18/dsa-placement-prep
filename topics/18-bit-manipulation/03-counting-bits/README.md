@@ -1,6 +1,6 @@
 # 338. Counting Bits
 
-**Difficulty:** Easy | **Pattern:** Bit Manipulation + DP | **Tags:** Bit Manipulation, DP
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-Bit%20Manipulation%20%2B%20DP-blue) ![Tags](https://img.shields.io/badge/Tags-Bit%20Manipulation%20%7C%20DP-lightgrey)
 **LeetCode:** https://leetcode.com/problems/counting-bits/
 
 ## Problem
@@ -15,6 +15,9 @@ Given an integer `n`, return an array `ans` of length `n + 1` where `ans[i]` is 
 3. `n = 0` → `[0]`. Only `0` itself, which has zero set bits.
 
 **Constraints:** `0 <= n <= 10^5`.
+
+> 🔑 **Pattern Recognition**
+> "Popcount for every number 0..n" → don't recompute each from scratch; each number's bit count relates to a strictly smaller number's already-computed bit count. That "answer for i depends on answer for a smaller i" shape is DP built on top of a bit trick.
 
 ## Intuition (explained simply)
 You could count the bits of each number independently using the same trick as "Number of 1 Bits" — that works but recomputes from scratch every time. Instead, notice that every number's bit count is closely related to a smaller number's bit count already computed: removing the lowest set bit, or stripping the last bit off entirely, both connect `i` to a value smaller than itself whose answer you already have.
@@ -39,6 +42,20 @@ You could count the bits of each number independently using the same trick as "N
 - Fill `dp` left to right from `0` to `n`; each entry only looks at an already-computed smaller index, so a single forward pass suffices.
 - Time complexity: O(n)  Space complexity: O(n) for the output array (no extra space beyond what's required to return)
 - Edge cases: `n = 0` → returns `[0]`; powers of two (e.g. `i=8=0b1000`) always have exactly 1 bit, and the recurrence naturally gives `dp[8] = dp[4] + 0 = dp[2] + 0 = dp[1] + 0 = 1`.
+
+#### 🎯 Visual Walkthrough
+Filling `dp[i] = dp[i >> 1] + (i & 1)` left to right for Example 2's `n = 5` (expected `[0, 1, 1, 2, 1, 2]`):
+
+| i | Binary | i >> 1 | i & 1 | dp[i >> 1] | dp[i] |
+|---|---|---|---|---|---|
+| 0 | 000 | — | — | — | **0** |
+| 1 | 001 | 0 | 1 | 0 | **1** |
+| 2 | 010 | 1 | 0 | 1 | **1** |
+| 3 | 011 | 1 | 1 | 1 | **2** |
+| 4 | 100 | 2 | 0 | 1 | **1** |
+| 5 | 101 | 2 | 1 | 1 | **2** |
+
+Every entry reuses an already-filled earlier entry — no bit is ever recounted from scratch.
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,6 @@
 # 136. Single Number
 
-**Difficulty:** Easy | **Pattern:** Bit Manipulation — XOR | **Tags:** Bit Manipulation
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-XOR-blue) ![Tags](https://img.shields.io/badge/Tags-Bit%20Manipulation-lightgrey)
 **LeetCode:** https://leetcode.com/problems/single-number/
 
 ## Problem
@@ -15,6 +15,9 @@ Given a non-empty array `nums` where every element appears exactly twice except 
 3. `nums = [1]` → `1`. Only one element total, so it's trivially the answer.
 
 **Constraints:** `1 <= nums.length <= 3*10^4`, `-3*10^4 <= nums[i] <= 3*10^4`, exactly one element appears once and every other element appears exactly twice.
+
+> 🔑 **Pattern Recognition**
+> "Every element appears twice except one, find it in O(1) space" is the canonical cue for **XOR cancellation** — whenever pairs must vanish and a lone survivor remains, XOR-ing everything together is almost always the trick.
 
 ## Intuition (explained simply)
 XOR (`^`) has two useful properties: `x ^ x = 0` (a number cancels itself out) and `x ^ 0 = x` (XOR-ing with zero changes nothing), and XOR is commutative/associative so order doesn't matter. If we XOR every element together, every pair cancels itself to 0, leaving only the number that had no partner.
@@ -37,6 +40,20 @@ XOR (`^`) has two useful properties: `x ^ x = 0` (a number cancels itself out) a
 - Initialize `result = 0`, then `result ^= num` for every `num` in `nums`. At the end, `result` is the answer.
 - Time complexity: O(n)  Space complexity: O(1)
 - Edge cases: single-element array (the accumulator starts at 0, XOR with the one element gives that element directly — correct); negative numbers (XOR works the same on Python's two's-complement-like bit representation for this purpose since we never inspect sign bits directly, only accumulate and return the final integer).
+
+#### 🎯 Visual Walkthrough
+Tracing the optimal XOR accumulator on `nums = [4, 1, 2, 1, 2]` (expected answer `4`):
+
+| Step | num | Running XOR | Binary |
+|---|---|---|---|
+| start | — | 0 | 0000 |
+| 1 | 4 | 4 | 0100 |
+| 2 | 1 | 5 | 0101 |
+| 3 | 2 | 7 | 0111 |
+| 4 | 1 | 6 | 0110 |
+| 5 | 2 | **4** | **0100** |
+
+Each duplicate pair (`1` and `2`) cancels itself out (`x ^ x = 0`), leaving only `4` in the accumulator.
 
 ## Complexity Summary
 | Approach | Time | Space |

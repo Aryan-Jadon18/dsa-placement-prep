@@ -1,6 +1,6 @@
 # 307. Range Sum Query - Mutable
 
-**Difficulty:** Medium | **Pattern:** Fenwick Tree (Binary Indexed Tree) / Segment Tree | **Tags:** Design, Binary Indexed Tree, Segment Tree, Array
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Fenwick%20Tree%20(BIT)-blue) ![Tags](https://img.shields.io/badge/Tags-Design%20%7C%20BIT%20%7C%20Segment%20Tree-lightgrey)
 **LeetCode:** https://leetcode.com/problems/range-sum-query-mutable/
 
 ## Problem
@@ -17,6 +17,9 @@ sumRange(0, 2) -> 8        # 1+2+5
 ```
 
 **Constraints:** `1 <= nums.length <= 3*10^4`, up to `3*10^4` calls to `update` and `sumRange` combined.
+
+> 🔑 **Pattern Recognition**
+> "Point update + range sum query, both interleaved and frequent" → neither a plain array nor a prefix-sum array is fast at both; a Fenwick Tree (BIT) gets O(log n) for both by storing partial sums keyed to each index's lowest set bit.
 
 ## Intuition (explained simply)
 This is a "point update, range query" problem — a single value changes, and we ask for sums over ranges, over and over. The naive approach re-adds a whole range from scratch every query, which is slow if there are thousands of both updates and queries. We need a structure where **both** updating one value **and** querying a range sum are fast — not just one or the other. This is exactly the problem a **Fenwick Tree** (Binary Indexed Tree, or "BIT") was invented to solve. If you've never implemented one before, here's the idea from scratch:
@@ -42,6 +45,32 @@ This is a "point update, range query" problem — a single value changes, and we
 - Why it works: as explained above, the binary-indexed structure guarantees any point update or prefix query only ever touches O(log n) tree nodes, because the "lowest set bit" jump pattern visits exactly the ancestors/owned-ranges relevant to that index.
 - Time complexity: `update` O(log n), `sumRange` O(log n)  Space complexity: O(n) (the tree array, same size as the input plus one for 1-indexing)
 - Edge cases: `sumRange(i, i)` (single element); updating an index to the same value it already had (still correct, just a zero delta); array of length 1; `left == 0` in `sumRange` (must not compute `prefixSum(-1)` — guard with `prefixSum(left-1)` returning 0 when `left == 0`).
+
+#### 🎯 Visual Walkthrough
+The Fenwick tree built from the example's `nums = [1, 3, 5]` (1-indexed positions 1..3), where each node owns a range determined by its lowest set bit:
+
+```mermaid
+graph TD
+    N1["tree[1] = 1<br/>owns nums[0..0]"] -->|update propagates up to| N2["tree[2] = 4<br/>owns nums[0..1]"]
+    N3["tree[3] = 5<br/>owns nums[2..2]"]
+```
+
+**`sumRange(0, 2)` = `prefixSum(3)`** (jump backward by lowest set bit: `3 -> 2 -> 0`):
+
+| i | tree[i] | next i = i - (i & -i) |
+|---|---|---|
+| 3 | 5 | 2 |
+| 2 | 4 | 0 (stop) |
+
+Sum = `5 + 4 = 9` — matches the example.
+
+**`update(1, 2)`** (0-indexed index 1, old value `3`, delta `= 2 - 3 = -1`, propagate forward by lowest set bit from 1-indexed position `2`):
+
+| i | tree[i] before | tree[i] after | next i = i + (i & -i) |
+|---|---|---|---|
+| 2 | 4 | **3** | 4 (> n, stop) |
+
+Now `sumRange(0, 2) = tree[3] + tree[2] = 5 + 3 = 8` — matches the example's second query.
 
 ## Complexity Summary
 | Approach | update | sumRange | Space |

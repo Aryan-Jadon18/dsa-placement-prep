@@ -1,6 +1,6 @@
 # 190. Reverse Bits
 
-**Difficulty:** Easy | **Pattern:** Bit Manipulation | **Tags:** Bit Manipulation
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Pattern](https://img.shields.io/badge/Pattern-Bit%20Manipulation-blue) ![Tags](https://img.shields.io/badge/Tags-Bit%20Manipulation-lightgrey)
 **LeetCode:** https://leetcode.com/problems/reverse-bits/
 
 ## Problem
@@ -15,6 +15,9 @@ Given a 32-bit unsigned integer `n`, reverse the order of its bits (bit 0 become
 3. `n = 0` → `0`. No bits set, reversal changes nothing.
 
 **Constraints:** `n` fits in 32 bits, treated as unsigned (LeetCode passes it as a Python `int` already in `[0, 2^32 - 1]`).
+
+> 🔑 **Pattern Recognition**
+> "Mirror bit positions in a fixed-width integer" → peel the lowest bit off one side and shift it into the other side, one bit at a time. Same "pull from one end, push into an accumulator" shape used for reversing digits of a number, just in binary instead of base 10.
 
 ## Intuition (explained simply)
 Reversing bits means the bit currently at position `i` (counting from the least significant bit) needs to end up at position `31 - i`. The most direct way is to literally look at each bit position and place it in its mirrored slot in a new number.
@@ -36,6 +39,20 @@ Reversing bits means the bit currently at position `i` (counting from the least 
 - For `32` iterations: shift `result` left by 1 (making room for a new bit), extract `n`'s lowest bit (`n & 1`) and OR it into `result`, then shift `n` right by 1 to consume that bit. After all 32 iterations, `result` holds the bits of `n` in reverse order.
 - Time complexity: O(32) = O(1)  Space complexity: O(1)
 - Edge cases: `n = 0` → result stays `0` throughout; `n` with all 32 bits set (`2^32 - 1`) → result is also all 32 bits set (a palindrome under reversal); make sure to run exactly 32 iterations regardless of how many of `n`'s bits are actually set, since trailing zero bits of `n` must become leading (nonzero-position) bits of the result.
+
+#### 🎯 Visual Walkthrough
+Tracing the shift-and-accumulate loop on Example 2's `n = 0b11111111111111111111111111111101` (bit 0 = `1`, bit 1 = `0`, bits 2-31 = `1`), where `result = (result << 1) | (n & 1)` and `n >>= 1` each iteration:
+
+| Step i | bit taken (`n & 1`) | result so far (binary) |
+|---|---|---|
+| 1 | 1 (bit 0) | `1` |
+| 2 | 0 (bit 1) | `10` |
+| 3 | 1 (bit 2) | `101` |
+| 4 | 1 (bit 3) | `1011` |
+| … | 1 (bits 4-30) | growing string of 1s |
+| 32 | 1 (bit 31) | `10111111111111111111111111111111` |
+
+Bit 1 (the lone `0`) ends up placed at position 30 of the result — exactly `0b10111111111111111111111111111111` (`3221225471`), matching Example 2.
 
 ## Complexity Summary
 | Approach | Time | Space |

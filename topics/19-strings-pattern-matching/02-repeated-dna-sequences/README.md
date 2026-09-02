@@ -1,6 +1,6 @@
 # 187. Repeated DNA Sequences
 
-**Difficulty:** Medium | **Pattern:** Rolling Hash / Sliding Window | **Tags:** String, Hash Table, Bit Manipulation, Sliding Window
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow) ![Pattern](https://img.shields.io/badge/Pattern-Rolling%20Hash%20%2F%20Sliding%20Window-blue) ![Tags](https://img.shields.io/badge/Tags-String%20%7C%20Hash%20Table%20%7C%20Sliding%20Window-lightgrey)
 **LeetCode:** https://leetcode.com/problems/repeated-dna-sequences/
 
 ## Problem
@@ -23,6 +23,9 @@ Windows at index 0 and index 1 are both `"AAAAAAAAAA"` — one repeat, one repor
 
 **Constraints:** `1 <= s.length <= 10^5`, characters are only `A/C/G/T`.
 
+> 🔑 **Pattern Recognition**
+> "Find all repeated fixed-length windows in a long string" → slide a window and hash each window into O(1)-comparable form (a compact integer or the built-in string hash), counting occurrences instead of comparing raw substrings pairwise. Fixed small window length is the tell for sliding-window + hashing over brute-force substring comparison.
+
 ## Intuition (explained simply)
 We need to slide a window of length 10 across the string and remember every window we've seen, flagging any that repeat. The naive part is that comparing/storing full 10-character strings over and over is wasteful — we can instead compress each window into a small number (a hash) so comparisons become O(1) integer/string-hash comparisons instead of O(10) character comparisons, and update that number incrementally as the window slides.
 
@@ -44,6 +47,18 @@ We need to slide a window of length 10 across the string and remember every wind
 - Why it works: a hash map naturally deduplicates identical windows into the same bucket; checking `count == 2` (not `>= 2`) at the moment of insertion guarantees we add each repeated substring to the result exactly once, no matter how many times it recurs afterward.
 - Time complexity: O(n) (n - 9 windows, O(L)=O(10)=O(1) work each since L is a fixed constant)  Space complexity: O(n) (hash map entries + result list)
 - Edge cases: string shorter than 10 characters → return `[]` immediately; overlapping repeats (e.g. `"AAAAAAAAAAA"`); a substring appearing 3+ times still only reported once.
+
+#### 🎯 Visual Walkthrough
+Tracing the sliding hash-map count on Example 1's `s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"` (expected `["AAAAACCCCC", "CCCCCAAAAA"]`):
+
+| Window start i | s[i:i+10] | count after this window | action |
+|---|---|---|---|
+| 0 | AAAAACCCCC | 1 | store |
+| 5 | CCCCCAAAAA | 1 | store |
+| 10 | AAAAACCCCC | 2 | **count hits 2 → add to result** |
+| 15 | CCCCCAAAAA | 2 | **count hits 2 → add to result** |
+
+Adding to the result only the moment a window's count first reaches `2` guarantees each repeated substring appears once in the output, no matter how many more times it recurs afterward.
 
 ## Complexity Summary
 | Approach | Time | Space |
