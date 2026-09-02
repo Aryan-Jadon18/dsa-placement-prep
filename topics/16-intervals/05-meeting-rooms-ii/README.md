@@ -1,6 +1,9 @@
 # 253. Meeting Rooms II
 
-**Difficulty:** Medium | **Pattern:** Intervals + Heap — Concurrent Interval Counting | **Tags:** Array, Heap, Sorting, Intervals
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Heap%20%2B%20Sweep-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Heap%2C%20Sorting%2C%20Intervals-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/meeting-rooms-ii/
 
 > **Note:** Like LC 252, this problem is LeetCode Premium (locked). It's nonetheless one of the single most frequently asked interval questions at FAANG-style interviews, usually phrased as "how many meeting rooms do you need to book so every meeting has a room?"
@@ -25,6 +28,8 @@ All three happen at the exact same time, so each needs its own room.
 
 **Constraints:** `1 <= intervals.length <= 10^4`, `0 <= start < end <= 10^6`.
 
+> **🔑 Pattern Recognition:** "How many things overlap at once, at worst?" → sort by start, maintain a min-heap of end times so you always know the *soonest-freeing* room. Peak heap size = peak concurrency = the answer.
+
 ## Intuition (explained simply)
 The answer is just "the maximum number of meetings happening *at the same time*, at any point in the day." If we can track how many meetings are simultaneously in progress as time moves forward, the peak of that count is our answer.
 
@@ -45,6 +50,16 @@ The answer is just "the maximum number of meetings happening *at the same time*,
 - Why it works: the heap always holds exactly the end times of rooms currently in use. Popping the smallest end time whenever it's `<=` the new meeting's start is the greedy optimal choice — if the earliest-freeing room can't be reused, no room can.
 - Time complexity: O(n log n) (sort + n heap operations, each O(log n))  Space complexity: O(n) (heap holds up to n end times)
 - Edge cases: single meeting → 1 room; all meetings pairwise disjoint → 1 room; all meetings simultaneous → n rooms; touching endpoints (`end == start`) do **not** require separate rooms.
+
+#### 🎯 Visual Walkthrough
+Tracing `intervals = [[0,30],[5,10],[15,20]]` (Example 1, answer `2`), sorted by start:
+
+```mermaid
+flowchart TD
+    A["[0,30]: heap empty<br/>push 30 -> heap=[30]<br/>rooms=1"] --> B["[5,10]: top=30, 30<=5? no<br/>push 10 -> heap=[10,30]<br/>rooms=2"]
+    B --> C["[15,20]: top=10, 10<=15? yes<br/>pop 10, push 20 -> heap=[20,30]<br/>rooms stays 2"]
+    C --> D["Max heap size seen = 2<br/>Answer: 2 rooms"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

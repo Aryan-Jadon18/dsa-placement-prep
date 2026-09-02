@@ -1,6 +1,9 @@
 # 678. Valid Parenthesis String
 
-**Difficulty:** Medium | **Pattern:** Greedy | **Tags:** String, Greedy, Stack, DP
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Greedy-blue)
+![Tags](https://img.shields.io/badge/Tags-String%2C%20Greedy%2C%20Stack%2C%20DP-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/valid-parenthesis-string/
 
 ## Problem
@@ -16,6 +19,8 @@ Output: a boolean.
 **Example 3:** `s = "(()"` → `false`. There's one unmatched `'('` and no `'*'` available to act as a closing `')'` — no interpretation can balance it.
 
 Constraints: `1 <= s.length <= 100`.
+
+> **🔑 Pattern Recognition:** A wildcard with multiple valid interpretations → track a *range* of possible states (`low`/`high`) instead of branching. The reachable range is always contiguous, so two running bounds greedily summarize every interpretation at once.
 
 ## Intuition (explained simply)
 Instead of committing to one specific meaning for each `*` up front, track a **range** of possible "open parenthesis counts" as we scan left to right: `low` = the fewest opens we could have (treating every usable `*` as helpful for closing or as empty), and `high` = the most opens we could have (treating every `*` as an opening paren). At each character, update both bounds; if `high` ever drops below zero, no interpretation can recover (too many closes no matter what), so bail out immediately. At the end, the string is valid if `low` can be brought down to (or started at, and stayed at) exactly zero — meaning some interpretation within the tracked range perfectly balances.
@@ -38,6 +43,18 @@ Instead of committing to one specific meaning for each `*` up front, track a **r
 - If `high < 0` at any point, terminate early with `false` (unrecoverable). At the end, the string is valid if `low == 0` is reachable, which holds exactly when `low <= 0 <= high` after the final character (since 0 is always in the interval `[low, high]` whenever that interval is non-empty and low was clamped correctly along the way).
 - Time complexity: O(n) — one linear pass. Space complexity: O(1) — two scalars.
 - Edge cases: string of all `*` → always valid (each can be empty); more `)` than any interpretation can absorb → `high` goes negative, caught early; leftover unmatched `(` at the end with no `*` to balance → `low > 0` at the end, correctly rejected.
+
+#### 🎯 Visual Walkthrough
+Tracing `s = "(*))"` (Example 2, answer `true`):
+
+```mermaid
+flowchart TD
+    A["low=0, high=0"] --> B["'(' -> low=1, high=1"]
+    B --> C["'*' -> low=0, high=2<br/>(treat as close/empty vs open)"]
+    C --> D["')' -> low=-1 clamp to 0, high=1"]
+    D --> E["')' -> low=-1 clamp to 0, high=0"]
+    E --> F["End: low=0 <= 0 <= high=0<br/>Answer: true"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

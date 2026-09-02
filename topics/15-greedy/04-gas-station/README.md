@@ -1,6 +1,9 @@
 # 134. Gas Station
 
-**Difficulty:** Medium | **Pattern:** Greedy | **Tags:** Array, Greedy
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Greedy-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Greedy-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/gas-station/
 
 ## Problem
@@ -16,6 +19,8 @@ Output: an integer, the starting index (or `-1`).
 **Example 3:** `gas = [5,1,2,3,4], cost = [4,4,1,5,1]` → `4`. Starting at station 4: tank has `4-1=3` after leaving, then wrapping to station 0 gives `3+5-4=4`, then `4+1-4=1`, then `1+2-1=2`, then `2+3-5=0` — the tank never dips below zero.
 
 Constraints: `1 <= n <= 10^5`, `0 <= gas[i], cost[i] <= 10^4`.
+
+> **🔑 Pattern Recognition:** Running balance that goes negative → every start point up to that point is disqualified, jump straight past it. A prefix-sum exchange argument turns "try every start" into one linear sweep — the hallmark of a greedy prefix/reset pattern.
 
 ## Intuition (explained simply)
 Two separate facts make this solvable in one pass. First: a valid starting point exists **only if** the total gas across the whole circuit is at least the total cost (`sum(gas) >= sum(cost)`) — otherwise the trip is impossible no matter where you start, since fuel is conserved globally. Second, and more subtle: if you track the *running tank balance* starting from station 0 (even though 0 might not be the right start), the correct starting point is always the station **right after** the point where that running balance hits its lowest value — because everything before that lowest point is "dead weight" that any valid start must skip past.
@@ -38,6 +43,18 @@ Two separate facts make this solvable in one pass. First: a valid starting point
 - After the single pass, if `total_tank < 0`, no valid start exists — return -1. Otherwise `start` holds the (guaranteed unique) answer.
 - Time complexity: O(n) — one linear pass, each index processed once. Space complexity: O(1) — three scalars.
 - Edge cases: `n == 1` → valid iff `gas[0] >= cost[0]`; total gas exactly equals total cost → still solvable (the algorithm finds the unique zero-slack start); all gas stations give exactly what the next leg costs → any station technically works, but the problem guarantees uniqueness when feasible, so the algorithm's `start` is still correct.
+
+#### 🎯 Visual Walkthrough
+Tracing `gas = [1,2,3,4,5], cost = [3,4,5,1,2]` (Example 1, answer `3`):
+
+```mermaid
+flowchart TD
+    A["i=0: diff=1-3=-2<br/>current=-2 < 0 -> start=1, current=0"] --> B["i=1: diff=2-4=-2<br/>current=-2 < 0 -> start=2, current=0"]
+    B --> C["i=2: diff=3-5=-2<br/>current=-2 < 0 -> start=3, current=0"]
+    C --> D["i=3: diff=4-1=3<br/>current=0+3=3, start stays 3"]
+    D --> E["i=4: diff=5-2=3<br/>current=3+3=6, start stays 3"]
+    E --> F["total_tank=0 >= 0<br/>Answer: start=3"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

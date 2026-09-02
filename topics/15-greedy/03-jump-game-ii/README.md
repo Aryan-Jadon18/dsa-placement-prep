@@ -1,6 +1,9 @@
 # 45. Jump Game II
 
-**Difficulty:** Medium | **Pattern:** Greedy | **Tags:** Array, Greedy
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Greedy-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Greedy-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/jump-game-ii/
 
 ## Problem
@@ -16,6 +19,8 @@ Output: an integer, the minimum number of jumps to the last index.
 **Example 3:** `nums = [0]` → `0`. Already at the last index — zero jumps needed.
 
 Constraints: `1 <= nums.length <= 10^4`, `0 <= nums[i] <= 1000`. It's guaranteed you can always reach the last index.
+
+> **🔑 Pattern Recognition:** "Minimum jumps/steps to reach the end" with a per-position max reach → greedy BFS-by-levels. Only the farthest reach of the *current* level matters, never which index achieves it.
 
 ## Intuition (explained simply)
 Think in terms of "waves" or "levels," like a breadth-first search over reachable positions. From your current jump-count level, there's a whole range of indices reachable with exactly that many jumps; among all of them, the farthest one you could reach determines the reach of the *next* level. You never need to decide "which exact index to jump from" — only "how far can this whole current level collectively reach," because that farthest boundary is all that matters for minimizing jump count.
@@ -37,6 +42,17 @@ Think in terms of "waves" or "levels," like a breadth-first search over reachabl
 - **Why the greedy choice is safe:** among all indices within the current reachable level, the *only* thing that matters for the next jump's reach is the single farthest index any of them can hit — which specific index achieves that farthest reach is irrelevant, since we're free to choose which index within the current level to actually jump from once we've decided to advance. Committing to "extend the level to the max seen so far, then jump" never does worse than any other strategy, because a smaller within-level reach can never help reach the end sooner, and delaying the jump decision past the level boundary would waste a jump.
 - Time complexity: O(n) — one linear pass. Space complexity: O(1) — three scalars (jumps, current_end, farthest).
 - Edge cases: `n == 1` → 0 jumps (already there), loop must not run past the last index or it may over-count; guaranteed-reachable input means we never need an "impossible" check here (unlike Jump Game I).
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [2,3,1,1,4]` (Example 1, answer `2`):
+
+```mermaid
+flowchart TD
+    A["Start: jumps=0<br/>current_end=0, farthest=0"] --> B["i=0<br/>farthest=max(0,0+2)=2<br/>i==current_end -> jumps=1<br/>current_end=2"]
+    B --> C["i=1<br/>farthest=max(2,1+3)=4"]
+    C --> D["i=2<br/>farthest=max(4,2+1)=4<br/>i==current_end -> jumps=2<br/>current_end=4"]
+    D --> E["current_end=4 covers last index (4)<br/>Answer: 2 jumps"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

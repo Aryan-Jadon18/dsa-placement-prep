@@ -1,6 +1,9 @@
 # 54. Spiral Matrix
 
-**Difficulty:** Medium | **Pattern:** Matrix Traversal — Boundary Shrinking | **Tags:** Array, Matrix
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Boundary%20Shrinking-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Matrix-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/spiral-matrix/
 
 ## Problem
@@ -22,6 +25,8 @@ A single cell has nowhere to spiral — just itself.
 
 **Constraints:** `1 <= m, n <= 10`, matrix need not be square.
 
+> **🔑 Pattern Recognition:** Ring-by-ring matrix traversal → track four shrinking boundaries (`top`, `bottom`, `left`, `right`) instead of a `visited` grid. The coordinate-transform trick here is "shrink the frame after each full lap."
+
 ## Intuition (explained simply)
 A spiral is just "go around the outer border, then shrink the border inward and repeat" until there's nothing left to visit. The tricky part is bookkeeping — knowing exactly which cells belong to the current outer ring and not re-visiting or skipping any.
 
@@ -42,6 +47,18 @@ A spiral is just "go around the outer border, then shrink the border inward and 
 - Why it works: the same boundary-shrinking logic as "Better," just restructured so there's one movement rule (not four copy-pasted ones), reducing the chance of an off-by-one bug in one of the four sides.
 - Time complexity: O(m·n)  Space complexity: O(1) extra
 - Edge cases: single row (`[[1,2,3]]`); single column; single cell; non-square rectangles (more rows than columns or vice versa).
+
+#### 🎯 Visual Walkthrough
+Tracing `matrix = [[1,2,3],[4,5,6],[7,8,9]]` (Example 1, answer `[1,2,3,6,9,8,7,4,5]`), boundaries start `top=0,bottom=2,left=0,right=2`:
+
+```mermaid
+flowchart TD
+    A["Right across top row (row 0)<br/>visit 1,2,3<br/>top=1"] --> B["Down right column (col 2)<br/>visit 6,9<br/>right=1"]
+    B --> C["Left across bottom row (row 2)<br/>visit 8,7<br/>bottom=1"]
+    C --> D["Up left column: top==bottom now<br/>only one row left, skip<br/>left=1"]
+    D --> E["Boundaries closed to single cell (1,1)<br/>visit 5"]
+    E --> F["Answer: [1,2,3,6,9,8,7,4,5]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

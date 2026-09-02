@@ -1,6 +1,9 @@
 # 56. Merge Intervals
 
-**Difficulty:** Medium | **Pattern:** Intervals — Sort and Sweep | **Tags:** Array, Sorting, Intervals
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Sort%20and%20Sweep-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Sorting%2C%20Intervals-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/merge-intervals/
 
 ## Problem
@@ -23,6 +26,8 @@ Unsorted input — after sorting by start, `[0,4]` comes first and fully contain
 
 **Constraints:** `1 <= intervals.length <= 10^4`, `0 <= start <= end <= 10^4`.
 
+> **🔑 Pattern Recognition:** Overlapping ranges to combine → sort by start, sweep once, only ever compare against the *last merged* interval. This is the canonical "sort by start, then sweep" interval pattern.
+
 ## Intuition (explained simply)
 If two intervals overlap, one must start before (or when) the other ends. Sorting by start time turns "any pair might overlap" into "only neighboring intervals can overlap," which we can then check with one linear pass.
 
@@ -44,6 +49,19 @@ If two intervals overlap, one must start before (or when) the other ends. Sortin
 - Why it works: after sorting by start, if interval `i` doesn't overlap the last *merged* interval, it can't overlap anything merged before that either (their ends are all `<=` the last merged interval's end by construction).
 - Time complexity: O(n log n) (sort dominates; the pass itself is O(n))  Space complexity: O(n) (output list; O(log n)-O(n) for the sort itself depending on implementation)
 - Edge cases: single interval → returned as-is; all intervals overlapping into one giant interval; intervals given in reverse or random order; touching endpoints must merge (`[1,4],[4,5]` → `[1,5]`).
+
+#### 🎯 Visual Walkthrough
+Tracing `intervals = [[1,3],[2,6],[8,10],[15,18]]` (Example 1, answer `[[1,6],[8,10],[15,18]]`), already sorted by start:
+
+```mermaid
+flowchart LR
+    A["[1,3]"] -->|"2 <= 3 -> overlaps"| B["merge with [2,6]"]
+    B --> C["[1,6]"]
+    C -->|"8 > 6 -> no overlap"| D["[8,10] kept separate"]
+    D -->|"15 > 10 -> no overlap"| E["[15,18] kept separate"]
+```
+
+Result: `[[1,6],[8,10],[15,18]]`.
 
 ## Complexity Summary
 | Approach | Time | Space |

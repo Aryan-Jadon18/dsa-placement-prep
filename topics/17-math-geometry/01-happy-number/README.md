@@ -1,6 +1,9 @@
 # 202. Happy Number
 
-**Difficulty:** Easy | **Pattern:** Math / Cycle Detection | **Tags:** Math, Two Pointers, Hash Table
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Cycle%20Detection-blue)
+![Tags](https://img.shields.io/badge/Tags-Math%2C%20Two%20Pointers%2C%20Hash%20Table-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/happy-number/
 
 ## Problem
@@ -23,6 +26,8 @@ Already 1 — trivially happy (zero steps needed).
 
 **Constraints:** `1 <= n <= 2^31 - 1`.
 
+> **🔑 Pattern Recognition:** A deterministic "next value" function applied repeatedly, with a bounded range → either it reaches a fixed target or it must cycle. That's the signature of Floyd's slow/fast pointer cycle detection, reused here on a numeric sequence instead of a linked list.
+
 ## Intuition (explained simply)
 This is really a **cycle detection** problem in disguise. Repeatedly applying "sum of squares of digits" defines a sequence of numbers. Either that sequence eventually lands on 1 (happy), or — because the sum of squares of digits is bounded (a number with `d` digits produces a sum of at most `81d`, which is far smaller once `d` gets large), the sequence *must* eventually repeat a value, creating a cycle that never includes 1 (not happy). So the real question becomes: "does this sequence reach 1, or does it cycle?"
 
@@ -44,6 +49,16 @@ This is really a **cycle detection** problem in disguise. Repeatedly applying "s
 - Why it works: exactly the same reasoning as detecting a cycle in a linked list — a fast pointer moving twice as fast as a slow one is guaranteed to eventually "lap" the slow pointer if (and only if) they're both stuck going around a finite loop.
 - Time complexity: O(log n) (bounded by how fast the sequence shrinks into its small cycle range)  Space complexity: O(1) — no extra data structure needed.
 - Edge cases: `n = 1` (immediately happy); single-digit numbers; very large `n` near `2^31 - 1` (still shrinks fast because of how few digits it has).
+
+#### 🎯 Visual Walkthrough
+Tracing `n = 19` (Example 1, answer `true`) — sequence is `19 → 82 → 68 → 100 → 1`:
+
+```mermaid
+flowchart TD
+    A["slow=19, fast=19"] --> B["Step 1<br/>slow: 19 -> 82<br/>fast: 19 -> 82 -> 68"]
+    B --> C["Step 2<br/>slow: 82 -> 68<br/>fast: 68 -> 100 -> 1"]
+    C --> D["fast reached 1<br/>Answer: true (happy)"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

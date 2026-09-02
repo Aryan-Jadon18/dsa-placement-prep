@@ -1,6 +1,9 @@
 # 57. Insert Interval
 
-**Difficulty:** Medium | **Pattern:** Intervals — Merge on Insert | **Tags:** Array, Intervals
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Merge%20on%20Insert-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Intervals-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/insert-interval/
 
 ## Problem
@@ -22,6 +25,8 @@ You're given a list of intervals that is already sorted by start time, and no tw
 Nothing to merge with — just insert it.
 
 **Constraints:** `0 <= intervals.length <= 10^4`, intervals sorted and non-overlapping.
+
+> **🔑 Pattern Recognition:** Inserting into an *already-sorted, already-disjoint* interval list → three linear phases (before / overlapping / after), no re-sort needed. Exploiting existing sorted order turns an O(n log n) problem into O(n).
 
 ## Intuition (explained simply)
 Since the input is already sorted, you don't need to re-sort everything from scratch. Walk left to right: intervals that end before the new one starts are untouched and go straight to the answer; intervals that start after the new one ends are also untouched and go straight to the answer; everything in between overlaps the new interval and gets merged into one big interval.
@@ -46,6 +51,19 @@ Since the input is already sorted, you don't need to re-sort everything from scr
 - Why it works: because the input is sorted, once we see an interval that starts after the merged interval ends, no later interval can overlap it either — we're done merging.
 - Time complexity: O(n)  Space complexity: O(n) (output list)
 - Edge cases: empty `intervals`; `newInterval` overlapping everything (collapses to one interval); `newInterval` overlapping nothing (just gets inserted in the right slot); touching endpoints (`[1,2]` and `[2,3]`) count as overlapping and should merge.
+
+#### 🎯 Visual Walkthrough
+Tracing `intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]]`, `newInterval = [4,8]` (Example 2, answer `[[1,2],[3,10],[12,16]]`):
+
+| Interval | Phase | Action | `newInterval` after |
+|---|---|---|---|
+| `[1,2]` | Before | ends `2 < 4` → copy as-is | `[4,8]` |
+| `[3,5]` | Overlap | `3 <= 8` → merge: `min(4,3), max(8,5)` | `[3,8]` |
+| `[6,7]` | Overlap | `6 <= 8` → merge: `min(3,6), max(8,7)` | `[3,8]` |
+| `[8,10]` | Overlap | `8 <= 8` → merge: `min(3,8), max(8,10)` | `[3,10]` |
+| `[12,16]` | After | `12 > 10` → merging stops, append `[3,10]`, then copy as-is | `[3,10]` (final) |
+
+Result: `[[1,2],[3,10],[12,16]]`.
 
 ## Complexity Summary
 | Approach | Time | Space |

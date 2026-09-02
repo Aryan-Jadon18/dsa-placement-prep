@@ -1,6 +1,9 @@
 # 66. Plus One
 
-**Difficulty:** Easy | **Pattern:** Math — Digit Array Arithmetic | **Tags:** Array, Math
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Digit%20Array%20Arithmetic-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Math-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/plus-one/
 
 ## Problem
@@ -23,6 +26,8 @@ A non-negative integer is given as an array of its digits, most significant digi
 
 **Constraints:** `1 <= digits.length <= 100`, `0 <= digits[i] <= 9`, no leading zeros (unless the whole array is `[0]`).
 
+> **🔑 Pattern Recognition:** Digit-array carry propagation → walk right to left, and stop the instant a digit doesn't roll over. The invariant that only the trailing run of `9`s can ever carry is the mathematical shortcut here.
+
 ## Intuition (explained simply)
 This is just elementary-school addition, done from the rightmost (least significant) digit going left, carrying a `1` whenever a digit rolls over from `9` to `0`.
 
@@ -43,6 +48,17 @@ This is just elementary-school addition, done from the rightmost (least signific
 - Why it works: this is exactly how carrying works in manual addition — a digit only needs to "know" about the carry from its right neighbor, so a single right-to-left pass suffices, and we can early-return the moment a digit doesn't overflow.
 - Time complexity: O(n)  Space complexity: O(1) extra (in place; O(n) only in the rare all-9s case where a new array must be returned, unavoidable since the output is one digit longer).
 - Edge cases: `[9]` → `[1,0]`; `[0]` → `[1]`; all-9s input of any length; single digit input.
+
+#### 🎯 Visual Walkthrough
+Tracing `digits = [9,9,9]` (Example 3, answer `[1,0,0,0]`):
+
+```mermaid
+flowchart TD
+    A["i=2: digits[2]=9<br/>== 9 -> set to 0, carry left"] --> B["i=1: digits[1]=9<br/>== 9 -> set to 0, carry left"]
+    B --> C["i=0: digits[0]=9<br/>== 9 -> set to 0, carry left"]
+    C --> D["Fell off the front<br/>all digits were 9<br/>insert 1 at position 0"]
+    D --> E["Answer: [1,0,0,0]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

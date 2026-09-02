@@ -1,6 +1,9 @@
 # 73. Set Matrix Zeroes
 
-**Difficulty:** Medium | **Pattern:** Matrix Manipulation — Marker Reuse | **Tags:** Array, Matrix
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Marker%20Reuse-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Matrix-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/set-matrix-zeroes/
 
 ## Problem
@@ -23,6 +26,8 @@ No zeros present, nothing changes.
 
 **Constraints:** `1 <= m, n <= 200`, values fit in a 32-bit int.
 
+> **🔑 Pattern Recognition:** Need O(1) extra memory to remember "which rows/columns to zero" → reuse the matrix's own first row/column as marker bits instead of allocating new arrays. Look for a spare place inside the existing structure to stash state.
+
 ## Intuition (explained simply)
 The danger here is that if you zero out cells as soon as you find a `0`, you'll accidentally create *new* zeros that then trigger zeroing rows/columns that shouldn't have been touched. So we first need to **record** where the original zeros were, and only *then* apply the zeroing — using memory (or clever reuse of the matrix itself) to remember the original zero locations without letting new zeros contaminate that record.
 
@@ -44,6 +49,17 @@ The danger here is that if you zero out cells as soon as you find a `0`, you'll 
 - Why it works: the first row and column can each only need to become "all zero" or "not all zero" — exactly one bit of information per row/column — so storing that bit inside the matrix itself (at the intersection of that row/column with row 0 / column 0) needs zero extra memory beyond two flags for the row/column 0 special case.
 - Time complexity: O(m·n) (still two passes)  Space complexity: O(1) extra
 - Edge cases: zero located in row 0 or column 0 (handled by the two saved booleans); entire matrix is zeros already; single row or single column matrix; no zeros at all (no-op).
+
+#### 🎯 Visual Walkthrough
+Tracing `matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]` (Example 2, answer `[[0,0,0,0],[0,4,5,0],[0,3,1,0]]`):
+
+```mermaid
+flowchart TD
+    A["Save flags: row0_has_zero=True<br/>(0,0),(0,3) are 0<br/>col0_has_zero=True (0,0) is 0"] --> B["Scan (1,1)..(2,3) for zeros<br/>none found beyond row0/col0"]
+    B --> C["Use row0/col0 as markers<br/>mark zero at (1,3): matrix[1][0]=3, matrix[0][3]=0 -> zero it<br/>mark zero at (2,3): matrix[2][0]=1, matrix[0][3]=0 -> zero it"]
+    C --> D["Apply saved flags<br/>row0_has_zero -> zero all of row 0<br/>col0_has_zero -> zero all of col 0"]
+    D --> E["Answer:<br/>[0,0,0,0]<br/>[0,4,5,0]<br/>[0,3,1,0]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

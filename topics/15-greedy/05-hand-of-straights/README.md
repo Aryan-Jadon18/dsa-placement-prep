@@ -1,6 +1,9 @@
 # 846. Hand of Straights
 
-**Difficulty:** Medium | **Pattern:** Greedy + HashMap | **Tags:** Array, Greedy, Hash Table, Sorting
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Greedy%20%2B%20HashMap-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Greedy%2C%20Hash%20Table%2C%20Sorting-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/hand-of-straights/
 
 ## Problem
@@ -16,6 +19,8 @@ Output: a boolean.
 **Example 3:** `hand = [1,2,2,3,3,4], groupSize = 2` → `true`. Split into `[1,2]`, `[2,3]`, `[3,4]` — each pair of consecutive values, and every card used exactly once.
 
 Constraints: `1 <= hand.length <= 10^4`, `0 <= hand[i] <= 10^9`, `1 <= groupSize <= hand.length`.
+
+> **🔑 Pattern Recognition:** "The smallest remaining item has no choice but to be a group's start" → greedy-by-value with a count map. Sort by value, always force a run starting at the smallest surviving value, never revisit a decision.
 
 ## Intuition (explained simply)
 Since every group must be a run of `groupSize` consecutive values, the **smallest remaining card** in the hand has no choice about which group it belongs to — it *must* be the starting (lowest) card of whatever group it's in, because there's nothing smaller left to pair it with a group that starts even lower. So the natural strategy is: always look at the smallest remaining value, greedily form a group starting exactly there (`x, x+1, ..., x+groupSize-1`), remove one copy of each, and repeat. A hash map of value → remaining count, plus always processing in ascending order, makes this efficient.
@@ -37,6 +42,18 @@ Since every group must be a run of `groupSize` consecutive values, the **smalles
 - **Why the greedy choice is safe:** the smallest remaining card can only ever be the *start* of a group (there is no smaller card to be its predecessor in a consecutive run), so committing to start a group there is forced, not just convenient — no alternative strategy could ever do better, since delaying it or using it as a non-starting member of some other group is simply impossible.
 - Time complexity: O(n log n) — dominated by sorting the distinct values (or O(n log D) sorting only the `D` distinct values). Space complexity: O(n) for the counts.
 - Edge cases: `groupSize == 1` → always `true` (every card is its own group); `len(hand) % groupSize != 0` → immediately `false`, checked upfront to avoid unnecessary work; duplicate values are exactly what the count-based consumption handles correctly (consuming `count` copies of an entire run at once rather than one card at a time).
+
+#### 🎯 Visual Walkthrough
+Tracing `hand = [1,2,3,6,2,3,4,7,8], groupSize = 3` (Example 1, answer `true`):
+
+```mermaid
+flowchart TD
+    A["counts: 1:1 2:2 3:2 4:1 6:1 7:1 8:1"] --> B["value=1, count=1>0<br/>form group [1,2,3]<br/>counts become 1:0 2:1 3:1"]
+    B --> C["value=2, count=1>0<br/>form group [2,3,4]<br/>counts become 2:0 3:0 4:0"]
+    C --> D["value=3,4: count=0 -> skip"]
+    D --> E["value=6, count=1>0<br/>form group [6,7,8]<br/>counts become 6:0 7:0 8:0"]
+    E --> F["All counts exhausted<br/>Answer: true"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

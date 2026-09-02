@@ -1,6 +1,9 @@
 # 53. Maximum Subarray
 
-**Difficulty:** Medium | **Pattern:** Kadane's Algorithm | **Tags:** Array, DP, Greedy
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Kadane%27s%20Algorithm-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20DP%2C%20Greedy-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/maximum-subarray/
 
 ## Problem
@@ -16,6 +19,8 @@ Output: an integer, the maximum subarray sum.
 **Example 3:** `nums = [-3,-1,-2]` → `-1`. All negative — the best "subarray" is just the single largest element, since you must pick at least one number.
 
 Constraints: `1 <= nums.length <= 10^5`, `-10^4 <= nums[i] <= 10^4`.
+
+> **🔑 Pattern Recognition:** A running value that you'd rather reset than keep dragging along whenever it turns negative → Kadane's greedy/DP hybrid. The cue is "best X ending here," where the local decision (extend vs. restart) never needs to look ahead.
 
 ## Intuition (explained simply)
 As we scan left to right, we track "the best sum of a subarray that *ends right here*." If that running sum ever drops below zero, it's dragging down anything we'd add next — so it's better to start a fresh subarray from the current element than to keep carrying a negative prefix along. This "should I extend or restart" decision at each step, chosen locally without needing to look ahead, is the greedy core of Kadane's algorithm (and it's also a 1D DP in disguise, which is why this problem sits at the boundary of both patterns).
@@ -37,6 +42,22 @@ As we scan left to right, we track "the best sum of a subarray that *ends right 
 - **Why the greedy "reset when negative" choice is safe:** if the running sum ever goes negative, no future subarray sum can be improved by including that negative prefix — dropping it and starting over at the current element strictly dominates (or ties) keeping it, for every possible extension length. There's no scenario where carrying a negative prefix forward ever helps, so discarding it the moment it turns negative loses nothing and can only help.
 - Time complexity: O(n) — single pass. Space complexity: O(1) — two scalars.
 - Edge cases: all-negative array → the answer is the single largest (least negative) element, not 0 — initialize `best` to `nums[0]` (not 0) so an all-negative array still returns a real element rather than incorrectly reporting an "empty subarray" sum of 0; single-element array → that element itself.
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [-2,1,-3,4,-1,2,1,-5,4]` (Example 1, answer `6`):
+
+```mermaid
+flowchart TD
+    A["i=0 num=-2<br/>cur=-2, best=-2"] --> B["i=1 num=1<br/>cur was negative -> reset<br/>cur=1, best=1"]
+    B --> C["i=2 num=-3<br/>cur=1-3=-2, best=1"]
+    C --> D["i=3 num=4<br/>cur was negative -> reset<br/>cur=4, best=4"]
+    D --> E["i=4 num=-1<br/>cur=4-1=3, best=4"]
+    E --> F["i=5 num=2<br/>cur=3+2=5, best=5"]
+    F --> G["i=6 num=1<br/>cur=5+1=6, best=6"]
+    G --> H["i=7 num=-5<br/>cur=6-5=1, best=6"]
+    H --> I["i=8 num=4<br/>cur=1+4=5, best stays 6"]
+    I --> J["Answer: best=6<br/>subarray [4,-1,2,1]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

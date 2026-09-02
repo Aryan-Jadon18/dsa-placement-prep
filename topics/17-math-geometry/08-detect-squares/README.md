@@ -1,6 +1,9 @@
 # 2013. Detect Squares
 
-**Difficulty:** Medium | **Pattern:** Hashing + Geometry — Point Counting | **Tags:** Design, Hash Table, Math
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Hashing%20%2B%20Geometry-blue)
+![Tags](https://img.shields.io/badge/Tags-Design%2C%20Hash%20Table%2C%20Math-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/detect-squares/
 
 ## Problem
@@ -22,6 +25,8 @@ count([11,10]) -> 2    # the duplicate [11,2] gives a second way to complete the
 
 **Constraints:** up to `3000` calls total to `add` and `count`, `0 <= x, y <= 1000`.
 
+> **🔑 Pattern Recognition:** Axis-aligned square through a query point → the geometric invariant is that two other corners share the query's x or y exactly, and the side length (`|y2 - y|`) fully determines the remaining diagonal corner's coordinates. Group points by column so only geometrically-possible candidates are ever visited.
+
 ## Intuition (explained simply)
 An axis-aligned square through the query point `(x, y)` always has one other corner directly **above or below** it (same x) and one directly **left or right** (same y), plus a diagonal corner. If we find a point `(x, y2)` in the same column as the query, the side length is `|y2 - y|`, and the square extends either to the right or left by that same distance — so the other two corners are fully determined: `(x ± side, y)` and `(x ± side, y2)`. We just need to check if those two points were added, and multiply by how many times each point (including the column point) was added, since duplicates each represent a distinct way to complete the square.
 
@@ -42,6 +47,18 @@ An axis-aligned square through the query point `(x, y)` always has one other cor
 - Why it works: grouping points by column upfront means `count()` only ever touches points that could possibly matter (same column as the query) — no wasted work on irrelevant points, and everything else is O(1) hash lookups.
 - Time complexity: `add` is O(1); `count` is O(k) where k = number of distinct points sharing the query's column (in the worst case k can be O(n), but in practice — and on average across the constraint of ≤3000 total points — this is much faster than scanning everything).  Space complexity: O(n)
 - Edge cases: `count` on a point with nothing in its column → 0; a point added many times (multiplicities multiply across all three non-query corners); query point that happens to also be an added point (doesn't matter — squares are formed from *any* 3 added points plus the query location, whether or not the query itself was ever added).
+
+#### 🎯 Visual Walkthrough
+Tracing the worked example: `add([3,10])`, `add([11,2])`, `add([3,2])`, then `count([11,10])` → `1`:
+
+```mermaid
+flowchart TD
+    A["cols = {3: {10:1, 2:1}, 11: {2:1}}"] --> B["query (11,10): look up cols[11]<br/>found y2=2, cnt2=1"]
+    B --> C["side = y2 - y = 2 - 10 = -8<br/>candidate columns: x+side=3, x-side=19"]
+    C --> D["col 3: corner1 = cols[3][10] = 1<br/>corner2 = cols[3][2] = 1"]
+    D --> E["col 19: doesn't exist -> 0"]
+    E --> F["count += cnt2 * corner1 * corner2 = 1*1*1 = 1<br/>Answer: 1"]
+```
 
 ## Complexity Summary
 | Approach | Time (count) | Space |

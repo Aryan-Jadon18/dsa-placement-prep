@@ -1,6 +1,9 @@
 # 252. Meeting Rooms
 
-**Difficulty:** Easy | **Pattern:** Intervals — Overlap Detection | **Tags:** Array, Sorting, Intervals
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Overlap%20Detection-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Sorting%2C%20Intervals-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/meeting-rooms/
 
 > **Note:** This problem is LeetCode Premium (locked behind a subscription), so you can't open it on the site without paying. It's still one of the most commonly asked interview questions — usually posed verbally or on a whiteboard as "given a list of meeting time intervals, can one person attend all of them?" It's also the warm-up for the much more common LC 253 (Meeting Rooms II).
@@ -25,6 +28,8 @@ They touch exactly at `5`, but a meeting ending at 5 and one starting at 5 don't
 
 **Constraints:** `0 <= intervals.length <= 10^4`, `0 <= start < end <= 10^6`.
 
+> **🔑 Pattern Recognition:** "Do any two ranges overlap?" → sort by start, then only adjacent pairs can possibly conflict. Sorting collapses an all-pairs check into a single linear sweep.
+
 ## Intuition (explained simply)
 Two meetings "conflict" if one starts before the other ends. If we sort the meetings by start time, any conflict must show up between two meetings that are now *next to each other* in that sorted order — you never need to compare far-apart meetings once they're sorted.
 
@@ -44,6 +49,17 @@ Two meetings "conflict" if one starts before the other ends. If we sort the meet
 - Why it works: after sorting by start time, if meeting `i` doesn't overlap its immediate predecessor, it can't overlap any earlier meeting either (their end times are all ≤ the predecessor's start progression is monotonic... more precisely: since starts are sorted, if `start[i] >= end[i-1]` there's no conflict with `i-1`, and any meeting before `i-1` already ended even earlier isn't guaranteed, but the classic argument is: only adjacent-after-sort pairs can conflict when checking pairwise start<end validity for a *single room*). This is the standard sweep argument for "no overlap" checks.
 - Time complexity: O(n log n) (sorting dominates)  Space complexity: O(1) extra (sort in place; O(log n) if counting sort's internal stack)
 - Edge cases: empty list or single meeting → trivially `true`; touching meetings (`end == start`) are **not** overlaps; duplicate intervals `[[1,5],[1,5]]` → overlap → `false`.
+
+#### 🎯 Visual Walkthrough
+Tracing `intervals = [[0,30],[5,10],[15,20]]` (Example 1, answer `false`), already sorted by start:
+
+| Interval | Start | End | Compared to previous end | Overlap? |
+|---|---|---|---|---|
+| `[0,30]` | 0 | 30 | — (first) | — |
+| `[5,10]` | 5 | 10 | `5 < 30` (prev end) | **Yes** → return `false` |
+| `[15,20]` | 15 | 20 | not reached | — |
+
+Sorted order puts `[0,30]` first; the very next meeting `[5,10]` starts at `5`, before `[0,30]` ends at `30`, so the sweep stops immediately and returns `false`.
 
 ## Complexity Summary
 | Approach | Time | Space |

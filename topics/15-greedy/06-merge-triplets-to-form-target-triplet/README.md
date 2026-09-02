@@ -1,6 +1,9 @@
 # 1899. Merge Triplets to Form Target Triplet
 
-**Difficulty:** Medium | **Pattern:** Greedy | **Tags:** Array, Greedy
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Greedy-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Greedy-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/merge-triplets-to-form-target-triplet/
 
 ## Problem
@@ -16,6 +19,8 @@ Output: a boolean.
 **Example 3:** `triplets = [[1,2,3]], target = [1,2,3]` → `true`. The single triplet already equals the target — no merge needed.
 
 Constraints: `1 <= triplets.length <= 10^5`, `triplets[i].length == target.length == 3`, `1 <= triplets[i][j], target[j] <= 1000`.
+
+> **🔑 Pattern Recognition:** An operation that can only move values in one direction (max never overshoots, only grows) → discard anything that could ever overshoot the target, then greedily fold in everything that's still safe. "Never hurts, might help" is the greedy safety argument here.
 
 ## Intuition (explained simply)
 Merging takes an elementwise max, so merging can only ever *increase or keep* each coordinate — it can never lower a value. That means: (1) **any** triplet with a coordinate that exceeds the corresponding target coordinate is permanently disqualified from participating in any merge (it would poison that coordinate above the target and there's no way to bring it back down), and (2) among the triplets that don't have that problem ("compatible" triplets, where every coordinate is `<= target`), we just need to check whether their combined elementwise max reaches the target exactly in all three positions — because merging every compatible triplet together (elementwise max, which never overshoots since each is `<=` target already) is always at least as good as merging any subset of them.
@@ -37,6 +42,17 @@ Merging takes an elementwise max, so merging can only ever *increase or keep* ea
 - **Why the greedy "just merge every compatible triplet" choice is safe:** every compatible triplet has all coordinates `<= target`, so merging any number of them together via elementwise max can never push any coordinate *past* the target — the running max is always bounded above by the target coordinatewise. Since merging more compatible triplets can only help (nondecreasing max) and never hurt (never overshoots), there's no reason to ever leave a compatible triplet out — including all of them is always at least as good as including any subset.
 - Time complexity: O(n) — one linear pass, O(1) work per triplet. Space complexity: O(1) extra — a single running triplet.
 - Edge cases: a single triplet equal to target → trivially true; every triplet has some coordinate exceeding target → all filtered out, `best` stays `[0,0,0]` (or below target), answer false; target achievable only by merging *all* triplets together (each contributing a different coordinate) → correctly handled since the accumulator folds in every compatible triplet regardless of which coordinate(s) it uniquely satisfies.
+
+#### 🎯 Visual Walkthrough
+Tracing `triplets = [[2,5,3],[1,8,4],[1,7,5]], target = [2,7,5]` (Example 1, answer `true`):
+
+```mermaid
+flowchart TD
+    A["best=[0,0,0]"] --> B["[2,5,3]: all coords <= target<br/>compatible -> best=max=[2,5,3]"]
+    B --> C["[1,8,4]: 8 > target[1]=7<br/>incompatible -> skip, best=[2,5,3]"]
+    C --> D["[1,7,5]: all coords <= target<br/>compatible -> best=max=[2,7,5]"]
+    D --> E["best == target [2,7,5]<br/>Answer: true"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,9 @@
 # 1851. Minimum Interval to Include Each Query
 
-**Difficulty:** Hard | **Pattern:** Intervals + Heap — Offline Sweep with Min-Heap | **Tags:** Array, Heap, Sorting, Intervals
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red)
+![Pattern](https://img.shields.io/badge/Pattern-Offline%20Sweep%20%2B%20Heap-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Heap%2C%20Sorting%2C%20Intervals-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/minimum-interval-to-include-each-query/
 
 ## Problem
@@ -23,6 +26,8 @@ Only one interval contains 5, so its size (`10-1+1=10`) is the answer.
 
 **Constraints:** `1 <= intervals.length, queries.length <= 10^5`, `1 <= left <= right <= 10^7`, `1 <= query <= 10^7`.
 
+> **🔑 Pattern Recognition:** "Smallest covering interval per query, queries processed in increasing order" → offline sweep: sort both lists, activate intervals as their `left` becomes eligible, and let a min-heap (keyed by size) instantly discard expired intervals and surface the smallest valid one.
+
 ## Intuition (explained simply)
 For a single query, we want the smallest interval among all intervals that contain it. Checking every interval for every query is too slow at this scale, so we process queries in sorted order and only ever look at intervals that could possibly matter — using a min-heap keyed by interval size to instantly grab the smallest *currently valid* interval.
 
@@ -43,6 +48,18 @@ For a single query, we want the smallest interval among all intervals that conta
 - Why it works: sorting queries means once an interval expires (its `right < query`), it will stay expired forever (queries only grow), so it's safe to permanently discard it from the heap. The heap always gives us the smallest valid interval in O(log n).
 - Time complexity: O((n + q) log n) (sorting + heap pushes/pops, each O(log n))  Space complexity: O(n) (heap) + O(q) (output/index mapping)
 - Edge cases: a query with no covering interval → `-1`; a query exactly equal to an interval's endpoint (`left == query` or `right == query`) still counts as covered; duplicate queries (answer each independently but they can share heap state); intervals of size 1 (`left == right`).
+
+#### 🎯 Visual Walkthrough
+Tracing `intervals = [[1,4],[2,4],[3,6],[4,4]]`, `queries = [2,3,4,5]` (Example 1, answer `[3,3,1,4]`) — intervals sorted by `left` give sizes `[1,4]→4, [2,4]→3, [3,6]→4, [4,4]→1`:
+
+| Query | Newly pushed `(size, right)` | Popped as expired (`right < query`) | Heap top after | Answer |
+|---|---|---|---|---|
+| 2 | `(4,4)` from `[1,4]`, `(3,4)` from `[2,4]` | none | `(3,4)` | **3** |
+| 3 | `(4,6)` from `[3,6]` | none | `(3,4)` | **3** |
+| 4 | `(1,4)` from `[4,4]` | none | `(1,4)` | **1** |
+| 5 | none left to push | `(3,4)`, `(4,4)`, `(1,4)` all have `right=4 < 5` | `(4,6)` | **4** |
+
+Result: `[3,3,1,4]`.
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,9 @@
 # 435. Non-overlapping Intervals
 
-**Difficulty:** Medium | **Pattern:** Intervals + Greedy — Interval Scheduling | **Tags:** Array, Sorting, Greedy, Intervals
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Interval%20Scheduling-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Sorting%2C%20Greedy%2C%20Intervals-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/non-overlapping-intervals/
 
 ## Problem
@@ -23,6 +26,8 @@ They only touch at `2`, which doesn't count as overlapping — nothing needs rem
 
 **Constraints:** `1 <= intervals.length <= 10^5`, `-5*10^4 <= start < end <= 5*10^4`.
 
+> **🔑 Pattern Recognition:** Overlapping ranges + "minimize removals" → classic activity-selection greedy: sort by **end** time, always keep whichever candidate finishes earliest to leave the most room for the rest.
+
 ## Intuition (explained simply)
 This is really "keep the maximum number of non-overlapping intervals" in disguise — if you keep `k` intervals out of `n`, you removed `n - k`. To keep as many as possible, a classic greedy trick works: always keep whichever interval **ends earliest** among the candidates, because ending early leaves the most room for future intervals.
 
@@ -43,6 +48,18 @@ This is really "keep the maximum number of non-overlapping intervals" in disguis
 - Why it works: this is the classic "activity selection" greedy — always preferring the interval that frees up the earliest end time is provably optimal (an exchange argument: any optimal solution can be transformed to also pick the earliest-ending compatible interval without doing worse).
 - Time complexity: O(n log n) (sort dominates; the greedy pass is O(n))  Space complexity: O(1) extra (O(n) or O(log n) for the sort itself, depending on implementation)
 - Edge cases: single interval → 0 removals; all identical intervals → keep 1, remove the rest; already non-overlapping → 0 removals; touching endpoints (`end == next start`) do **not** count as overlap.
+
+#### 🎯 Visual Walkthrough
+Tracing `intervals = [[1,2],[2,3],[3,4],[1,3]]` (Example 1, answer `1`), sorted by **end** time:
+
+| Interval | Start | End | `last_end` before | Decision |
+|---|---|---|---|---|
+| `[1,2]` | 1 | 2 | -∞ | `1 >= -∞` → keep, `last_end=2` |
+| `[2,3]` | 2 | 3 | 2 | `2 >= 2` → keep, `last_end=3` |
+| `[1,3]` | 1 | 3 | 3 | `1 < 3` → **overlap, remove** (count=1) |
+| `[3,4]` | 3 | 4 | 3 | `3 >= 3` → keep, `last_end=4` |
+
+Only `[1,3]` needs removing → answer `1`.
 
 ## Complexity Summary
 | Approach | Time | Space |

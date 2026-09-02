@@ -1,6 +1,9 @@
 # 763. Partition Labels
 
-**Difficulty:** Medium | **Pattern:** Greedy | **Tags:** Array, Greedy, Two Pointers
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Greedy-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%2C%20Greedy%2C%20Two%20Pointers-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/partition-labels/
 
 ## Problem
@@ -16,6 +19,8 @@ Output: a list of integers — the size of each partition, left to right.
 **Example 3:** `s = "abc"` → `[1,1,1]`. No letter repeats, so each character is its own partition.
 
 Constraints: `1 <= s.length <= 500`. `s` consists of lowercase English letters only.
+
+> **🔑 Pattern Recognition:** "Cut as soon as it's safe" using each element's last-seen position → greedy two-pointer with a precomputed last-index map. The window's required end only ever grows until the scan catches up — then it's safe to cut.
 
 ## Intuition (explained simply)
 A partition boundary is only allowed at position `i` if **no letter that has appeared so far reappears later** past position `i`. To know that safely, first find the *last* index where each letter appears anywhere in the string. Then scan left to right, growing the current chunk's "required end" to be the max of the last-occurrence indices of every letter seen so far in this chunk; the moment the scan position catches up to that required end, every letter seen in this chunk is guaranteed to never reappear beyond this point — that's a safe place to cut.
@@ -37,6 +42,22 @@ A partition boundary is only allowed at position `i` if **no letter that has app
 - **Why the greedy "extend to the max last-index seen, then cut the moment we catch up" choice is safe:** the chunk *must* extend at least to the last occurrence of every character it contains (splitting earlier would break that character across two chunks), and extending any further than necessary only produces fewer, larger partitions — which is never required and never helps make *more* partitions. So the smallest valid extension (stopping exactly when the running position catches up to the required end) is guaranteed to produce the maximum possible number of partitions.
 - Time complexity: O(n) — one pass to compute `last_index`, one pass to build partitions. Space complexity: O(1) extra (a fixed-size array/dict of 26 letters) plus O(n) for the output list of partition sizes.
 - Edge cases: single character → one partition of length 1; a character that spans the entire string (appears at both index 0 and index n-1) → forces one partition covering the whole string; every character distinct → each is its own length-1 partition.
+
+#### 🎯 Visual Walkthrough
+Tracing `s = "ababcbacadefegdehijhklij"` (Example 1, answer `[9,7,8]`):
+
+```mermaid
+flowchart TD
+    A["start=0<br/>end=last_index['a']=8"] --> B["scan 0..8 (a,b,c only)<br/>b last=5, c last=7 - both < 8<br/>i reaches end=8 -> cut"]
+    B --> C["Chunk 1: 'ababcbaca'<br/>length 9"]
+    C --> D["start=9<br/>end=last_index['d']=14<br/>e(15) extends end to 15"]
+    D --> E["scan 9..15 (d,e,f,g)<br/>i reaches end=15 -> cut"]
+    E --> F["Chunk 2: 'defegde'<br/>length 7"]
+    F --> G["start=16<br/>end=last_index['h']=19<br/>i(22),j(23) extend end to 23"]
+    G --> H["scan 16..23 (h,i,j,k,l)<br/>i reaches end=23 -> cut"]
+    H --> I["Chunk 3: 'hijhklij'<br/>length 8"]
+    I --> J["Answer: [9,7,8]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |
