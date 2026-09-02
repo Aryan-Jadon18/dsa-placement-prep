@@ -1,6 +1,9 @@
 # 138. Copy List with Random Pointer
 
-**Difficulty:** Medium | **Pattern:** Hashing | **Tags:** Linked List, Hash Table
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Hashing%20%2F%20Interweaving-blue)
+![Tags](https://img.shields.io/badge/Tags-Linked%20List%20%7C%20Hash%20Table-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/copy-list-with-random-pointer/
 
 ## Problem
@@ -24,6 +27,9 @@ copy.
 
 **Constraints:** number of nodes in `[0, 1000]`, `-10^4 <= Node.val <= 10^4`,
 `Node.random` is `None` or points to a node in the list.
+
+> 🔑 **Pattern Recognition**
+> Deep-copying a structure with pointers that can jump *forward* to not-yet-created nodes → either a hash map from original to copy, or (for O(1) extra space) interleave copies directly after their originals so "the copy of X" is just `X.next`.
 
 ## Intuition (explained simply)
 The hard part isn't copying `next` pointers — that's a normal list copy. The hard
@@ -72,6 +78,24 @@ yet. We need a reliable way to look up "given this original node, what's its cop
   (excluding the output list itself)
 - Edge cases: empty list (`head is None`), `random` pointing to `None`, `random`
   pointing to the node itself, all nodes having the same `val`.
+
+#### 🎯 Visual Walkthrough
+Tracing example 1: `A(val=1) -> B(val=2)`, `A.random = B`, `B.random = B`:
+
+```mermaid
+graph LR
+    subgraph S1["Step 1 - interleave copies"]
+        A["A val=1"] --> Ap["copy of A, val=1"] --> B["B val=2"] --> Bp["copy of B, val=2"]
+    end
+    subgraph S2["Step 2 - wire random pointers"]
+        A2["A"] -.->|random| B2["B"]
+        Ap2["copy of A"] -.->|"random = A.random.next"| Bp2["copy of B"]
+    end
+    subgraph S3["Step 3 - unweave into two lists"]
+        Af["A"] --> Bf["B"]
+        Apf["copy of A"] --> Bpf["copy of B"]
+    end
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

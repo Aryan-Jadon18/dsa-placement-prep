@@ -1,6 +1,9 @@
 # 84. Largest Rectangle in Histogram
 
-**Difficulty:** Hard | **Pattern:** Monotonic Stack | **Tags:** Array, Stack, Monotonic Stack
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red)
+![Pattern](https://img.shields.io/badge/Pattern-Monotonic%20Stack-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Stack-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/largest-rectangle-in-histogram/
 
 ## Problem
@@ -15,6 +18,9 @@ Given an array of bar heights forming a histogram (each bar has width 1, standin
 3. `heights = [6,7,5,2,4,5,9,3]` → `16`. The bar at index 3 (height 2) is short enough that every other bar in the array is at least as tall, so a rectangle of height 2 can stretch across all 8 bars: `2 * 8 = 16` — the widest possible rectangle, even though its height is modest.
 
 **Constraints:** `1 <= heights.length <= 10^5`, `0 <= heights[i] <= 10^4`.
+
+> 🔑 **Pattern Recognition**
+> Need the "nearest smaller element" on both sides of every bar → monotonic increasing stack. The moment a shorter bar appears, every taller bar on the stack that can't extend further gets its area finalized.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,19 @@ Given an array of bar heights forming a histogram (each bar has width 1, standin
 - This works because the stack always holds bars in increasing height order with "still-open" rectangles; the moment a shorter bar appears, every taller bar that can't extend further gets finalized with its exact left/right boundary determined by its stack neighbors — each bar is pushed and popped exactly once.
 - Time complexity: O(n) — each index is pushed once and popped once.  Space complexity: O(n) for the stack.
 - Edge cases: all bars the same height (one giant rectangle, width n); strictly increasing or strictly decreasing heights (stress-tests the stack push/pop pattern); a height-0 bar acts as a natural barrier splitting the histogram.
+
+#### 🎯 Visual Walkthrough
+Tracing `heights = [2,1,5,6,2,3]` (plus a sentinel `0` appended), showing the key pops:
+
+```mermaid
+flowchart TD
+    A["i=0 h=2 -> push<br/>stack(idx): [0]"] --> B["i=1 h=1 < 2<br/>pop 0, width=1, area=2*1=2<br/>push 1 -> stack: [1]"]
+    B --> C["i=2 h=5 > 1 -> push<br/>stack: [1,2]"]
+    C --> D["i=3 h=6 > 5 -> push<br/>stack: [1,2,3]"]
+    D --> E["i=4 h=2 < 6<br/>pop 3, width=4-2-1=1, area=6*1=6<br/>pop 2, width=4-1-1=2, area=5*2=10<br/>push 4 -> stack: [1,4]"]
+    E --> F["i=5 h=3 > 2 -> push<br/>stack: [1,4,5]"]
+    F --> G["sentinel h=0 flushes stack<br/>best area found = 10"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,9 @@
 # 33. Search in Rotated Sorted Array
 
-**Difficulty:** Medium | **Pattern:** Modified Binary Search | **Tags:** Array, Binary Search
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Modified%20Binary%20Search-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Binary%20Search-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/search-in-rotated-sorted-array/
 
 ## Problem
@@ -15,6 +18,9 @@ An array that was originally sorted ascending with all-distinct values has been 
 3. `nums = [1], target = 0` → `-1`. Single-element array not containing the target.
 
 **Constraints:** `1 <= nums.length <= 5000`, `-10^4 <= nums[i] <= 10^4`, all values unique, `nums` is a rotated version of an ascending sorted array.
+
+> 🔑 **Pattern Recognition**
+> Sorted array + rotated at an unknown pivot + O(log n) target search → at every midpoint, at least one half is still genuinely sorted, so decide which half is sorted first, then check if the target lies in it.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,15 @@ An array that was originally sorted ascending with all-distinct values has been 
 - This works because in any rotated sorted array, at least one of the two halves around any midpoint is always a normal, fully sorted, contiguous range — so we can always tell which half to safely discard.
 - Time complexity: O(log n) — a single binary search pass.  Space complexity: O(1)
 - Edge cases: array with no rotation at all (still works, since one "half" is trivially the whole sorted array); single-element array; target equal to `nums[mid]` at the very first comparison; target equal to the pivot value itself.
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [4,5,6,7,0,1,2], target = 0`:
+
+```mermaid
+flowchart TD
+    A["lo=0, hi=6, mid=3<br/>nums[3]=7 != 0<br/>nums[lo]=4<=nums[mid]=7 -> left sorted<br/>target 0 not in [4,7] -> search right<br/>lo=mid+1=4"] --> B["lo=4, hi=6, mid=5<br/>nums[5]=1 != 0<br/>nums[lo]=0<=nums[mid]=1 -> left sorted<br/>target 0 in [0,1] -> search left<br/>hi=mid-1=4"]
+    B --> C["lo=4, hi=4, mid=4<br/>nums[4]=0 == target<br/>return 4"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

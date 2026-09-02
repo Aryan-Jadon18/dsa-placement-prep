@@ -1,6 +1,9 @@
 # 853. Car Fleet
 
-**Difficulty:** Medium | **Pattern:** Stack + Sorting | **Tags:** Array, Stack, Sorting
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Stack%20%2B%20Sorting-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Stack%20%7C%20Sorting-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/car-fleet/
 
 ## Problem
@@ -15,6 +18,9 @@ Several cars drive along a one-lane road toward the same destination (position `
 3. `target = 100, position = [0,2,4], speed = [4,2,1]` → `1`. The car at 0 (speed 4) catches both cars ahead of it before reaching the target, and they all merge into a single fleet.
 
 **Constraints:** `n == position.length == speed.length`, `1 <= n <= 10^5`, `0 < target <= 10^6`, `0 <= position[i] < target`, all `position[i]` are unique, `0 < speed[i] <= 10^6`.
+
+> 🔑 **Pattern Recognition**
+> Sort by position, then process front-to-back keeping a stack of "confirmed fleet arrival times" — a car that can't beat the time on top of the stack must merge into it. Sort + stack is the signature combo whenever later elements can only be "blocked" by earlier ones.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,18 @@ Several cars drive along a one-lane road toward the same destination (position `
 - This works because sorting by position guarantees we always process cars in the order they'd encounter each other, and the stack keeps exactly one "arrival time to catch" per fleet formed so far — a smaller-or-equal arrival time can never break away from the fleet ahead of it (it can't overtake), so it merges by definition.
 - Time complexity: O(n log n) — the sort dominates; the single pass afterward is O(n).  Space complexity: O(n) for the sorted pairs and the stack.
 - Edge cases: a single car (always 1 fleet); all cars with equal arrival time (all merge into one fleet, since equal-or-slower means "catches up exactly at the target"); cars already sorted or in reverse order.
+
+#### 🎯 Visual Walkthrough
+Tracing example 1: `target=12, position=[10,8,0,5,3], speed=[2,4,1,1,3]`, sorted by position descending: `(10,2), (8,4), (5,1), (3,3), (0,1)` with solo arrival times `1.0, 1.0, 7.0, 3.0, 12.0`:
+
+```mermaid
+flowchart TD
+    A["car(pos=10) time=1.0<br/>stack empty -> push<br/>stack: [1.0]"] --> B["car(pos=8) time=1.0<br/>1.0 <= top 1.0 -> merges<br/>stack: [1.0]"]
+    B --> C["car(pos=5) time=7.0<br/>7.0 > top 1.0 -> push<br/>stack: [1.0, 7.0]"]
+    C --> D["car(pos=3) time=3.0<br/>3.0 <= top 7.0 -> merges<br/>stack: [1.0, 7.0]"]
+    D --> E["car(pos=0) time=12.0<br/>12.0 > top 7.0 -> push<br/>stack: [1.0, 7.0, 12.0]"]
+    E --> F["final stack size = 3 -> 3 fleets"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

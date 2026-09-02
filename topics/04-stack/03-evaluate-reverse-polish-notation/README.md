@@ -1,6 +1,9 @@
 # 150. Evaluate Reverse Polish Notation
 
-**Difficulty:** Medium | **Pattern:** Stack — Expression Evaluation | **Tags:** Array, Stack, Math
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Stack-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Stack%20%7C%20Math-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/evaluate-reverse-polish-notation/
 
 ## Problem
@@ -15,6 +18,9 @@ You're given an arithmetic expression written in Reverse Polish Notation (postfi
 3. `tokens = ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]` → `22`. A longer expression demonstrating nested postfix evaluation.
 
 **Constraints:** `1 <= tokens.length <= 10^4`, each token is an integer in `[-200, 200]` or one of `+ - * /`; the expression is always valid and division truncates toward zero.
+
+> 🔑 **Pattern Recognition**
+> Postfix/RPN expressions are built specifically so that "the two most recent operands" are always exactly what the next operator needs → push numbers, and on an operator pop-pop-apply-push.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,18 @@ You're given an arithmetic expression written in Reverse Polish Notation (postfi
 - This works because postfix notation is defined precisely so that a stack-based left-to-right scan always has the correct two operands on top exactly when an operator is seen — no lookahead or parsing needed.
 - Time complexity: O(n) — single pass, O(1) per token.  Space complexity: O(n) for the stack (numbers only, since operators consume and don't grow it).
 - Edge cases: division must truncate toward zero, not floor (e.g. `-7 / 2` should be `-3`, not `-4`, so use `int(a / b)` rather than `a // b`); negative numbers as standalone tokens (e.g. `"-11"`) must be parsed as integers correctly, not mistaken for operators.
+
+#### 🎯 Visual Walkthrough
+Tracing `tokens = ["2","1","+","3","*"]` (which is `(2 + 1) * 3 = 9`):
+
+```mermaid
+flowchart TD
+    A["token='2' -> push<br/>stack: 2"] --> B["token='1' -> push<br/>stack: 2, 1"]
+    B --> C["token='+' -> pop 1, pop 2<br/>2 + 1 = 3, push<br/>stack: 3"]
+    C --> D["token='3' -> push<br/>stack: 3, 3"]
+    D --> E["token='*' -> pop 3, pop 3<br/>3 * 3 = 9, push<br/>stack: 9"]
+    E --> F["one value left -> return 9"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

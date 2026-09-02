@@ -1,6 +1,9 @@
 # 206. Reverse Linked List
 
-**Difficulty:** Easy | **Pattern:** Linked List Basics — Pointer Manipulation | **Tags:** Linked List, Recursion
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Pointer%20Manipulation-blue)
+![Tags](https://img.shields.io/badge/Tags-Linked%20List%20%7C%20Recursion-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/reverse-linked-list/
 
 ## Problem
@@ -17,6 +20,9 @@ the new head (which was previously the tail).
 3. Input: `[]` (empty list) → Output: `[]`. Nothing to reverse.
 
 **Constraints:** `0 <= number of nodes <= 5000`, `-5000 <= Node.val <= 5000`.
+
+> 🔑 **Pattern Recognition**
+> Reversing node order in a singly linked list → track three pointers (`prev`, `curr`, `nxt`) so you never lose the rest of the list the instant you overwrite a `next` pointer.
 
 ## Intuition (explained simply)
 A linked list is a chain of nodes where each node points forward to the next one.
@@ -55,6 +61,21 @@ follow it — so you must save that reference *before* you overwrite the pointer
   done recursively)
 - Edge cases: empty list (`head is None`), single node list — both should just return
   unchanged/trivially reversed.
+
+#### 🎯 Visual Walkthrough
+Tracing `1 -> 2 -> 3 -> 4 -> 5`:
+
+Before reversal:
+```mermaid
+graph LR
+    N1[1] --> N2[2] --> N3[3] --> N4[4] --> N5[5]
+```
+
+After the iterative `prev/curr/nxt` walk, every arrow is flipped:
+```mermaid
+graph LR
+    N5[5] --> N4[4] --> N3[3] --> N2[2] --> N1[1]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,9 @@
 # 20. Valid Parentheses
 
-**Difficulty:** Easy | **Pattern:** Stack — Matching Pairs | **Tags:** String, Stack
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Stack-blue)
+![Tags](https://img.shields.io/badge/Tags-String%20%7C%20Stack-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/valid-parentheses/
 
 ## Problem
@@ -15,6 +18,9 @@ Given a string made only of the bracket characters `(`, `)`, `{`, `}`, `[`, `]`,
 3. `s = "([)]"` → `False`. The brackets overlap incorrectly — `(` opens, `[` opens, but then `)` tries to close before `[` is closed.
 
 **Constraints:** `1 <= s.length <= 10^4`, `s` consists only of `()[]{}`.
+
+> 🔑 **Pattern Recognition**
+> Nested/matching structure where the *most recently opened* item must be the *first closed* → reach for a stack. Any "balanced brackets/tags" phrasing is the interview cue.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,19 @@ Given a string made only of the bracket characters `(`, `)`, `{`, `}`, `[`, `]`,
 - This works because the stack's top is always the most recently opened, unclosed bracket — exactly the one that must match next — and the hash map makes the matching check a clean O(1) lookup.
 - Time complexity: O(n) — single pass, O(1) work per character.  Space complexity: O(n) worst case (e.g., all opening brackets).
 - Edge cases: odd-length strings (can never be valid, though the algorithm handles this naturally); a closing bracket with an empty stack (invalid — nothing to match); leftover openers at the end (invalid — never closed).
+
+#### 🎯 Visual Walkthrough
+Tracing `s = "()[]{}"` through the optimal algorithm:
+
+```mermaid
+flowchart TD
+    A["read '(' -> push<br/>stack: ("] --> B["read ')' -> matches top '('<br/>pop -> stack: empty"]
+    B --> C["read '[' -> push<br/>stack: ["]
+    C --> D["read ']' -> matches top '['<br/>pop -> stack: empty"]
+    D --> E["read '{' -> push<br/>stack: {"]
+    E --> F["read '}' -> matches top '{'<br/>pop -> stack: empty"]
+    F --> G["end of string, stack empty<br/>return True"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,9 @@
 # 4. Median of Two Sorted Arrays
 
-**Difficulty:** Hard | **Pattern:** Binary Search — Partition Search | **Tags:** Array, Binary Search, Divide and Conquer
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red)
+![Pattern](https://img.shields.io/badge/Pattern-Binary%20Search%20Partition-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Binary%20Search-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/median-of-two-sorted-arrays/
 
 ## Problem
@@ -15,6 +18,9 @@ Given two sorted arrays, find the median of the combined set of all their elemen
 3. `nums1 = [], nums2 = [1]` → `1.0`. One array is empty; the median of the other array alone.
 
 **Constraints:** `0 <= m, n <= 1000`, `1 <= m + n <= 2000`, `-10^6 <= nums1[i], nums2[i] <= 10^6`, at least one array is non-empty.
+
+> 🔑 **Pattern Recognition**
+> "Find the median/k-th element across two sorted arrays in logarithmic time" → binary search on a *partition point*, not on a value. Search for the split of the smaller array that balances the combined left/right halves.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,15 @@ Given two sorted arrays, find the median of the combined set of all their elemen
 - This works because a correct partition guarantees the left combined half contains exactly the smallest `(m+n+1)//2` elements across both arrays without ever merging them — we're binary-searching for *where* that split falls in the smaller array, which pins down where it must fall in the other.
 - Time complexity: O(log(min(m, n))) — binary search over the smaller array's index range.  Space complexity: O(1)
 - Edge cases: one array is empty (skip binary search on the empty one, median is purely from the other); very unequal sizes (always binary search on the *smaller* array to keep partitions in bounds); use `-infinity`/`+infinity` sentinels when a partition boundary falls at index 0 or the array's end, to avoid out-of-bounds access; careful odd vs. even total-length median formulas.
+
+#### 🎯 Visual Walkthrough
+Tracing `nums1 = [1,2], nums2 = [3,4]` (binary searching the partition `i` over `nums1`, `half = (m+n+1)//2 = 2`):
+
+```mermaid
+flowchart TD
+    A["lo=0, hi=2, i=1, j=half-i=1<br/>left1=nums1[0]=1, right1=nums1[1]=2<br/>left2=nums2[0]=3, right2=nums2[1]=4<br/>left2(3) > right1(2) -> i too small<br/>lo=i+1=2"] --> B["lo=2, hi=2, i=2, j=half-i=0<br/>left1=nums1[1]=2, right1=+inf (i==m)<br/>left2=-inf (j==0), right2=nums2[0]=3<br/>left1(2)<=right2(3) and left2(-inf)<=right1(+inf) -> balanced"]
+    B --> C["even total length (4)<br/>median = (max(2,-inf) + min(+inf,3)) / 2<br/>= (2 + 3) / 2 = 2.5"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

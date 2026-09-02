@@ -1,6 +1,9 @@
 # 875. Koko Eating Bananas
 
-**Difficulty:** Medium | **Pattern:** Binary Search on Answer | **Tags:** Array, Binary Search
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Binary%20Search%20on%20Answer-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Binary%20Search-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/koko-eating-bananas/
 
 ## Problem
@@ -15,6 +18,9 @@ Koko has `n` piles of bananas and `h` hours before the guards return. Each hour 
 3. `piles = [30,11,23,4,20], h = 6` → `23`. One extra hour lets her split the largest pile (30) across two hours at speed 23 (ceil(30/23)=2), while all others still take 1 hour each.
 
 **Constraints:** `1 <= piles.length <= 10^4`, `piles.length <= h <= 10^9`, `1 <= piles[i] <= 10^9`.
+
+> 🔑 **Pattern Recognition**
+> "Find the minimum/maximum value that satisfies a feasibility check, where feasibility is monotonic" → binary search *on the answer*, not on the input array. Whenever "can we do it at speed/capacity k?" flips from false to true exactly once as k grows, this pattern applies.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,16 @@ Koko has `n` piles of bananas and `h` hours before the guards return. Each hour 
 - This works because "can Koko finish in `h` hours at speed `k`" is a monotonic yes/no function of `k` — once true, it stays true for all faster speeds — which is exactly the condition binary search needs to find the boundary between "no" and "yes."
 - Time complexity: O(n · log(max(piles))) — O(log(max(piles))) binary search steps, each doing an O(n) hour-count.  Space complexity: O(1)
 - Edge cases: `h == len(piles)` (forces `k = max(piles)`, one pile per hour exactly); a single pile (`k` must at least clear it within `h` hours, i.e. `k = ceil(pile / h)`); make sure `ceil` division is computed correctly (`(pile + k - 1) // k`, not integer floor division).
+
+#### 🎯 Visual Walkthrough
+Tracing `piles = [3,6,7,11], h = 8` over the speed range `[1, 11]`:
+
+```mermaid
+flowchart TD
+    A["lo=1, hi=11, mid=6<br/>hours=1+1+2+2=6 <= 8 -> feasible<br/>hi=mid-1=5"] --> B["lo=1, hi=5, mid=3<br/>hours=1+2+3+4=10 > 8 -> too slow<br/>lo=mid+1=4"]
+    B --> C["lo=4, hi=5, mid=4<br/>hours=1+2+2+3=8 <= 8 -> feasible<br/>hi=mid-1=3"]
+    C --> D["lo=4, hi=3 -> loop ends<br/>answer = 4"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

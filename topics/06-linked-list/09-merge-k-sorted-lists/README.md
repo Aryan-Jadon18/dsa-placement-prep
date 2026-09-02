@@ -1,6 +1,9 @@
 # 23. Merge k Sorted Lists
 
-**Difficulty:** Hard | **Pattern:** Divide & Conquer / Heap | **Tags:** Linked List, Heap, Divide and Conquer
+![Difficulty](https://img.shields.io/badge/Difficulty-Hard-red)
+![Pattern](https://img.shields.io/badge/Pattern-Divide%20%26%20Conquer%20%2F%20Heap-blue)
+![Tags](https://img.shields.io/badge/Tags-Linked%20List%20%7C%20Heap-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/merge-k-sorted-lists/
 
 ## Problem
@@ -19,6 +22,9 @@ list and return its head.
 
 **Constraints:** `0 <= k <= 10^4`, `0 <= length of each list <= 500`,
 `-10^4 <= Node.val <= 10^4`, total nodes across all lists `<= 10^4`.
+
+> 🔑 **Pattern Recognition**
+> "Merge two sorted lists," generalized to `k` lists → either pair-and-merge in `log k` rounds (divide & conquer), or keep the current front of every list in a min-heap so the global minimum is always O(log k) away.
 
 ## Intuition (explained simply)
 This is "Merge Two Sorted Lists" generalized to `k` lists instead of 2. The question
@@ -69,6 +75,19 @@ step, instead of just comparing 2 candidates.
   recursion stack for divide & conquer), output list is O(N) but that's unavoidable.
 - Edge cases: empty `lists` array, `lists` containing `None` entries, only one
   non-empty list, all lists empty.
+
+#### 🎯 Visual Walkthrough
+Tracing example 1 with the divide & conquer strategy: `lists = [1->4->5, 1->3->4, 2->6]`:
+
+```mermaid
+flowchart TD
+    A["List A: 1 -> 4 -> 5"] --> D["merge(A, B)<br/>1 -> 1 -> 3 -> 4 -> 4 -> 5"]
+    B["List B: 1 -> 3 -> 4"] --> D
+    C["List C: 2 -> 6"] --> E["merge(D, C)<br/>1 -> 1 -> 2 -> 3 -> 4 -> 4 -> 5 -> 6"]
+    D --> E
+```
+
+Pairing lists and merging each pair halves the number of lists every round (`log k` rounds total), each doing O(N) work, giving `O(N log k)` overall — the min-heap approach reaches the same complexity by always popping the smallest of the k current list-fronts.
 
 ## Complexity Summary
 | Approach | Time | Space |

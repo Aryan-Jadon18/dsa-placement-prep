@@ -1,6 +1,9 @@
 # 143. Reorder List
 
-**Difficulty:** Medium | **Pattern:** Fast/Slow + Reverse + Merge | **Tags:** Linked List, Two Pointers, Stack
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Fast%2FSlow%20%2B%20Reverse%20%2B%20Merge-blue)
+![Tags](https://img.shields.io/badge/Tags-Linked%20List%20%7C%20Two%20Pointers-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/reorder-list/
 
 ## Problem
@@ -20,6 +23,9 @@ this by relinking the existing nodes, not by only changing their values.
 3. `1` (single node) → `1`. Nothing to reorder.
 
 **Constraints:** number of nodes in `[1, 5*10^4]`, `1 <= Node.val <= 1000`.
+
+> 🔑 **Pattern Recognition**
+> Zig-zag reordering (front, back, front, back, ...) of a singly linked list → find the middle with fast/slow pointers, reverse the second half, then weave the two halves together one node at a time.
 
 ## Intuition (explained simply)
 The target order zig-zags: first from the front, then from the back, then front,
@@ -65,6 +71,27 @@ simple weave.
   length (careful splitting so the front half doesn't accidentally include the
   reversed-half's starting point), must cut `next` pointers properly at the split to
   avoid an accidental leftover cycle.
+
+#### 🎯 Visual Walkthrough
+Tracing `1 -> 2 -> 3 -> 4` (target output: `1 -> 4 -> 2 -> 3`):
+
+```mermaid
+graph LR
+    subgraph S1["Step 1 - original"]
+        A1[1] --> A2[2] --> A3[3] --> A4[4]
+    end
+    subgraph S2["Step 2 - split at middle"]
+        B1[1] --> B2[2]
+        B3[3] --> B4[4]
+    end
+    subgraph S3["Step 3 - reverse second half"]
+        C1[1] --> C2[2]
+        C4[4] --> C3[3]
+    end
+    subgraph S4["Step 4 - weave together"]
+        D1[1] --> D4[4] --> D2[2] --> D3[3]
+    end
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

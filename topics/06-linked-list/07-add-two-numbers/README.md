@@ -1,6 +1,9 @@
 # 2. Add Two Numbers
 
-**Difficulty:** Medium | **Pattern:** Linked List Simulation | **Tags:** Linked List, Math, Recursion
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Linked%20List%20Simulation-blue)
+![Tags](https://img.shields.io/badge/Tags-Linked%20List%20%7C%20Math-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/add-two-numbers/
 
 ## Problem
@@ -23,6 +26,9 @@ digits in reverse order
 
 **Constraints:** each list has `[1, 100]` nodes, `0 <= Node.val <= 9`, no leading
 zeros in the represented numbers except the number `0` itself.
+
+> 🔑 **Pattern Recognition**
+> Digits stored in reverse order across two linked lists → simulate elementary-school column addition, walking both lists in lockstep with a single running `carry` variable, since least-significant digit is already first.
 
 ## Intuition (explained simply)
 This is exactly how you add two numbers by hand on paper, digit by digit from the
@@ -70,6 +76,16 @@ digit first, since the lists store digits in reverse order.
   (unavoidable — the output itself must be built), O(1) auxiliary space beyond that.
 - Edge cases: lists of different lengths, a final leftover carry producing an extra
   digit, both inputs being `0`.
+
+#### 🎯 Visual Walkthrough
+Tracing example 1: `l1 = 2 -> 4 -> 3` (342), `l2 = 5 -> 6 -> 4` (465), expecting `7 -> 0 -> 8` (807):
+
+```mermaid
+flowchart TD
+    A["digit1=2, digit2=5, carry=0<br/>total=7 -> digit=7, carry=0<br/>append 7"] --> B["digit1=4, digit2=6, carry=0<br/>total=10 -> digit=0, carry=1<br/>append 0"]
+    B --> C["digit1=3, digit2=4, carry=1<br/>total=8 -> digit=8, carry=0<br/>append 8"]
+    C --> D["both lists exhausted, carry=0<br/>result: 7 -> 0 -> 8"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

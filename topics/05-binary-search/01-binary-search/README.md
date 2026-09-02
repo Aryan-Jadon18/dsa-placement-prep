@@ -1,6 +1,9 @@
 # 704. Binary Search
 
-**Difficulty:** Easy | **Pattern:** Binary Search — Classic | **Tags:** Array, Binary Search
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Binary%20Search-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Binary%20Search-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/binary-search/
 
 ## Problem
@@ -15,6 +18,9 @@ Given a sorted (ascending) array of distinct integers and a target value, find t
 3. `nums = [5], target = 5` → `0`. Single-element array containing exactly the target.
 
 **Constraints:** `1 <= nums.length <= 10^4`, `-10^4 < nums[i], target < 10^4`, all `nums[i]` are unique and sorted ascending.
+
+> 🔑 **Pattern Recognition**
+> Sorted array + "find a target" → binary search. Comparing the midpoint to the target always tells you which half to discard, so you never need to touch every element.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,14 @@ Given a sorted (ascending) array of distinct integers and a target value, find t
 - This works because the array is sorted, so comparing against the midpoint always tells us unambiguously which half the target could be in, letting us discard half the remaining elements every step.
 - Time complexity: O(log n)  Space complexity: O(1)
 - Edge cases: single-element array; target smaller than everything (`low` immediately exceeds `high`); target larger than everything; target equal to the first or last element (boundary correctness of `low`/`high` updates).
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [-1,0,3,5,9,12], target = 9`:
+
+```mermaid
+flowchart TD
+    A["lo=0, hi=5, mid=2<br/>nums[2]=3 < target=9<br/>lo=mid+1=3"] --> B["lo=3, hi=5, mid=4<br/>nums[4]=9 == target=9<br/>return 4"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

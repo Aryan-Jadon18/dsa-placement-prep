@@ -1,6 +1,9 @@
 # 19. Remove Nth Node From End of List
 
-**Difficulty:** Medium | **Pattern:** Two Pointers | **Tags:** Linked List, Two Pointers
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Two%20Pointers-blue)
+![Tags](https://img.shields.io/badge/Tags-Linked%20List%20%7C%20Two%20Pointers-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/remove-nth-node-from-end-of-list/
 
 ## Problem
@@ -19,6 +22,9 @@ from the end of the list, and return the (possibly new) head.
 
 **Constraints:** number of nodes in `[1, 30]`, `0 <= Node.val <= 100`,
 `1 <= n <= number of nodes` (n is always valid).
+
+> 🔑 **Pattern Recognition**
+> "n-th node from the end, in one pass" on a singly linked list (which only walks forward) → two pointers held a fixed `n` gap apart, so when the lead pointer hits the end, the trailing pointer sits exactly where it needs to be.
 
 ## Intuition (explained simply)
 The tricky part of a singly linked list is that you can only walk forward, so you
@@ -60,6 +66,16 @@ trailing pointer is exactly at the node to remove.
 - Time complexity: O(L), single pass  Space complexity: O(1)
 - Edge cases: removing the head node itself (handled cleanly by the dummy node),
   `n` equal to the list length (removes the head), single-node list.
+
+#### 🎯 Visual Walkthrough
+Tracing example 1: `1 -> 2 -> 3 -> 4 -> 5`, `n = 2` (remove the 2nd node from the end, `4`):
+
+```mermaid
+graph LR
+    Dm[dummy] --> A1[1] --> A2[2] --> A3[3] --> A4[4] --> A5[5]
+```
+
+`fast` starts at `dummy` and advances `n+1 = 3` steps ahead of `slow` (also at `dummy`). Then both move forward together until `fast` reaches `None`: `slow` ends up parked at `3`, one node before the target `4`, so `slow.next = slow.next.next` unlinks `4`, producing `1 -> 2 -> 3 -> 5`.
 
 ## Complexity Summary
 | Approach | Time | Space |

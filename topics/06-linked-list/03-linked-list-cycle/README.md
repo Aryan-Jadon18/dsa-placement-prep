@@ -1,6 +1,9 @@
 # 141. Linked List Cycle
 
-**Difficulty:** Easy | **Pattern:** Fast & Slow Pointers | **Tags:** Linked List, Two Pointers
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Fast%20%26%20Slow%20Pointers-blue)
+![Tags](https://img.shields.io/badge/Tags-Linked%20List%20%7C%20Two%20Pointers-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/linked-list-cycle/
 
 ## Problem
@@ -19,6 +22,9 @@ back into the list rather than to `None`)
 3. `1 -> None` (single node, no cycle) → `False`.
 
 **Constraints:** number of nodes in `[0, 10^4]`, `-10^5 <= Node.val <= 10^5`.
+
+> 🔑 **Pattern Recognition**
+> Detecting a loop in a linked list without extra memory → fast & slow pointers (Floyd's Tortoise and Hare). If a cycle exists, the faster pointer is guaranteed to lap the slower one; if not, it simply falls off the end.
 
 ## Intuition (explained simply)
 Imagine walking along the list one node at a time, remembering which nodes you've
@@ -59,6 +65,16 @@ seen — walking a finite, cycle-free list, on the other hand, always terminates
 - Edge cases: empty list (`head is None`), single node with no cycle vs. single node
   pointing to itself, checking `fast` and `fast.next` for `None` before advancing to
   avoid a crash.
+
+#### 🎯 Visual Walkthrough
+Tracing example 1: `3 -> 2 -> 0 -> -4`, where `-4` loops back to `2`:
+
+```mermaid
+graph LR
+    A[3] --> B[2] --> C[0] --> D[-4] --> B
+```
+
+`slow` and `fast` both start at `3`. `slow` steps one node at a time while `fast` steps two; because the list loops back into itself instead of ending at `None`, `fast` re-enters the loop and eventually lands on the same node as `slow` — proving a cycle exists.
 
 ## Complexity Summary
 | Approach | Time | Space |

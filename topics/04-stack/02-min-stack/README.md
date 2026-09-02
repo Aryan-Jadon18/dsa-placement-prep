@@ -1,6 +1,9 @@
 # 155. Min Stack
 
-**Difficulty:** Medium | **Pattern:** Stack Design | **Tags:** Stack, Design
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Stack%20Design-blue)
+![Tags](https://img.shields.io/badge/Tags-Stack%20%7C%20Design-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/min-stack/
 
 ## Problem
@@ -15,6 +18,9 @@ Design a stack that supports the usual `push`, `pop`, and `top` operations, plus
 3. `push(1); push(2); getMin() → 1; push(0); getMin() → 0; pop(); getMin() → 1`. The min tracks the smallest value currently present, updating as elements are pushed and popped.
 
 **Constraints:** up to `3 * 10^4` calls total to `push`, `pop`, `top`, `getMin`; `pop`, `top`, `getMin` are only called on a non-empty stack; values fit in a 32-bit signed integer.
+
+> 🔑 **Pattern Recognition**
+> "Design a stack that also answers X in O(1)" → keep a second, parallel stack that caches the running answer to X (here, the minimum) at every depth, so popping both together always restores the correct prior state.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,19 @@ Design a stack that supports the usual `push`, `pop`, and `top` operations, plus
 - This works because `min_stack` at every depth stores "the minimum considering everything pushed up to and including this point," so popping the top of both stacks together automatically restores the correct previous minimum — no special-casing needed.
 - Time complexity: O(1) for every operation — `push`, `pop`, `top`, `getMin`.  Space complexity: O(n) for the two parallel stacks (still linear, just simple and robust).
 - Edge cases: pushing duplicate values (must not lose track of the min when one duplicate is popped); popping down to an empty stack; single-element stack (`getMin` and `top` return that element).
+
+#### 🎯 Visual Walkthrough
+Tracing example 1: `push(-2); push(0); push(-3); getMin(); pop(); top(); getMin()`
+
+```mermaid
+flowchart TD
+    A["push(-2)<br/>stack: -2<br/>min_stack: -2"] --> B["push(0)<br/>stack: -2, 0<br/>min_stack: -2, -2"]
+    B --> C["push(-3)<br/>stack: -2, 0, -3<br/>min_stack: -2, -2, -3"]
+    C --> D["getMin() -> min_stack top = -3"]
+    D --> E["pop()<br/>stack: -2, 0<br/>min_stack: -2, -2"]
+    E --> F["top() -> stack top = 0"]
+    F --> G["getMin() -> min_stack top = -2"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

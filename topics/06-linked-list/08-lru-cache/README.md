@@ -1,6 +1,9 @@
 # 146. LRU Cache
 
-**Difficulty:** Medium | **Pattern:** Design (HashMap + Doubly Linked List) | **Tags:** Linked List, Design, Hash Table
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-HashMap%20%2B%20Doubly%20Linked%20List-blue)
+![Tags](https://img.shields.io/badge/Tags-Linked%20List%20%7C%20Design%20%7C%20Hash%20Table-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/lru-cache/
 
 ## Problem
@@ -24,6 +27,9 @@ marking it most recently used, and if this pushes the cache over capacity, evict
 
 **Constraints:** `1 <= capacity <= 3000`, `0 <= key, value <= 10^4`, at most
 `2 * 10^5` calls total.
+
+> 🔑 **Pattern Recognition**
+> Need O(1) lookup by key *and* O(1) "move to most-recent" / "evict least-recent" → combine a hash map (fast lookup) with a doubly linked list (fast reordering at arbitrary positions) — the textbook LRU design.
 
 ## Intuition (explained simply)
 We need two things simultaneously: fast lookup by key (a hash map's specialty), and a
@@ -74,6 +80,17 @@ structure alone gives both — the combination is what makes this a "design" pro
 - Edge cases: `get`/`put` on a key not present, updating an existing key (must not
   double-count against capacity), capacity of 1, evicting exactly when capacity is
   exceeded (not before).
+
+#### 🎯 Visual Walkthrough
+Tracing example 1: `LRUCache(2)`; `put(1,1)`; `put(2,2)`; `get(1)`; `put(3,3)` (evicts key 2); `get(2)` → `-1`:
+
+```mermaid
+flowchart TD
+    A["put(1,1)<br/>list (MRU to LRU): 1"] --> B["put(2,2)<br/>list (MRU to LRU): 2, 1"]
+    B --> C["get(1) -> 1<br/>move 1 to front<br/>list: 1, 2"]
+    C --> D["put(3,3), over capacity<br/>evict LRU tail = 2<br/>list: 3, 1"]
+    D --> E["get(2) -> not found -> -1"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

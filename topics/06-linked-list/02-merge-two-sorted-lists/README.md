@@ -1,6 +1,9 @@
 # 21. Merge Two Sorted Lists
 
-**Difficulty:** Easy | **Pattern:** Linked List Basics — Merging | **Tags:** Linked List, Recursion
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen)
+![Pattern](https://img.shields.io/badge/Pattern-Two%20Pointer%20Merge-blue)
+![Tags](https://img.shields.io/badge/Tags-Linked%20List%20%7C%20Recursion-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/merge-two-sorted-lists/
 
 ## Problem
@@ -20,6 +23,9 @@ sorted linked list by splicing the existing nodes together, and return its head.
 
 **Constraints:** total nodes across both lists in `[0, 50]`, `-100 <= Node.val <= 100`,
 both lists sorted in non-decreasing order.
+
+> 🔑 **Pattern Recognition**
+> Two already-sorted sequences that need to become one sorted sequence → the classic merge-sort merge step: a dummy head + tail pointer, always splicing on whichever front node is smaller.
 
 ## Intuition (explained simply)
 Both lists are already sorted, like two sorted piles of cards. To merge them into one
@@ -62,6 +68,24 @@ instead of arrays.
   if done recursively)
 - Edge cases: one or both lists empty, lists of very different lengths, duplicate
   values across lists (either order is acceptable since it's stable either way).
+
+#### 🎯 Visual Walkthrough
+Tracing `list1 = 1 -> 2 -> 4`, `list2 = 1 -> 3 -> 4`:
+
+```mermaid
+graph LR
+    subgraph list1
+        A1[1] --> A2[2] --> A3[4]
+    end
+    subgraph list2
+        B1[1] --> B2[3] --> B3[4]
+    end
+    subgraph merged result
+        C1[1] --> C2[1] --> C3[2] --> C4[3] --> C5[4] --> C6[4]
+    end
+```
+
+At each step the smaller of the two current fronts is spliced onto the result's tail: `list1` head `1` ties with `list2` head `1` (either can go first), then `2` (from list1) beats `3` (from list2), then `3` beats `4`, and finally both remaining `4`s are appended.
 
 ## Complexity Summary
 | Approach | Time | Space |

@@ -1,6 +1,9 @@
 # 739. Daily Temperatures
 
-**Difficulty:** Medium | **Pattern:** Monotonic Stack | **Tags:** Array, Stack, Monotonic Stack
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Monotonic%20Stack-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Stack-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/daily-temperatures/
 
 ## Problem
@@ -15,6 +18,9 @@ Given a list of daily temperatures, for each day find how many days you'd have t
 3. `temperatures = [30,60,90]` → `[1,1,0]`. Every day has an immediate warmer next day except the last, which has none.
 
 **Constraints:** `1 <= temperatures.length <= 10^5`, `30 <= temperatures[i] <= 100`.
+
+> 🔑 **Pattern Recognition**
+> "Next greater/warmer element" for every position → monotonic stack. Keep indices whose answer is still unknown on the stack, and resolve them the moment a bigger value shows up.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,19 @@ Given a list of daily temperatures, for each day find how many days you'd have t
 - This works because the stack holds "days still waiting for a warmer day," and the moment a strictly warmer day appears, we can resolve every waiting day whose temperature it beats, all in one pass — each index is pushed once and popped once.
 - Time complexity: O(n) — each index enters and leaves the stack exactly once.  Space complexity: O(n) for the stack in the worst case (strictly decreasing temperatures).
 - Edge cases: all temperatures identical (no strictly warmer day, all answers 0); strictly decreasing sequence (all answers 0); the last day always gets 0 by definition.
+
+#### 🎯 Visual Walkthrough
+Tracing the first few days of `temperatures = [73,74,75,71,69,72,76,73]`:
+
+```mermaid
+flowchart TD
+    A["day0=73 -> push<br/>stack(idx): [0]"] --> B["day1=74 > 73<br/>pop 0, answer[0]=1-0=1<br/>push 1 -> stack: [1]"]
+    B --> C["day2=75 > 74<br/>pop 1, answer[1]=2-1=1<br/>push 2 -> stack: [2]"]
+    C --> D["day3=71 < 75 -> push<br/>stack: [2,3]"]
+    D --> E["day4=69 < 71 -> push<br/>stack: [2,3,4]"]
+    E --> F["day5=72 > 69,71<br/>pop 4, answer[4]=5-4=1<br/>pop 3, answer[3]=5-3=2<br/>push 5 -> stack: [2,5]"]
+    F --> G["day6=76 > 72,75<br/>pop 5, answer[5]=6-5=1<br/>pop 2, answer[2]=6-2=4<br/>push 6 -> stack: [6]"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |

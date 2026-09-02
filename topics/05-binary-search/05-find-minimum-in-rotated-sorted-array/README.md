@@ -1,6 +1,9 @@
 # 153. Find Minimum in Rotated Sorted Array
 
-**Difficulty:** Medium | **Pattern:** Modified Binary Search | **Tags:** Array, Binary Search
+![Difficulty](https://img.shields.io/badge/Difficulty-Medium-yellow)
+![Pattern](https://img.shields.io/badge/Pattern-Modified%20Binary%20Search-blue)
+![Tags](https://img.shields.io/badge/Tags-Array%20%7C%20Binary%20Search-lightgrey)
+
 **LeetCode:** https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
 
 ## Problem
@@ -15,6 +18,9 @@ An array of distinct integers, originally sorted ascending, has been rotated at 
 3. `nums = [11,13,15,17]` → `11`. No effective rotation (or rotated by a full cycle) — the array is already in ascending order, so the first element is the minimum.
 
 **Constraints:** `1 <= nums.length <= 5000`, `-5000 <= nums[i] <= 5000`, all values unique, `nums` is a rotated version of an ascending sorted array.
+
+> 🔑 **Pattern Recognition**
+> Rotated sorted array + "find the rotation point" → compare `nums[mid]` to `nums[high]` to tell which side the discontinuity is on, then shrink toward it. No special-casing "no rotation" needed.
 
 ## Intuition (explained simply)
 
@@ -35,6 +41,16 @@ An array of distinct integers, originally sorted ascending, has been rotated at 
 - This works because comparing the midpoint to the *right* boundary (rather than the left) cleanly tells us which side the rotation discontinuity is on, without needing any special case for "no rotation" — a sorted array just always takes the `high = mid` branch and converges to index 0.
 - Time complexity: O(log n)  Space complexity: O(1)
 - Edge cases: no rotation at all (fully sorted array — minimum is `nums[0]`); rotation by exactly `n` (equivalent to no rotation); single-element array (trivially the minimum, loop doesn't execute).
+
+#### 🎯 Visual Walkthrough
+Tracing `nums = [4,5,6,7,0,1,2]`:
+
+```mermaid
+flowchart TD
+    A["lo=0, hi=6, mid=3<br/>nums[3]=7 > nums[hi]=2<br/>min is right of mid<br/>lo=mid+1=4"] --> B["lo=4, hi=6, mid=5<br/>nums[5]=1 <= nums[hi]=2<br/>min is at mid or left<br/>hi=mid=5"]
+    B --> C["lo=4, hi=5, mid=4<br/>nums[4]=0 <= nums[hi]=1<br/>hi=mid=4"]
+    C --> D["lo=4, hi=4 -> converged<br/>minimum = nums[4] = 0"]
+```
 
 ## Complexity Summary
 | Approach | Time | Space |
