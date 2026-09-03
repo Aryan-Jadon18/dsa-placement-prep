@@ -87,16 +87,16 @@ exceeds what's remaining):
 
 ```mermaid
 graph TD
-    R["start: remaining=7, path=[]"]
-    A["pick 2 → remaining=5<br/>path=[2]"]
-    B["pick 2 → remaining=3<br/>path=[2,2]"]
+    R["start: remaining=7, path=&#91;&#93;"]
+    A["pick 2 → remaining=5<br/>path=&#91;2&#93;"]
+    B["pick 2 → remaining=3<br/>path=&#91;2,2&#93;"]
     C["pick 2 → remaining=1<br/>2 > 1 → ❌ pruned (break)"]
-    D["pick 3 → remaining=0<br/>path=[2,2,3] ✅"]
+    D["pick 3 → remaining=0<br/>path=&#91;2,2,3&#93; ✅"]
     E["pick 3 → remaining=2<br/>3 > 2 → ❌ pruned (break)"]
-    F["pick 3 → remaining=4<br/>path=[3]"]
+    F["pick 3 → remaining=4<br/>path=&#91;3&#93;"]
     G["pick 3 → remaining=1<br/>3 > 1 → ❌ pruned (break)"]
     H["pick 6 → remaining=1<br/>6 > 1 → ❌ pruned (break, skips 7 too)"]
-    I["pick 7 → remaining=0<br/>path=[7] ✅"]
+    I["pick 7 → remaining=0<br/>path=&#91;7&#93; ✅"]
     R --> A --> B --> C
     B --> D
     A --> E

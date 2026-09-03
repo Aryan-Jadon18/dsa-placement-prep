@@ -47,7 +47,7 @@ Tracing `nums1 = [1,2], nums2 = [3,4]` (binary searching the partition `i` over 
 
 ```mermaid
 flowchart TD
-    A["lo=0, hi=2, i=1, j=half-i=1<br/>left1=nums1[0]=1, right1=nums1[1]=2<br/>left2=nums2[0]=3, right2=nums2[1]=4<br/>left2(3) > right1(2) -> i too small<br/>lo=i+1=2"] --> B["lo=2, hi=2, i=2, j=half-i=0<br/>left1=nums1[1]=2, right1=+inf (i==m)<br/>left2=-inf (j==0), right2=nums2[0]=3<br/>left1(2)<=right2(3) and left2(-inf)<=right1(+inf) -> balanced"]
+    A["lo=0, hi=2, i=1, j=half-i=1<br/>left1=nums1&#91;0&#93;=1, right1=nums1&#91;1&#93;=2<br/>left2=nums2&#91;0&#93;=3, right2=nums2&#91;1&#93;=4<br/>left2(3) > right1(2) -> i too small<br/>lo=i+1=2"] --> B["lo=2, hi=2, i=2, j=half-i=0<br/>left1=nums1&#91;1&#93;=2, right1=+inf (i==m)<br/>left2=-inf (j==0), right2=nums2&#91;0&#93;=3<br/>left1(2)<=right2(3) and left2(-inf)<=right1(+inf) -> balanced"]
     B --> C["even total length (4)<br/>median = (max(2,-inf) + min(+inf,3)) / 2<br/>= (2 + 3) / 2 = 2.5"]
 ```
 

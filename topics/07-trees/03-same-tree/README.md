@@ -72,10 +72,10 @@ compares them one at a time — the mismatch is found as soon as `2`'s position 
 
 ```mermaid
 graph TD
-    subgraph P["Tree p = [1,2]"]
+    subgraph P["Tree p = &#91;1,2&#93;"]
         P1["1"] --> P2["2 (left child)"]
     end
-    subgraph Q["Tree q = [1,null,2]"]
+    subgraph Q["Tree q = &#91;1,null,2&#93;"]
         Q1["1"] --> Q3["2 (right child)"]
     end
     P1 -.->|"stack pop: compare (p,q) values match"| Q1

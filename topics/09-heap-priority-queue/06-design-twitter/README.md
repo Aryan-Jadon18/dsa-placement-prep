@@ -95,9 +95,9 @@ Tracing `getNewsFeed(1)` from example 1 after `follow(1,2)` and `postTweet(2,6)`
 ```mermaid
 flowchart TD
     A["push most-recent tail of each followee:<br/>(t1,tweet6,user2), (t0,tweet5,user1)<br/>max-heap by timestamp"]
-    B["pop max → t1,tweet6<br/>result=[6]<br/>user2 has no older tweet to push back"]
-    C["pop max → t0,tweet5<br/>result=[6,5]<br/>heap empty → stop (< 10 needed)"]
-    D["return [6,5]"]
+    B["pop max → t1,tweet6<br/>result=&#91;6&#93;<br/>user2 has no older tweet to push back"]
+    C["pop max → t0,tweet5<br/>result=&#91;6,5&#93;<br/>heap empty → stop (< 10 needed)"]
+    D["return &#91;6,5&#93;"]
     A --> B --> C --> D
 ```
 

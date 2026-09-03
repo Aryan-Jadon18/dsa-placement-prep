@@ -42,10 +42,10 @@ Given a list of strings, group the ones that are anagrams of each other into the
 Tracing `strs = ["eat", "tea", "tan", "ate", "nat", "bat"]` (using count signatures as keys):
 ```mermaid
 flowchart TD
-    A["'eat' → sig(a:1,e:1,t:1)<br/>map={sig1:[eat]}"] --> B["'tea' → sig(a:1,e:1,t:1)<br/>same key → map={sig1:[eat,tea]}"]
-    B --> C["'tan' → sig(a:1,n:1,t:1)<br/>new key → map={sig1:..., sig2:[tan]}"]
-    C --> D["'ate' → sig1 → [eat,tea,ate]<br/>'nat' → sig2 → [tan,nat]<br/>'bat' → new sig3 → [bat]"]
-    D --> E["result: [[eat,tea,ate],[tan,nat],[bat]]"]
+    A["'eat' → sig(a:1,e:1,t:1)<br/>map={sig1:&#91;eat&#93;}"] --> B["'tea' → sig(a:1,e:1,t:1)<br/>same key → map={sig1:&#91;eat,tea&#93;}"]
+    B --> C["'tan' → sig(a:1,n:1,t:1)<br/>new key → map={sig1:..., sig2:&#91;tan&#93;}"]
+    C --> D["'ate' → sig1 → &#91;eat,tea,ate&#93;<br/>'nat' → sig2 → &#91;tan,nat&#93;<br/>'bat' → new sig3 → &#91;bat&#93;"]
+    D --> E["result: &#91;&#91;eat,tea,ate&#93;,&#91;tan,nat&#93;,&#91;bat&#93;&#93;"]
 ```
 
 ## Complexity Summary

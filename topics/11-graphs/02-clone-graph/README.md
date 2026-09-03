@@ -45,11 +45,11 @@ Tracing DFS-with-memoization on Example 1's triangle graph (`1 -- 2 -- 3 -- 1`):
 
 ```mermaid
 graph TD
-    A["visit 1<br/>create clone(1), map[1]=clone1"] --> B["visit 2<br/>create clone(2), map[2]=clone2"]
-    B --> C["visit 3<br/>create clone(3), map[3]=clone3"]
-    C -->|"neighbor 1 already cloned"| D["return map[1] — breaks the cycle"]
-    C -->|"neighbor 2 already cloned"| E["return map[2]"]
-    A -->|"neighbor 3 already cloned"| F["return map[3]"]
+    A["visit 1<br/>create clone(1), map&#91;1&#93;=clone1"] --> B["visit 2<br/>create clone(2), map&#91;2&#93;=clone2"]
+    B --> C["visit 3<br/>create clone(3), map&#91;3&#93;=clone3"]
+    C -->|"neighbor 1 already cloned"| D["return map&#91;1&#93; — breaks the cycle"]
+    C -->|"neighbor 2 already cloned"| E["return map&#91;2&#93;"]
+    A -->|"neighbor 3 already cloned"| F["return map&#91;3&#93;"]
 ```
 The map lookup on an already-cloned node is what stops the recursion from looping around the triangle forever.
 

@@ -47,10 +47,10 @@ Tracing example 1: `target=12, position=[10,8,0,5,3], speed=[2,4,1,1,3]`, sorted
 
 ```mermaid
 flowchart TD
-    A["car(pos=10) time=1.0<br/>stack empty -> push<br/>stack: [1.0]"] --> B["car(pos=8) time=1.0<br/>1.0 <= top 1.0 -> merges<br/>stack: [1.0]"]
-    B --> C["car(pos=5) time=7.0<br/>7.0 > top 1.0 -> push<br/>stack: [1.0, 7.0]"]
-    C --> D["car(pos=3) time=3.0<br/>3.0 <= top 7.0 -> merges<br/>stack: [1.0, 7.0]"]
-    D --> E["car(pos=0) time=12.0<br/>12.0 > top 7.0 -> push<br/>stack: [1.0, 7.0, 12.0]"]
+    A["car(pos=10) time=1.0<br/>stack empty -> push<br/>stack: &#91;1.0&#93;"] --> B["car(pos=8) time=1.0<br/>1.0 <= top 1.0 -> merges<br/>stack: &#91;1.0&#93;"]
+    B --> C["car(pos=5) time=7.0<br/>7.0 > top 1.0 -> push<br/>stack: &#91;1.0, 7.0&#93;"]
+    C --> D["car(pos=3) time=3.0<br/>3.0 <= top 7.0 -> merges<br/>stack: &#91;1.0, 7.0&#93;"]
+    D --> E["car(pos=0) time=12.0<br/>12.0 > top 7.0 -> push<br/>stack: &#91;1.0, 7.0, 12.0&#93;"]
     E --> F["final stack size = 3 -> 3 fleets"]
 ```
 

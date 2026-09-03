@@ -54,8 +54,8 @@ Tracing the optimal approach on Example 1's `s = "aacecaaa"` (expected answer `"
 flowchart TD
     A["combined = s + '#' + reverse(s)<br/>= 'aacecaaa#aaacecaa'"] --> B["Run KMP LPS build on combined (17 chars)"]
     B --> C["lps of last char = 7"]
-    C --> D["Longest palindromic prefix = s[:7] = 'aacecaa'"]
-    D --> E["Leftover suffix = s[7:] = 'a'"]
+    C --> D["Longest palindromic prefix = s&#91;:7&#93; = 'aacecaa'"]
+    D --> E["Leftover suffix = s&#91;7:&#93; = 'a'"]
     E --> F["Reverse leftover = 'a'"]
     F --> G["Answer = reverse(leftover) + s = 'a' + 'aacecaaa' = 'aaacecaaa'"]
 ```

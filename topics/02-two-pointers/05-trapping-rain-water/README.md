@@ -42,7 +42,7 @@ Given an array representing an elevation map (bar heights of width 1), compute h
 Tracing `height = [0,1,0,2,1,0,1,3,2,1,2,1]` → total `6`:
 ```mermaid
 flowchart TD
-    A["left=0(0), right=11(1)<br/>leftMax=0, rightMax=1<br/>height[left]<=height[right] → process left"] --> B["left=1(1): leftMax→1<br/>water += 1-1=0, left++"]
+    A["left=0(0), right=11(1)<br/>leftMax=0, rightMax=1<br/>height&#91;left&#93;<=height&#91;right&#93; → process left"] --> B["left=1(1): leftMax→1<br/>water += 1-1=0, left++"]
     B --> C["left=2(0): leftMax stays 1<br/>water += 1-0=1 (total=1), left++"]
     C --> D["... both pointers sweep inward,<br/>always processing the smaller-max side"]
     D --> E["pointers meet<br/>→ total water = 6"]

@@ -48,10 +48,10 @@ Tracing `hand = [1,2,3,6,2,3,4,7,8], groupSize = 3` (Example 1, answer `true`):
 
 ```mermaid
 flowchart TD
-    A["counts: 1:1 2:2 3:2 4:1 6:1 7:1 8:1"] --> B["value=1, count=1>0<br/>form group [1,2,3]<br/>counts become 1:0 2:1 3:1"]
-    B --> C["value=2, count=1>0<br/>form group [2,3,4]<br/>counts become 2:0 3:0 4:0"]
+    A["counts: 1:1 2:2 3:2 4:1 6:1 7:1 8:1"] --> B["value=1, count=1>0<br/>form group &#91;1,2,3&#93;<br/>counts become 1:0 2:1 3:1"]
+    B --> C["value=2, count=1>0<br/>form group &#91;2,3,4&#93;<br/>counts become 2:0 3:0 4:0"]
     C --> D["value=3,4: count=0 -> skip"]
-    D --> E["value=6, count=1>0<br/>form group [6,7,8]<br/>counts become 6:0 7:0 8:0"]
+    D --> E["value=6, count=1>0<br/>form group &#91;6,7,8&#93;<br/>counts become 6:0 7:0 8:0"]
     E --> F["All counts exhausted<br/>Answer: true"]
 ```
 

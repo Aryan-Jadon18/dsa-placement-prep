@@ -42,10 +42,10 @@ Given an integer array, return a new array where each position holds the product
 Tracing `nums = [1, 2, 3, 4]` → `[24, 12, 8, 6]`:
 ```mermaid
 flowchart TD
-    A["Prefix pass (L→R):<br/>answer=[1,1,2,6]<br/>(product of everything to the left)"] --> B["Suffix pass (R→L), suffix=1:<br/>i=3: answer[3]=6*1=6, suffix→4"]
-    B --> C["i=2: answer[2]=2*4=8, suffix→12"]
-    C --> D["i=1: answer[1]=1*12=12, suffix→24"]
-    D --> E["i=0: answer[0]=1*24=24<br/>→ [24,12,8,6]"]
+    A["Prefix pass (L→R):<br/>answer=&#91;1,1,2,6&#93;<br/>(product of everything to the left)"] --> B["Suffix pass (R→L), suffix=1:<br/>i=3: answer&#91;3&#93;=6*1=6, suffix→4"]
+    B --> C["i=2: answer&#91;2&#93;=2*4=8, suffix→12"]
+    C --> D["i=1: answer&#91;1&#93;=1*12=12, suffix→24"]
+    D --> E["i=0: answer&#91;0&#93;=1*24=24<br/>→ &#91;24,12,8,6&#93;"]
 ```
 
 ## Complexity Summary

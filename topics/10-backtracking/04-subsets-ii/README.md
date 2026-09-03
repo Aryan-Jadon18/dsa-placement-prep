@@ -90,15 +90,15 @@ needed):
 
 ```mermaid
 graph TD
-    R["sorted nums=[1,2,2]<br/>distinct: 1 (x1), 2 (x2)"]
-    A["include 1 × 0<br/>path=[]"]
-    B["include 1 × 1<br/>path=[1]"]
-    A0["include 2 × 0 → [] ✅"]
-    A1["include 2 × 1 → [2] ✅"]
-    A2["include 2 × 2 → [2,2] ✅"]
-    B0["include 2 × 0 → [1] ✅"]
-    B1["include 2 × 1 → [1,2] ✅"]
-    B2["include 2 × 2 → [1,2,2] ✅"]
+    R["sorted nums=&#91;1,2,2&#93;<br/>distinct: 1 (x1), 2 (x2)"]
+    A["include 1 × 0<br/>path=&#91;&#93;"]
+    B["include 1 × 1<br/>path=&#91;1&#93;"]
+    A0["include 2 × 0 → &#91;&#93; ✅"]
+    A1["include 2 × 1 → &#91;2&#93; ✅"]
+    A2["include 2 × 2 → &#91;2,2&#93; ✅"]
+    B0["include 2 × 0 → &#91;1&#93; ✅"]
+    B1["include 2 × 1 → &#91;1,2&#93; ✅"]
+    B2["include 2 × 2 → &#91;1,2,2&#93; ✅"]
     R --> A --> A0
     A --> A1
     A --> A2

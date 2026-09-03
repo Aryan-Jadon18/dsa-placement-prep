@@ -77,15 +77,15 @@ loop over remaining indices):
 
 ```mermaid
 graph TD
-    R["start: path=[]<br/>record → []"]
-    A["i=1: path=[1]<br/>record → [1]"]
-    B["i=2: path=[1,2]<br/>record → [1,2]"]
-    C["i=3: path=[1,2,3]<br/>record → [1,2,3] ✅"]
+    R["start: path=&#91;&#93;<br/>record → &#91;&#93;"]
+    A["i=1: path=&#91;1&#93;<br/>record → &#91;1&#93;"]
+    B["i=2: path=&#91;1,2&#93;<br/>record → &#91;1,2&#93;"]
+    C["i=3: path=&#91;1,2,3&#93;<br/>record → &#91;1,2,3&#93; ✅"]
     D["backtrack, no more j → return"]
-    E["i=3: path=[1,3]<br/>record → [1,3] ✅"]
-    F["i=2: path=[2]<br/>record → [2]"]
-    G["i=3: path=[2,3]<br/>record → [2,3] ✅"]
-    H["i=3: path=[3]<br/>record → [3] ✅"]
+    E["i=3: path=&#91;1,3&#93;<br/>record → &#91;1,3&#93; ✅"]
+    F["i=2: path=&#91;2&#93;<br/>record → &#91;2&#93;"]
+    G["i=3: path=&#91;2,3&#93;<br/>record → &#91;2,3&#93; ✅"]
+    H["i=3: path=&#91;3&#93;<br/>record → &#91;3&#93; ✅"]
     R --> A --> B --> C --> D
     A --> E
     R --> F --> G

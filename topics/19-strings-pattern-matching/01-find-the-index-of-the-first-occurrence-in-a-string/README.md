@@ -53,8 +53,8 @@ Tracing the KMP scan on Example 1's `haystack = "sadbutsad"`, `needle = "sad"` (
 
 ```mermaid
 flowchart TD
-    A["i=0: haystack[0]='s', needle[0]='s' -> match"] --> B["i=1: haystack[1]='a', needle[1]='a' -> match"]
-    B --> C["i=2: haystack[2]='d', needle[2]='d' -> match, needle fully consumed"]
+    A["i=0: haystack&#91;0&#93;='s', needle&#91;0&#93;='s' -> match"] --> B["i=1: haystack&#91;1&#93;='a', needle&#91;1&#93;='a' -> match"]
+    B --> C["i=2: haystack&#91;2&#93;='d', needle&#91;2&#93;='d' -> match, needle fully consumed"]
     C --> D["Report start index = 0"]
 ```
 

@@ -56,8 +56,8 @@ Tracing `intervals = [[0,30],[5,10],[15,20]]` (Example 1, answer `2`), sorted by
 
 ```mermaid
 flowchart TD
-    A["[0,30]: heap empty<br/>push 30 -> heap=[30]<br/>rooms=1"] --> B["[5,10]: top=30, 30<=5? no<br/>push 10 -> heap=[10,30]<br/>rooms=2"]
-    B --> C["[15,20]: top=10, 10<=15? yes<br/>pop 10, push 20 -> heap=[20,30]<br/>rooms stays 2"]
+    A["&#91;0,30&#93;: heap empty<br/>push 30 -> heap=&#91;30&#93;<br/>rooms=1"] --> B["&#91;5,10&#93;: top=30, 30<=5? no<br/>push 10 -> heap=&#91;10,30&#93;<br/>rooms=2"]
+    B --> C["&#91;15,20&#93;: top=10, 10<=15? yes<br/>pop 10, push 20 -> heap=&#91;20,30&#93;<br/>rooms stays 2"]
     C --> D["Max heap size seen = 2<br/>Answer: 2 rooms"]
 ```
 

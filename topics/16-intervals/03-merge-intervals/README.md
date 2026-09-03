@@ -55,10 +55,10 @@ Tracing `intervals = [[1,3],[2,6],[8,10],[15,18]]` (Example 1, answer `[[1,6],[8
 
 ```mermaid
 flowchart LR
-    A["[1,3]"] -->|"2 <= 3 -> overlaps"| B["merge with [2,6]"]
-    B --> C["[1,6]"]
-    C -->|"8 > 6 -> no overlap"| D["[8,10] kept separate"]
-    D -->|"15 > 10 -> no overlap"| E["[15,18] kept separate"]
+    A["&#91;1,3&#93;"] -->|"2 <= 3 -> overlaps"| B["merge with &#91;2,6&#93;"]
+    B --> C["&#91;1,6&#93;"]
+    C -->|"8 > 6 -> no overlap"| D["&#91;8,10&#93; kept separate"]
+    D -->|"15 > 10 -> no overlap"| E["&#91;15,18&#93; kept separate"]
 ```
 
 Result: `[[1,6],[8,10],[15,18]]`.

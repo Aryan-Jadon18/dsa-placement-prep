@@ -85,9 +85,9 @@ Tracing `points = [[3,3],[5,-1],[-2,4]]`, `k=2` from example 2 (squared distance
 flowchart TD
     A["array by dist: P1=18, P2=26, P3=20<br/>pivot = P3 (dist 20)"]
     B["scan: 18 < 20 → stays left<br/>26 < 20? no → stays right"]
-    C["swap pivot into place<br/>→ [P1=18, P3=20, P2=26]<br/>pivot lands at index 1"]
+    C["swap pivot into place<br/>→ &#91;P1=18, P3=20, P2=26&#93;<br/>pivot lands at index 1"]
     D["pivot index 1 == k-1 (1)<br/>✅ boundary found, stop recursing"]
-    E["return first k=2:<br/>[3,3] and [-2,4]"]
+    E["return first k=2:<br/>&#91;3,3&#93; and &#91;-2,4&#93;"]
     A --> B --> C --> D --> E
 ```
 

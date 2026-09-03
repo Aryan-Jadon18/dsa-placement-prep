@@ -51,8 +51,8 @@ The Fenwick tree built from the example's `nums = [1, 3, 5]` (1-indexed position
 
 ```mermaid
 graph TD
-    N1["tree[1] = 1<br/>owns nums[0..0]"] -->|update propagates up to| N2["tree[2] = 4<br/>owns nums[0..1]"]
-    N3["tree[3] = 5<br/>owns nums[2..2]"]
+    N1["tree&#91;1&#93; = 1<br/>owns nums&#91;0..0&#93;"] -->|update propagates up to| N2["tree&#91;2&#93; = 4<br/>owns nums&#91;0..1&#93;"]
+    N3["tree&#91;3&#93; = 5<br/>owns nums&#91;2..2&#93;"]
 ```
 
 **`sumRange(0, 2)` = `prefixSum(3)`** (jump backward by lowest set bit: `3 -> 2 -> 0`):

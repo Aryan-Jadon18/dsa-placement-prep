@@ -43,9 +43,9 @@ Tracing `nums = [-1, 0, 1, 2, -1, -4]` → sorted `[-4, -1, -1, 0, 1, 2]`:
 ```mermaid
 flowchart TD
     A["i=0 (-4): left=1,right=5<br/>sum=-4+-1+2=-3 < 0 → left++"] --> B["i=0: left=2,right=5<br/>sum=-4+-1+2=-3 < 0 → left++ ... no triplet for i=0"]
-    B --> C["i=1 (-1): left=2,right=5<br/>sum=-1+-1+2=0 → found [-1,-1,2]"]
-    C --> D["left++, right--<br/>left=3,right=4<br/>sum=-1+0+1=0 → found [-1,0,1]"]
-    D --> E["left/right meet → i=1 done<br/>result: [[-1,-1,2],[-1,0,1]]"]
+    B --> C["i=1 (-1): left=2,right=5<br/>sum=-1+-1+2=0 → found &#91;-1,-1,2&#93;"]
+    C --> D["left++, right--<br/>left=3,right=4<br/>sum=-1+0+1=0 → found &#91;-1,0,1&#93;"]
+    D --> E["left/right meet → i=1 done<br/>result: &#91;&#91;-1,-1,2&#93;,&#91;-1,0,1&#93;&#93;"]
 ```
 
 ## Complexity Summary

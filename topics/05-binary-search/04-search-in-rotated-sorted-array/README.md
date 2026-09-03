@@ -47,8 +47,8 @@ Tracing `nums = [4,5,6,7,0,1,2], target = 0`:
 
 ```mermaid
 flowchart TD
-    A["lo=0, hi=6, mid=3<br/>nums[3]=7 != 0<br/>nums[lo]=4<=nums[mid]=7 -> left sorted<br/>target 0 not in [4,7] -> search right<br/>lo=mid+1=4"] --> B["lo=4, hi=6, mid=5<br/>nums[5]=1 != 0<br/>nums[lo]=0<=nums[mid]=1 -> left sorted<br/>target 0 in [0,1] -> search left<br/>hi=mid-1=4"]
-    B --> C["lo=4, hi=4, mid=4<br/>nums[4]=0 == target<br/>return 4"]
+    A["lo=0, hi=6, mid=3<br/>nums&#91;3&#93;=7 != 0<br/>nums&#91;lo&#93;=4<=nums&#91;mid&#93;=7 -> left sorted<br/>target 0 not in &#91;4,7&#93; -> search right<br/>lo=mid+1=4"] --> B["lo=4, hi=6, mid=5<br/>nums&#91;5&#93;=1 != 0<br/>nums&#91;lo&#93;=0<=nums&#91;mid&#93;=1 -> left sorted<br/>target 0 in &#91;0,1&#93; -> search left<br/>hi=mid-1=4"]
+    B --> C["lo=4, hi=4, mid=4<br/>nums&#91;4&#93;=0 == target<br/>return 4"]
 ```
 
 ## Complexity Summary

@@ -82,11 +82,11 @@ for readability):
 
 ```mermaid
 flowchart TD
-    A["heapify → heap=[8,7,4,2,1,1]"]
-    B["pop 8,7 → diff=1<br/>push 1 → heap=[4,2,1,1,1]"]
-    C["pop 4,2 → diff=2<br/>push 2 → heap=[2,1,1,1]"]
-    D["pop 2,1 → diff=1<br/>push 1 → heap=[1,1,1]"]
-    E["pop 1,1 → diff=0<br/>equal, both destroyed → heap=[1]"]
+    A["heapify → heap=&#91;8,7,4,2,1,1&#93;"]
+    B["pop 8,7 → diff=1<br/>push 1 → heap=&#91;4,2,1,1,1&#93;"]
+    C["pop 4,2 → diff=2<br/>push 2 → heap=&#91;2,1,1,1&#93;"]
+    D["pop 2,1 → diff=1<br/>push 1 → heap=&#91;1,1,1&#93;"]
+    E["pop 1,1 → diff=0<br/>equal, both destroyed → heap=&#91;1&#93;"]
     F["heap size 1 → return 1"]
     A --> B --> C --> D --> E --> F
 ```

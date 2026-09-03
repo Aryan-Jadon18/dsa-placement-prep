@@ -89,18 +89,18 @@ representative slice showing both the duplicate-skip and the `break` pruning):
 
 ```mermaid
 graph TD
-    R["sorted=[1,2,2,2,5], target=5"]
-    A["pick 1 (idx0) → remaining=4<br/>path=[1]"]
-    A1["pick 2 (idx1) → remaining=2<br/>path=[1,2]"]
-    A1a["pick 2 (idx2) → remaining=0<br/>path=[1,2,2] ✅"]
+    R["sorted=&#91;1,2,2,2,5&#93;, target=5"]
+    A["pick 1 (idx0) → remaining=4<br/>path=&#91;1&#93;"]
+    A1["pick 2 (idx1) → remaining=2<br/>path=&#91;1,2&#93;"]
+    A1a["pick 2 (idx2) → remaining=0<br/>path=&#91;1,2,2&#93; ✅"]
     A1b["idx3=2, same as idx2<br/>❌ pruned (skip duplicate)"]
     A1c["idx4=5 → 5 > 2<br/>❌ pruned (break)"]
     A2["idx2=2, same as idx1 sibling<br/>❌ pruned (skip duplicate)"]
-    B["pick 2 (idx1, top level) → remaining=3<br/>path=[2]"]
-    B1["pick 2 (idx2) → remaining=1<br/>path=[2,2]"]
+    B["pick 2 (idx1, top level) → remaining=3<br/>path=&#91;2&#93;"]
+    B1["pick 2 (idx2) → remaining=1<br/>path=&#91;2,2&#93;"]
     B1a["idx3=2 → 2 > 1<br/>❌ pruned (break)"]
     C["idx2=2, same as idx1 sibling<br/>❌ pruned (skip duplicate)"]
-    D["pick 5 (idx4, top level) → remaining=0<br/>path=[5] ✅"]
+    D["pick 5 (idx4, top level) → remaining=0<br/>path=&#91;5&#93; ✅"]
     R --> A --> A1 --> A1a
     A1 --> A1b
     A1 --> A1c

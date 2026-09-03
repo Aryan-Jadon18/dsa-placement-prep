@@ -47,11 +47,11 @@ Tracing `heights = [2,1,5,6,2,3]` (plus a sentinel `0` appended), showing the ke
 
 ```mermaid
 flowchart TD
-    A["i=0 h=2 -> push<br/>stack(idx): [0]"] --> B["i=1 h=1 < 2<br/>pop 0, width=1, area=2*1=2<br/>push 1 -> stack: [1]"]
-    B --> C["i=2 h=5 > 1 -> push<br/>stack: [1,2]"]
-    C --> D["i=3 h=6 > 5 -> push<br/>stack: [1,2,3]"]
-    D --> E["i=4 h=2 < 6<br/>pop 3, width=4-2-1=1, area=6*1=6<br/>pop 2, width=4-1-1=2, area=5*2=10<br/>push 4 -> stack: [1,4]"]
-    E --> F["i=5 h=3 > 2 -> push<br/>stack: [1,4,5]"]
+    A["i=0 h=2 -> push<br/>stack(idx): &#91;0&#93;"] --> B["i=1 h=1 < 2<br/>pop 0, width=1, area=2*1=2<br/>push 1 -> stack: &#91;1&#93;"]
+    B --> C["i=2 h=5 > 1 -> push<br/>stack: &#91;1,2&#93;"]
+    C --> D["i=3 h=6 > 5 -> push<br/>stack: &#91;1,2,3&#93;"]
+    D --> E["i=4 h=2 < 6<br/>pop 3, width=4-2-1=1, area=6*1=6<br/>pop 2, width=4-1-1=2, area=5*2=10<br/>push 4 -> stack: &#91;1,4&#93;"]
+    E --> F["i=5 h=3 > 2 -> push<br/>stack: &#91;1,4,5&#93;"]
     F --> G["sentinel h=0 flushes stack<br/>best area found = 10"]
 ```
 

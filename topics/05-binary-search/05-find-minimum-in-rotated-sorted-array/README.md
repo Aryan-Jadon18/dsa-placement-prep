@@ -47,9 +47,9 @@ Tracing `nums = [4,5,6,7,0,1,2]`:
 
 ```mermaid
 flowchart TD
-    A["lo=0, hi=6, mid=3<br/>nums[3]=7 > nums[hi]=2<br/>min is right of mid<br/>lo=mid+1=4"] --> B["lo=4, hi=6, mid=5<br/>nums[5]=1 <= nums[hi]=2<br/>min is at mid or left<br/>hi=mid=5"]
-    B --> C["lo=4, hi=5, mid=4<br/>nums[4]=0 <= nums[hi]=1<br/>hi=mid=4"]
-    C --> D["lo=4, hi=4 -> converged<br/>minimum = nums[4] = 0"]
+    A["lo=0, hi=6, mid=3<br/>nums&#91;3&#93;=7 > nums&#91;hi&#93;=2<br/>min is right of mid<br/>lo=mid+1=4"] --> B["lo=4, hi=6, mid=5<br/>nums&#91;5&#93;=1 <= nums&#91;hi&#93;=2<br/>min is at mid or left<br/>hi=mid=5"]
+    B --> C["lo=4, hi=5, mid=4<br/>nums&#91;4&#93;=0 <= nums&#91;hi&#93;=1<br/>hi=mid=4"]
+    C --> D["lo=4, hi=4 -> converged<br/>minimum = nums&#91;4&#93; = 0"]
 ```
 
 ## Complexity Summary

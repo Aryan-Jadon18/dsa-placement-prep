@@ -48,8 +48,8 @@ Tracing `nums = [2,3,1,1,4]` (Example 1, answer `true`):
 
 ```mermaid
 flowchart TD
-    A["i=0, nums[0]=2<br/>farthest=max(0,0+2)=2"] --> B["i=1, nums[1]=3<br/>farthest=max(2,1+3)=4"]
-    B --> C["i=2, nums[2]=1<br/>farthest=max(4,2+1)=4"]
+    A["i=0, nums&#91;0&#93;=2<br/>farthest=max(0,0+2)=2"] --> B["i=1, nums&#91;1&#93;=3<br/>farthest=max(2,1+3)=4"]
+    B --> C["i=2, nums&#91;2&#93;=1<br/>farthest=max(4,2+1)=4"]
     C --> D["farthest=4 >= last index (4)<br/>reachable, can stop early"]
     D --> E["Answer: true"]
 ```

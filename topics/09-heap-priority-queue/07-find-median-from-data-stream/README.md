@@ -86,10 +86,10 @@ half):
 
 ```mermaid
 flowchart TD
-    A["addNum(1)<br/>low=[1], high=[]"]
-    B["addNum(2)<br/>push→balance → low=[1], high=[2]"]
+    A["addNum(1)<br/>low=&#91;1&#93;, high=&#91;&#93;"]
+    B["addNum(2)<br/>push→balance → low=&#91;1&#93;, high=&#91;2&#93;"]
     C["findMedian()<br/>equal sizes → avg(low max=1, high min=2) = 1.5"]
-    D["addNum(3)<br/>push→balance → low=[1,2], high=[3]"]
+    D["addNum(3)<br/>push→balance → low=&#91;1,2&#93;, high=&#91;3&#93;"]
     E["findMedian()<br/>low has 1 more → low max = 2"]
     A --> B --> C --> D --> E
 ```

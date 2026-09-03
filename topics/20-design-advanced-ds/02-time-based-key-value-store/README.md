@@ -50,9 +50,9 @@ Tracing the per-key sorted list + binary search on the problem's worked example:
 
 ```mermaid
 flowchart TD
-    A["set(foo,bar,1)<br/>store[foo]=[(1,bar)]"] --> B["get(foo,1)<br/>floor(ts<=1) -> (1,bar)<br/>return 'bar'"]
+    A["set(foo,bar,1)<br/>store&#91;foo&#93;=&#91;(1,bar)&#93;"] --> B["get(foo,1)<br/>floor(ts<=1) -> (1,bar)<br/>return 'bar'"]
     B --> C["get(foo,3)<br/>floor(ts<=3) -> (1,bar)<br/>return 'bar'"]
-    C --> D["set(foo,bar2,4)<br/>store[foo]=[(1,bar),(4,bar2)]"]
+    C --> D["set(foo,bar2,4)<br/>store&#91;foo&#93;=&#91;(1,bar),(4,bar2)&#93;"]
     D --> E["get(foo,4)<br/>floor(ts<=4) -> (4,bar2)<br/>return 'bar2'"]
     E --> F["get(foo,5)<br/>floor(ts<=5) -> (4,bar2)<br/>return 'bar2'"]
     F --> G["get(foo,0)<br/>no ts<=0 exists<br/>return ''"]

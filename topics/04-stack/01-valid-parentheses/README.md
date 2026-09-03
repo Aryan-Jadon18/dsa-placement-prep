@@ -48,8 +48,8 @@ Tracing `s = "()[]{}"` through the optimal algorithm:
 ```mermaid
 flowchart TD
     A["read '(' -> push<br/>stack: ("] --> B["read ')' -> matches top '('<br/>pop -> stack: empty"]
-    B --> C["read '[' -> push<br/>stack: ["]
-    C --> D["read ']' -> matches top '['<br/>pop -> stack: empty"]
+    B --> C["read '&#91;' -> push<br/>stack: &#91;"]
+    C --> D["read '&#93;' -> matches top '&#91;'<br/>pop -> stack: empty"]
     D --> E["read '{' -> push<br/>stack: {"]
     E --> F["read '}' -> matches top '{'<br/>pop -> stack: empty"]
     F --> G["end of string, stack empty<br/>return True"]

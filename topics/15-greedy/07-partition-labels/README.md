@@ -48,15 +48,15 @@ Tracing `s = "ababcbacadefegdehijhklij"` (Example 1, answer `[9,7,8]`):
 
 ```mermaid
 flowchart TD
-    A["start=0<br/>end=last_index['a']=8"] --> B["scan 0..8 (a,b,c only)<br/>b last=5, c last=7 - both < 8<br/>i reaches end=8 -> cut"]
+    A["start=0<br/>end=last_index&#91;'a'&#93;=8"] --> B["scan 0..8 (a,b,c only)<br/>b last=5, c last=7 - both < 8<br/>i reaches end=8 -> cut"]
     B --> C["Chunk 1: 'ababcbaca'<br/>length 9"]
-    C --> D["start=9<br/>end=last_index['d']=14<br/>e(15) extends end to 15"]
+    C --> D["start=9<br/>end=last_index&#91;'d'&#93;=14<br/>e(15) extends end to 15"]
     D --> E["scan 9..15 (d,e,f,g)<br/>i reaches end=15 -> cut"]
     E --> F["Chunk 2: 'defegde'<br/>length 7"]
-    F --> G["start=16<br/>end=last_index['h']=19<br/>i(22),j(23) extend end to 23"]
+    F --> G["start=16<br/>end=last_index&#91;'h'&#93;=19<br/>i(22),j(23) extend end to 23"]
     G --> H["scan 16..23 (h,i,j,k,l)<br/>i reaches end=23 -> cut"]
     H --> I["Chunk 3: 'hijhklij'<br/>length 8"]
-    I --> J["Answer: [9,7,8]"]
+    I --> J["Answer: &#91;9,7,8&#93;"]
 ```
 
 ## Complexity Summary

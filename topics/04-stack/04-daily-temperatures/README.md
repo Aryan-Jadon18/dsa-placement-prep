@@ -47,12 +47,12 @@ Tracing the first few days of `temperatures = [73,74,75,71,69,72,76,73]`:
 
 ```mermaid
 flowchart TD
-    A["day0=73 -> push<br/>stack(idx): [0]"] --> B["day1=74 > 73<br/>pop 0, answer[0]=1-0=1<br/>push 1 -> stack: [1]"]
-    B --> C["day2=75 > 74<br/>pop 1, answer[1]=2-1=1<br/>push 2 -> stack: [2]"]
-    C --> D["day3=71 < 75 -> push<br/>stack: [2,3]"]
-    D --> E["day4=69 < 71 -> push<br/>stack: [2,3,4]"]
-    E --> F["day5=72 > 69,71<br/>pop 4, answer[4]=5-4=1<br/>pop 3, answer[3]=5-3=2<br/>push 5 -> stack: [2,5]"]
-    F --> G["day6=76 > 72,75<br/>pop 5, answer[5]=6-5=1<br/>pop 2, answer[2]=6-2=4<br/>push 6 -> stack: [6]"]
+    A["day0=73 -> push<br/>stack(idx): &#91;0&#93;"] --> B["day1=74 > 73<br/>pop 0, answer&#91;0&#93;=1-0=1<br/>push 1 -> stack: &#91;1&#93;"]
+    B --> C["day2=75 > 74<br/>pop 1, answer&#91;1&#93;=2-1=1<br/>push 2 -> stack: &#91;2&#93;"]
+    C --> D["day3=71 < 75 -> push<br/>stack: &#91;2,3&#93;"]
+    D --> E["day4=69 < 71 -> push<br/>stack: &#91;2,3,4&#93;"]
+    E --> F["day5=72 > 69,71<br/>pop 4, answer&#91;4&#93;=5-4=1<br/>pop 3, answer&#91;3&#93;=5-3=2<br/>push 5 -> stack: &#91;2,5&#93;"]
+    F --> G["day6=76 > 72,75<br/>pop 5, answer&#91;5&#93;=6-5=1<br/>pop 2, answer&#91;2&#93;=6-2=4<br/>push 6 -> stack: &#91;6&#93;"]
 ```
 
 ## Complexity Summary

@@ -47,7 +47,7 @@ Tracing `nums = [-1,0,3,5,9,12], target = 9`:
 
 ```mermaid
 flowchart TD
-    A["lo=0, hi=5, mid=2<br/>nums[2]=3 < target=9<br/>lo=mid+1=3"] --> B["lo=3, hi=5, mid=4<br/>nums[4]=9 == target=9<br/>return 4"]
+    A["lo=0, hi=5, mid=2<br/>nums&#91;2&#93;=3 < target=9<br/>lo=mid+1=3"] --> B["lo=3, hi=5, mid=4<br/>nums&#91;4&#93;=9 == target=9<br/>return 4"]
 ```
 
 ## Complexity Summary

@@ -56,9 +56,9 @@ Tracing `matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]` (Example 2, answer `[[0,0,0,0
 ```mermaid
 flowchart TD
     A["Save flags: row0_has_zero=True<br/>(0,0),(0,3) are 0<br/>col0_has_zero=True (0,0) is 0"] --> B["Scan (1,1)..(2,3) for zeros<br/>none found beyond row0/col0"]
-    B --> C["Use row0/col0 as markers<br/>mark zero at (1,3): matrix[1][0]=3, matrix[0][3]=0 -> zero it<br/>mark zero at (2,3): matrix[2][0]=1, matrix[0][3]=0 -> zero it"]
+    B --> C["Use row0/col0 as markers<br/>mark zero at (1,3): matrix&#91;1&#93;&#91;0&#93;=3, matrix&#91;0&#93;&#91;3&#93;=0 -> zero it<br/>mark zero at (2,3): matrix&#91;2&#93;&#91;0&#93;=1, matrix&#91;0&#93;&#91;3&#93;=0 -> zero it"]
     C --> D["Apply saved flags<br/>row0_has_zero -> zero all of row 0<br/>col0_has_zero -> zero all of col 0"]
-    D --> E["Answer:<br/>[0,0,0,0]<br/>[0,4,5,0]<br/>[0,3,1,0]"]
+    D --> E["Answer:<br/>&#91;0,0,0,0&#93;<br/>&#91;0,4,5,0&#93;<br/>&#91;0,3,1,0&#93;"]
 ```
 
 ## Complexity Summary

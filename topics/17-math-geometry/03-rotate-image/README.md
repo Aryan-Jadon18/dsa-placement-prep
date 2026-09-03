@@ -54,8 +54,8 @@ Tracing `matrix = [[1,2,3],[4,5,6],[7,8,9]]` (Example 1, answer `[[7,4,1],[8,5,2
 
 ```mermaid
 flowchart TD
-    A["Original<br/>[1,2,3]<br/>[4,5,6]<br/>[7,8,9]"] --> B["Transpose (swap across diagonal)<br/>[1,4,7]<br/>[2,5,8]<br/>[3,6,9]"]
-    B --> C["Reverse each row<br/>[7,4,1]<br/>[8,5,2]<br/>[9,6,3]"]
+    A["Original<br/>&#91;1,2,3&#93;<br/>&#91;4,5,6&#93;<br/>&#91;7,8,9&#93;"] --> B["Transpose (swap across diagonal)<br/>&#91;1,4,7&#93;<br/>&#91;2,5,8&#93;<br/>&#91;3,6,9&#93;"]
+    B --> C["Reverse each row<br/>&#91;7,4,1&#93;<br/>&#91;8,5,2&#93;<br/>&#91;9,6,3&#93;"]
     C --> D["Result = 90 degree clockwise rotation"]
 ```
 

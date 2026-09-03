@@ -101,7 +101,7 @@ graph TD
     C["row2: try col=1<br/>same column as row0<br/>❌ pruned (column)"]
     D["row2: try col=2<br/>(r+c)=4 conflicts row1's (r+c)=4<br/>❌ pruned (diagonal)"]
     E["row2: try col=0<br/>no conflicts → place Q(2,0)"]
-    F["row3: try col=2<br/>no conflicts → place Q(3,2)<br/>✅ solution cols=[1,3,0,2]"]
+    F["row3: try col=2<br/>no conflicts → place Q(3,2)<br/>✅ solution cols=&#91;1,3,0,2&#93;"]
     R --> A
     R --> B
     B --> C

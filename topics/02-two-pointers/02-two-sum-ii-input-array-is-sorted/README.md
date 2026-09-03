@@ -43,7 +43,7 @@ Tracing `numbers = [2, 7, 11, 15]`, `target = 9`:
 flowchart TD
     A["left=0(2), right=3(15)<br/>sum=17 > 9 → right--"] --> B["left=0(2), right=2(11)<br/>sum=13 > 9 → right--"]
     B --> C["left=0(2), right=1(7)<br/>sum=9 == 9 → found!"]
-    C --> D["return [1, 2] (1-indexed)"]
+    C --> D["return &#91;1, 2&#93; (1-indexed)"]
 ```
 
 ## Complexity Summary

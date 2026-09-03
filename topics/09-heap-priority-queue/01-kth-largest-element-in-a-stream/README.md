@@ -83,11 +83,11 @@ Tracing `k=3`, `nums=[4,5,8,2]` through example 1 (`add(3)→4`, `add(5)→5`,
 
 ```mermaid
 flowchart TD
-    A["Seed from [4,5,8,2]<br/>keep top 3 → heap=[4,5,8]"]
-    B["add(3)<br/>push 3 → [3,4,5,8]<br/>pop min 3 → heap=[4,5,8]<br/>return root=4"]
-    C["add(5)<br/>push 5 → [4,5,5,8]<br/>pop min 4 → heap=[5,5,8]<br/>return root=5"]
-    D["add(10)<br/>push 10 → [5,5,8,10]<br/>pop min 5 → heap=[5,8,10]<br/>return root=5"]
-    E["add(9)<br/>push 9 → [5,8,9,10]<br/>pop min 5 → heap=[8,9,10]<br/>return root=8"]
+    A["Seed from &#91;4,5,8,2&#93;<br/>keep top 3 → heap=&#91;4,5,8&#93;"]
+    B["add(3)<br/>push 3 → &#91;3,4,5,8&#93;<br/>pop min 3 → heap=&#91;4,5,8&#93;<br/>return root=4"]
+    C["add(5)<br/>push 5 → &#91;4,5,5,8&#93;<br/>pop min 4 → heap=&#91;5,5,8&#93;<br/>return root=5"]
+    D["add(10)<br/>push 10 → &#91;5,5,8,10&#93;<br/>pop min 5 → heap=&#91;5,8,10&#93;<br/>return root=5"]
+    E["add(9)<br/>push 9 → &#91;5,8,9,10&#93;<br/>pop min 5 → heap=&#91;8,9,10&#93;<br/>return root=8"]
     A --> B --> C --> D --> E
 ```
 

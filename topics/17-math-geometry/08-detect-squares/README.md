@@ -53,9 +53,9 @@ Tracing the worked example: `add([3,10])`, `add([11,2])`, `add([3,2])`, then `co
 
 ```mermaid
 flowchart TD
-    A["cols = {3: {10:1, 2:1}, 11: {2:1}}"] --> B["query (11,10): look up cols[11]<br/>found y2=2, cnt2=1"]
+    A["cols = {3: {10:1, 2:1}, 11: {2:1}}"] --> B["query (11,10): look up cols&#91;11&#93;<br/>found y2=2, cnt2=1"]
     B --> C["side = y2 - y = 2 - 10 = -8<br/>candidate columns: x+side=3, x-side=19"]
-    C --> D["col 3: corner1 = cols[3][10] = 1<br/>corner2 = cols[3][2] = 1"]
+    C --> D["col 3: corner1 = cols&#91;3&#93;&#91;10&#93; = 1<br/>corner2 = cols&#91;3&#93;&#91;2&#93; = 1"]
     D --> E["col 19: doesn't exist -> 0"]
     E --> F["count += cnt2 * corner1 * corner2 = 1*1*1 = 1<br/>Answer: 1"]
 ```

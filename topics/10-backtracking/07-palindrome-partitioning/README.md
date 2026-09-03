@@ -88,13 +88,13 @@ palindrome table):
 ```mermaid
 graph TD
     R["s='aab', start=0"]
-    A["end=1: s[0:1]='a'<br/>✅ palindrome"]
-    A1["end=2: s[1:2]='a'<br/>✅ palindrome"]
-    A1a["end=3: s[2:3]='b'<br/>✅ → complete ['a','a','b'] ✅"]
-    A2["end=3: s[1:3]='ab'<br/>❌ pruned (not palindrome)"]
-    B["end=2: s[0:2]='aa'<br/>✅ palindrome"]
-    B1["end=3: s[2:3]='b'<br/>✅ → complete ['aa','b'] ✅"]
-    C["end=3: s[0:3]='aab'<br/>❌ pruned (not palindrome)"]
+    A["end=1: s&#91;0:1&#93;='a'<br/>✅ palindrome"]
+    A1["end=2: s&#91;1:2&#93;='a'<br/>✅ palindrome"]
+    A1a["end=3: s&#91;2:3&#93;='b'<br/>✅ → complete &#91;'a','a','b'&#93; ✅"]
+    A2["end=3: s&#91;1:3&#93;='ab'<br/>❌ pruned (not palindrome)"]
+    B["end=2: s&#91;0:2&#93;='aa'<br/>✅ palindrome"]
+    B1["end=3: s&#91;2:3&#93;='b'<br/>✅ → complete &#91;'aa','b'&#93; ✅"]
+    C["end=3: s&#91;0:3&#93;='aab'<br/>❌ pruned (not palindrome)"]
     R --> A --> A1 --> A1a
     A --> A2
     R --> B --> B1

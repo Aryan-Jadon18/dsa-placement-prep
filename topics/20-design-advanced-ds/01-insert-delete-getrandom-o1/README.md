@@ -51,12 +51,12 @@ Tracing the array + hash-map structure through the problem's worked example:
 
 ```mermaid
 flowchart TD
-    A["insert(1)<br/>list=[1], idx={1:0}"] --> B["remove(2)<br/>not present -> no-op, return False"]
-    B --> C["insert(2)<br/>list=[1,2], idx={1:0, 2:1}"]
-    C --> D["getRandom()<br/>list[random(0,1)] -> 1 or 2"]
-    D --> E["remove(1)<br/>swap idx0 & last(idx1): list=[2,1], pop -> list=[2], idx={2:0}"]
+    A["insert(1)<br/>list=&#91;1&#93;, idx={1:0}"] --> B["remove(2)<br/>not present -> no-op, return False"]
+    B --> C["insert(2)<br/>list=&#91;1,2&#93;, idx={1:0, 2:1}"]
+    C --> D["getRandom()<br/>list&#91;random(0,1)&#93; -> 1 or 2"]
+    D --> E["remove(1)<br/>swap idx0 & last(idx1): list=&#91;2,1&#93;, pop -> list=&#91;2&#93;, idx={2:0}"]
     E --> F["insert(2)<br/>already present -> no-op, return False"]
-    F --> G["getRandom()<br/>list[0] -> 2"]
+    F --> G["getRandom()<br/>list&#91;0&#93; -> 2"]
 ```
 
 `remove(1)` never shifts the whole array — it swaps `1` with the last element (`2`), pops the now-last slot, and updates only the swapped entry's index in the map.

@@ -87,17 +87,17 @@ matching path plus a few mismatched neighbors pruned along the way:
 
 ```mermaid
 graph TD
-    R["start A(0,0)<br/>matches word[0]='A'"]
+    R["start A(0,0)<br/>matches word&#91;0&#93;='A'"]
     A["try (1,0)=S<br/>❌ pruned (S≠'B')"]
-    B["try (0,1)=B<br/>✅ matches word[1]='B'"]
+    B["try (0,1)=B<br/>✅ matches word&#91;1&#93;='B'"]
     B1["try (1,1)=F<br/>❌ pruned (F≠'C')"]
-    B2["try (0,2)=C<br/>✅ matches word[2]='C'"]
+    B2["try (0,2)=C<br/>✅ matches word&#91;2&#93;='C'"]
     B2a["try (0,3)=E<br/>❌ pruned (E≠'C')"]
-    B2b["try (1,2)=C<br/>✅ matches word[3]='C'"]
+    B2b["try (1,2)=C<br/>✅ matches word&#91;3&#93;='C'"]
     B2b1["try (1,1)=F<br/>❌ pruned (F≠'E')"]
-    B2b2["try (2,2)=E<br/>✅ matches word[4]='E'"]
+    B2b2["try (2,2)=E<br/>✅ matches word&#91;4&#93;='E'"]
     B2b2a["try (2,3)=E<br/>❌ pruned (E≠'D')"]
-    B2b2b["try (2,1)=D<br/>✅ matches word[5]='D' → complete ✅"]
+    B2b2b["try (2,1)=D<br/>✅ matches word&#91;5&#93;='D' → complete ✅"]
     R --> A
     R --> B
     B --> B1

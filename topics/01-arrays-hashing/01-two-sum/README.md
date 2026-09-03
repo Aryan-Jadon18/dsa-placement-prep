@@ -42,7 +42,7 @@ You're given an array of integers and a target value. Find the indices of the tw
 Tracing `nums = [2, 7, 11, 15]`, `target = 9`:
 ```mermaid
 flowchart TD
-    A["i=0, num=2<br/>need=9-2=7<br/>map={} → not found<br/>insert 2 → map={2:0}"] --> B["i=1, num=7<br/>need=9-7=2<br/>map={2:0} → 2 found!<br/>return [0,1]"]
+    A["i=0, num=2<br/>need=9-2=7<br/>map={} → not found<br/>insert 2 → map={2:0}"] --> B["i=1, num=7<br/>need=9-7=2<br/>map={2:0} → 2 found!<br/>return &#91;0,1&#93;"]
 ```
 
 ## Complexity Summary

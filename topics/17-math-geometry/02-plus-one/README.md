@@ -54,10 +54,10 @@ Tracing `digits = [9,9,9]` (Example 3, answer `[1,0,0,0]`):
 
 ```mermaid
 flowchart TD
-    A["i=2: digits[2]=9<br/>== 9 -> set to 0, carry left"] --> B["i=1: digits[1]=9<br/>== 9 -> set to 0, carry left"]
-    B --> C["i=0: digits[0]=9<br/>== 9 -> set to 0, carry left"]
+    A["i=2: digits&#91;2&#93;=9<br/>== 9 -> set to 0, carry left"] --> B["i=1: digits&#91;1&#93;=9<br/>== 9 -> set to 0, carry left"]
+    B --> C["i=0: digits&#91;0&#93;=9<br/>== 9 -> set to 0, carry left"]
     C --> D["Fell off the front<br/>all digits were 9<br/>insert 1 at position 0"]
-    D --> E["Answer: [1,0,0,0]"]
+    D --> E["Answer: &#91;1,0,0,0&#93;"]
 ```
 
 ## Complexity Summary

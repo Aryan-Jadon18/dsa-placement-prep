@@ -57,7 +57,7 @@ flowchart TD
     B --> C["Left across bottom row (row 2)<br/>visit 8,7<br/>bottom=1"]
     C --> D["Up left column: top==bottom now<br/>only one row left, skip<br/>left=1"]
     D --> E["Boundaries closed to single cell (1,1)<br/>visit 5"]
-    E --> F["Answer: [1,2,3,6,9,8,7,4,5]"]
+    E --> F["Answer: &#91;1,2,3,6,9,8,7,4,5&#93;"]
 ```
 
 ## Complexity Summary

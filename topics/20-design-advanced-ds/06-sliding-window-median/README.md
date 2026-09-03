@@ -51,9 +51,9 @@ Tracing the balanced two-heap state through the first few windows of Example 1's
 
 ```mermaid
 flowchart TD
-    A["Window [1,3,-1]<br/>lo={1,-1} top=1<br/>hi={3}<br/>median=1.0"] --> B["Slide: 1 leaves, -3 enters<br/>Window [3,-1,-3]<br/>lo={-1,-3} top=-1<br/>hi={3}<br/>median=-1.0"]
-    B --> C["Slide: 3 leaves, 5 enters<br/>Window [-1,-3,5]<br/>lo={-3,-1} top=-1<br/>hi={5}<br/>median=-1.0"]
-    C --> D["Slide: -1 leaves, 3 enters<br/>Window [-3,5,3]<br/>lo={-3,3} top=3<br/>hi={5}<br/>median=3.0"]
+    A["Window &#91;1,3,-1&#93;<br/>lo={1,-1} top=1<br/>hi={3}<br/>median=1.0"] --> B["Slide: 1 leaves, -3 enters<br/>Window &#91;3,-1,-3&#93;<br/>lo={-1,-3} top=-1<br/>hi={3}<br/>median=-1.0"]
+    B --> C["Slide: 3 leaves, 5 enters<br/>Window &#91;-1,-3,5&#93;<br/>lo={-3,-1} top=-1<br/>hi={5}<br/>median=-1.0"]
+    C --> D["Slide: -1 leaves, 3 enters<br/>Window &#91;-3,5,3&#93;<br/>lo={-3,3} top=3<br/>hi={5}<br/>median=3.0"]
 ```
 
 `lo`'s top is always the max of the smaller half, which is exactly the median when `k` is odd — matching Example 1's first four outputs `1.0, -1.0, -1.0, 3.0`.

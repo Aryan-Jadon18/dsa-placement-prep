@@ -83,7 +83,7 @@ built recursively the same way.
 
 ```mermaid
 graph TD
-    A["3<br/>build order: 1st (preorder[0])"] --> B["9<br/>build order: 2nd (only value left of 3 in inorder)"]
+    A["3<br/>build order: 1st (preorder&#91;0&#93;)"] --> B["9<br/>build order: 2nd (only value left of 3 in inorder)"]
     A --> C["20<br/>build order: 3rd (next unconsumed preorder value)"]
     C --> D["15<br/>build order: 4th (left of 20 in inorder slice)"]
     C --> E["7<br/>build order: 5th (right of 20 in inorder slice)"]

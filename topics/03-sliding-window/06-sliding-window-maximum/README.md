@@ -43,11 +43,11 @@ You have an array and a window of fixed size `k` that slides from the left end t
 Tracing `nums = [1,3,-1,-3,5,3,6,7]`, `k = 3`:
 ```mermaid
 flowchart TD
-    A["i=0(1): deque=[0]"] --> B["i=1(3): pop idx0(1<=3)<br/>deque=[1]"]
-    B --> C["i=2(-1): deque=[1,2]<br/>window full → max=nums[1]=3"]
-    C --> D["i=3(-3): deque=[1,2,3]<br/>front idx1 still in range → max=3"]
-    D --> E["i=4(5): pop idx3,2,1 (all <=5)<br/>deque=[4] → max=5"]
-    E --> F["... continues sliding<br/>→ result [3,3,5,5,6,7]"]
+    A["i=0(1): deque=&#91;0&#93;"] --> B["i=1(3): pop idx0(1<=3)<br/>deque=&#91;1&#93;"]
+    B --> C["i=2(-1): deque=&#91;1,2&#93;<br/>window full → max=nums&#91;1&#93;=3"]
+    C --> D["i=3(-3): deque=&#91;1,2,3&#93;<br/>front idx1 still in range → max=3"]
+    D --> E["i=4(5): pop idx3,2,1 (all <=5)<br/>deque=&#91;4&#93; → max=5"]
+    E --> F["... continues sliding<br/>→ result &#91;3,3,5,5,6,7&#93;"]
 ```
 
 ## Complexity Summary

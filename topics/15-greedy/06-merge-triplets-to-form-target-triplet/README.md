@@ -48,10 +48,10 @@ Tracing `triplets = [[2,5,3],[1,8,4],[1,7,5]], target = [2,7,5]` (Example 1, ans
 
 ```mermaid
 flowchart TD
-    A["best=[0,0,0]"] --> B["[2,5,3]: all coords <= target<br/>compatible -> best=max=[2,5,3]"]
-    B --> C["[1,8,4]: 8 > target[1]=7<br/>incompatible -> skip, best=[2,5,3]"]
-    C --> D["[1,7,5]: all coords <= target<br/>compatible -> best=max=[2,7,5]"]
-    D --> E["best == target [2,7,5]<br/>Answer: true"]
+    A["best=&#91;0,0,0&#93;"] --> B["&#91;2,5,3&#93;: all coords <= target<br/>compatible -> best=max=&#91;2,5,3&#93;"]
+    B --> C["&#91;1,8,4&#93;: 8 > target&#91;1&#93;=7<br/>incompatible -> skip, best=&#91;2,5,3&#93;"]
+    C --> D["&#91;1,7,5&#93;: all coords <= target<br/>compatible -> best=max=&#91;2,7,5&#93;"]
+    D --> E["best == target &#91;2,7,5&#93;<br/>Answer: true"]
 ```
 
 ## Complexity Summary

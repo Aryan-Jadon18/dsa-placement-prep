@@ -56,7 +56,7 @@ flowchart TD
     F --> G["i=6 num=1<br/>cur=5+1=6, best=6"]
     G --> H["i=7 num=-5<br/>cur=6-5=1, best=6"]
     H --> I["i=8 num=4<br/>cur=1+4=5, best stays 6"]
-    I --> J["Answer: best=6<br/>subarray [4,-1,2,1]"]
+    I --> J["Answer: best=6<br/>subarray &#91;4,-1,2,1&#93;"]
 ```
 
 ## Complexity Summary

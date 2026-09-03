@@ -41,9 +41,9 @@ Given an integer array and an integer `k`, return the `k` values that occur most
 Tracing `nums = [1,1,1,2,2,3]`, `k = 2`:
 ```mermaid
 flowchart TD
-    A["Count: 1→3, 2→2, 3→1"] --> B["Buckets indexed by frequency:<br/>bucket[3]=[1], bucket[2]=[2], bucket[1]=[3]"]
+    A["Count: 1→3, 2→2, 3→1"] --> B["Buckets indexed by frequency:<br/>bucket&#91;3&#93;=&#91;1&#93;, bucket&#91;2&#93;=&#91;2&#93;, bucket&#91;1&#93;=&#91;3&#93;"]
     B --> C["Scan buckets from freq=n down to 1<br/>freq=3: take value 1 (need 1 more)"]
-    C --> D["freq=2: take value 2 (k satisfied)<br/>→ result [1, 2]"]
+    C --> D["freq=2: take value 2 (k satisfied)<br/>→ result &#91;1, 2&#93;"]
 ```
 
 ## Complexity Summary

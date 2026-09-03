@@ -76,12 +76,12 @@ Tracing `nums = [3,2,1,5,6,4]`, `k=2` from example 1 (target ascending index =
 
 ```mermaid
 flowchart TD
-    A["array=[3,2,1,5,6,4]<br/>target index = n-k = 4"]
+    A["array=&#91;3,2,1,5,6,4&#93;<br/>target index = n-k = 4"]
     B["pivot = 4 (last)<br/>3,2,1 < 4 → left; 5,6 ≥ 4 → right"]
-    C["swap pivot into place<br/>→ [3,2,1,4,6,5]<br/>pivot lands at index 3"]
-    D["pivot index 3 < target 4<br/>→ recurse right half [6,5]"]
+    C["swap pivot into place<br/>→ &#91;3,2,1,4,6,5&#93;<br/>pivot lands at index 3"]
+    D["pivot index 3 < target 4<br/>→ recurse right half &#91;6,5&#93;"]
     E["pivot = 5 (last of subarray)<br/>6 ≥ 5 → stays right"]
-    F["swap pivot into place<br/>→ [...,4,5,6]<br/>pivot lands at index 4"]
+    F["swap pivot into place<br/>→ &#91;...,4,5,6&#93;<br/>pivot lands at index 4"]
     G["pivot index 4 == target 4<br/>✅ found: answer = 5"]
     A --> B --> C --> D --> E --> F --> G
 ```
