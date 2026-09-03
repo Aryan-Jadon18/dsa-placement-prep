@@ -71,6 +71,9 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
 ## 📊 1. Arrays & Hashing
 `topics/01-arrays-hashing`
 
+<details>
+<summary>▶️ Click to expand/collapse (8 problems)</summary>
+
 - **[1. Two Sum 🔥](topics/01-arrays-hashing/01-two-sum/)** — `Easy` — Hashing — `Array` `Hash Table`
   - [ ] Attempt 1
   - [ ] Attempt 2
@@ -103,9 +106,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 👉 2. Two Pointers
 `topics/02-two-pointers`
+
+<details>
+<summary>▶️ Click to expand/collapse (5 problems)</summary>
 
 - **[125. Valid Palindrome](topics/02-two-pointers/01-valid-palindrome/)** — `Easy` — Two Pointers — `String` `Two Pointers`
   - [ ] Attempt 1
@@ -127,9 +134,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🪟 3. Sliding Window
 `topics/03-sliding-window`
+
+<details>
+<summary>▶️ Click to expand/collapse (6 problems)</summary>
 
 - **[121. Best Time to Buy and Sell Stock 🔥](topics/03-sliding-window/01-best-time-to-buy-and-sell-stock/)** — `Easy` — Sliding Window — `Array` `DP`
   - [ ] Attempt 1
@@ -155,9 +166,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 📚 4. Stack
 `topics/04-stack`
+
+<details>
+<summary>▶️ Click to expand/collapse (6 problems)</summary>
 
 - **[20. Valid Parentheses 🔥](topics/04-stack/01-valid-parentheses/)** — `Easy` — Stack — `String` `Stack`
   - [ ] Attempt 1
@@ -183,9 +198,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🔍 5. Binary Search
 `topics/05-binary-search`
+
+<details>
+<summary>▶️ Click to expand/collapse (6 problems)</summary>
 
 - **[704. Binary Search](topics/05-binary-search/01-binary-search/)** — `Easy` — Binary Search — `Array` `Binary Search`
   - [ ] Attempt 1
@@ -211,9 +230,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🔗 6. Linked List
 `topics/06-linked-list`
+
+<details>
+<summary>▶️ Click to expand/collapse (9 problems)</summary>
 
 - **[206. Reverse Linked List 🔥](topics/06-linked-list/01-reverse-linked-list/)** — `Easy` — Linked List Basics — `Linked List` `Recursion`
   - [ ] Attempt 1
@@ -251,9 +274,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🌳 7. Trees
 `topics/07-trees`
+
+<details>
+<summary>▶️ Click to expand/collapse (11 problems)</summary>
 
 - **[226. Invert Binary Tree](topics/07-trees/01-invert-binary-tree/)** — `Easy` — Tree Traversal — `Tree` `DFS` `BFS`
   - [ ] Attempt 1
@@ -299,9 +326,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🔤 8. Tries
 `topics/08-tries`
+
+<details>
+<summary>▶️ Click to expand/collapse (3 problems)</summary>
 
 - **[208. Implement Trie (Prefix Tree) 🔥](topics/08-tries/01-implement-trie-prefix-tree/)** — `Medium` — Trie Design — `Trie` `Design`
   - [ ] Attempt 1
@@ -315,9 +346,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🏔️ 9. Heap / Priority Queue
 `topics/09-heap-priority-queue`
+
+<details>
+<summary>▶️ Click to expand/collapse (7 problems)</summary>
 
 - **[703. Kth Largest Element in a Stream](topics/09-heap-priority-queue/01-kth-largest-element-in-a-stream/)** — `Easy` — Heap Design — `Heap` `Design`
   - [ ] Attempt 1
@@ -347,9 +382,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🔙 10. Backtracking
 `topics/10-backtracking`
+
+<details>
+<summary>▶️ Click to expand/collapse (8 problems)</summary>
 
 - **[78. Subsets 🔥](topics/10-backtracking/01-subsets/)** — `Medium` — Backtracking — `Array` `Backtracking`
   - [ ] Attempt 1
@@ -383,9 +422,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🕸️ 11. Graphs
 `topics/11-graphs`
+
+<details>
+<summary>▶️ Click to expand/collapse (12 problems)</summary>
 
 - **[200. Number of Islands 🔥](topics/11-graphs/01-number-of-islands/)** — `Medium` — BFS/DFS on Grid — `Graph` `BFS` `DFS` `Matrix`
   - [ ] Attempt 1
@@ -435,9 +478,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🌐 12. Advanced Graphs
 `topics/12-advanced-graphs`
+
+<details>
+<summary>▶️ Click to expand/collapse (6 problems)</summary>
 
 - **[1584. Min Cost to Connect All Points 🔥](topics/12-advanced-graphs/01-min-cost-to-connect-all-points/)** — `Medium` — MST (Prim's) — `Graph` `MST` `Heap`
   - [ ] Attempt 1
@@ -463,9 +510,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 📈 13. 1-D Dynamic Programming
 `topics/13-1d-dynamic-programming`
+
+<details>
+<summary>▶️ Click to expand/collapse (12 problems)</summary>
 
 - **[70. Climbing Stairs 🔥](topics/13-1d-dynamic-programming/01-climbing-stairs/)** — `Easy` — 1D DP — `DP`
   - [ ] Attempt 1
@@ -515,9 +566,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🧮 14. 2-D Dynamic Programming
 `topics/14-2d-dynamic-programming`
+
+<details>
+<summary>▶️ Click to expand/collapse (11 problems)</summary>
 
 - **[62. Unique Paths](topics/14-2d-dynamic-programming/01-unique-paths/)** — `Medium` — 2D DP — `DP` `Combinatorics`
   - [ ] Attempt 1
@@ -563,9 +618,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🎯 15. Greedy
 `topics/15-greedy`
+
+<details>
+<summary>▶️ Click to expand/collapse (8 problems)</summary>
 
 - **[53. Maximum Subarray 🔥](topics/15-greedy/01-maximum-subarray/)** — `Medium` — Kadane's Algorithm — `Array` `DP` `Greedy`
   - [ ] Attempt 1
@@ -599,9 +658,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 📅 16. Intervals
 `topics/16-intervals`
+
+<details>
+<summary>▶️ Click to expand/collapse (6 problems)</summary>
 
 - **[252. Meeting Rooms](topics/16-intervals/01-meeting-rooms/)** — `Easy` — Intervals — `Array` `Sorting` `Intervals`
   - [ ] Attempt 1
@@ -627,9 +690,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## ➗ 17. Math & Geometry
 `topics/17-math-geometry`
+
+<details>
+<summary>▶️ Click to expand/collapse (8 problems)</summary>
 
 - **[202. Happy Number](topics/17-math-geometry/01-happy-number/)** — `Easy` — Math / Cycle Detection — `Math` `Two Pointers` `Hash Table`
   - [ ] Attempt 1
@@ -663,9 +730,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🔢 18. Bit Manipulation
 `topics/18-bit-manipulation`
+
+<details>
+<summary>▶️ Click to expand/collapse (7 problems)</summary>
 
 - **[136. Single Number 🔥](topics/18-bit-manipulation/01-single-number/)** — `Easy` — Bit Manipulation — `Bit Manipulation`
   - [ ] Attempt 1
@@ -695,9 +766,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 📝 19. Strings & Pattern Matching
 `topics/19-strings-pattern-matching`
+
+<details>
+<summary>▶️ Click to expand/collapse (5 problems)</summary>
 
 - **[28. Find the Index of the First Occurrence in a String 🔥](topics/19-strings-pattern-matching/01-find-the-index-of-the-first-occurrence-in-a-string/)** — `Easy` — String Matching (Brute vs KMP) — `String` `Two Pointers` `String Matching`
   - [ ] Attempt 1
@@ -719,9 +794,13 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ## 🏗️ 20. Design & Advanced Data Structures
 `topics/20-design-advanced-ds`
+
+<details>
+<summary>▶️ Click to expand/collapse (6 problems)</summary>
 
 - **[380. Insert Delete GetRandom O(1) 🔥](topics/20-design-advanced-ds/01-insert-delete-getrandom-o1/)** — `Medium` — Design — `Array` `Hash Table` `Design`
   - [ ] Attempt 1
@@ -747,6 +826,7 @@ Each problem folder contains: `README.md` (statement paraphrase + link + brute/b
   - [ ] Attempt 1
   - [ ] Attempt 2
   - [ ] Attempt 3
+</details>
 
 ---
 
